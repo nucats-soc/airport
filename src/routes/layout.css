@@ -1,3 +1,12 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+@font-face {
+    font-family: 'Outfit';
+    src: url("/Outfit-VariableFont_wght.ttf") format("truetype");
+}
+
+@theme {
+    --font-sans: 'Outfit', sans-serif;
+}

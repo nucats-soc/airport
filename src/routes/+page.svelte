@@ -1,2 +1,14 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+    import Hero from "$lib/assets/Hero.svelte";
+	import Socials from "$lib/assets/Socials.svelte";
+</script>
+
+<Hero 
+    title="We are NUCATS!"
+    subtext="meow ^&smile;^"
+    description="Newcastle University’s Computing and Technology Society. 
+    We aim to provide a safe community for Computer Science and non Computer Science students alike." 
+    image="/nucats.svg"
+/>
+
+<Socials/>

@@ -9,27 +9,33 @@
         type: "primary" | "secondary";
     }
 
-    let {value, onClick, isLinkButton, type}: Props = $props();
+    let {value, onClick, isLinkButton, isDisabled, type}: Props = $props();
     let classes = $derived(
         classNames(
             {
-                "bg-green-600 border-green-500 hover:bg-green-500 hover:border-green-400": type == "primary",
-                "bg-zinc-700 border-zinc-600 hover:bg-zinc-600 hover:border-zinc-500": type == "secondary",
+                "border-green-600 bg-green-700 hover:border-green-500 hover:bg-green-600 active:bg-green-600": type == "primary",
+                "border-zinc-600 bg-zinc-700 hover:border-zinc-500 hover:bg-zinc-600 active:bg-zinc-700": type == "secondary",
+                "cursor-not-allowed opacity-60": isDisabled,
             },
             "text-white",
+            "leading-5",
             "border",
             "transition-colors",
             "duration-200",
-            "rounded-lg",
-            "py-1",
-            "px-4"
+            "rounded-md",
+            "py-2",
+            "px-4",
+            "inline-flex",
+            "items-center",
+            "justify-center",
+            "gap-2"
         )
     )
 </script>
 
-<button class={classes} onclick={onClick}>
+<button class={classes} onclick={onClick} disabled={isDisabled}>
     {value}
     {#if isLinkButton}
-        <span class="icon-[tabler--arrow-up-right]"></span>
+        <span class="icon-[tabler--arrow-up-right] size-4 shrink-0"></span>
     {/if}
 </button>

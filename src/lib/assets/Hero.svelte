@@ -12,8 +12,8 @@
         </div>
         <p class="mb-4">{description}</p>
         <div class="gap-4 flex">
-            <Button value="Get Involved!" isGreen onclick={() => window.open("https://nusu.co.uk/activities/view-society/131")} />
-            <Button value="Join our Discord!" isLinkButton onclick={() => window.open("https://discord.gg/N4dJQdafrd")} />
+            <Button value="Get Involved!" type="primary" onClick={() => window.open("https://nusu.co.uk/activities/view-society/131")} />
+            <Button value="Join our Discord!" type="secondary" isLinkButton onClick={() => window.open("https://discord.gg/N4dJQdafrd")} />
         </div>
     </div>
     <div class="flex-1 flex justify-end">

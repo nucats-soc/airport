@@ -12,9 +12,9 @@
     <!-- buttons -->
     <div class="flex space-x-4">
         <!-- all these buttons will show errors, just bc they dont have all values from Button.svelte -->
-        <Button value="Home" onclick={() => console.log("Home clicked")} />
-        <Button value="Committee" onclick={() => console.log("Committee clicked")} />
-        <Button value="Events" onclick={() => console.log("Events clicked")} />
-        <Button value="Sponsors" onclick={() => console.log("Sponsors clicked")} />
+        <Button value="Home" type="secondary" onClick={() => console.log("Home clicked")} />
+        <Button value="Committee" type="secondary" onClick={() => console.log("Committee clicked")} />
+        <Button value="Events" type="secondary" onClick={() => console.log("Events clicked")} />
+        <Button value="Sponsors" type="secondary" onClick={() => console.log("Sponsors clicked")} />
     </div>
 </div> 

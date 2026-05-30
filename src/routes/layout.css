@@ -9,6 +9,16 @@
 }
 
 @theme {
+    --animate-drift: drift 20s linear infinite;
+    @keyframes drift {
+        0% {
+            transform: translate(0px, 0px);
+        }
+        100% {
+            transform: translate(310px, 236px);
+        }
+    }
+
     --font-sans: 'Outfit', sans-serif;
     --bg-nucats: background-color: #1b1b18;
 }

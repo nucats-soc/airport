@@ -10,7 +10,7 @@
 
 <div class="relative min-h-screen bg-zinc-900 flex items-center justify-center">
     <!-- self closing div to give us bg effect, might add floating animation -->
-    <div class="pointer-effects-none absolute inset-0 bg-[url('/bg-patt.svg')] bg-repeat opacity-5"></div>
+    <div class="pointer-effects-none absolute -inset-x-77.5 -inset-y-59 bg-[url('/bg-patt.svg')] motion-safe:animate-drift bg-repeat opacity-2"></div>
 
     <div class="relative min-h-screen w-225 text-white">
         <Navbar />

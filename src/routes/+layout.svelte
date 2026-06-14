@@ -10,7 +10,6 @@
     onMount(() => {
         document.body.classList.add(
             'bg-zinc-900',
-            'overflow-hidden',
             'overflow-x-hidden'
         );
     });

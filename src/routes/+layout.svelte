@@ -18,10 +18,7 @@
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 <div class="relative min-h-screen bg-zinc-900 flex items-center justify-center">
-    <!-- self closing div to give us bg effect, might add floating animation -->
-    <div class="pointer-events-none absolute inset-0 bg-[url('/bg-patt.svg')] bg-repeat opacity-2 will-change-transform animate-[bgFloat_15s_linear_infinite]"></div>
-
-    <div class="relative min-h-screen w-225 text-white">
+    <div class="relative min-h-screen w-full text-white">
         <Navbar />
 		{@render children()}
     </div>

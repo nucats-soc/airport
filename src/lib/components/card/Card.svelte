@@ -21,15 +21,14 @@
     let cardClasses = $derived(
         classNames(
             {
-                "flex-row": type == "horizontal",
+                "flex-col md:flex-row": type == "horizontal",
                 "flex-col": type == "vertical",
             },
             "bg-zinc-800",
-            "rounded-lg",
-            "border",
-            "border-zinc-700",
+            "rounded-[1.25rem]",
             "flex",
             "flex-1",
+            "min-w-0",
             "overflow-hidden"
         )
     );
@@ -37,22 +36,24 @@
     let contentClasses = $derived(
         classNames(
             {
-                "gap-3 p-4": padding == "sm",
-                "gap-4 p-6": padding == "md",
-                "gap-6 p-8": padding == "lg",
+                "gap-3 p-5": padding == "sm",
+                "gap-5 p-7": padding == "md",
+                "gap-6 p-9": padding == "lg",
             },
             "flex",
             "flex-1",
-            "flex-col"
+            "flex-col",
+            "min-w-0"
         )
     );
 
     let thumbnailClasses = $derived(
         classNames(
             {
-                "min-w-36 w-1/3 max-w-80": type == "horizontal",
+                "w-full md:min-w-64 md:w-1/3 md:max-w-90": type == "horizontal",
                 "w-full": type == "vertical",
             },
+            "flex",
             "shrink-0"
         )
     );
@@ -73,7 +74,7 @@
         </div>
 
         {#if footer}
-            <div class="mt-auto">
+            <div class="mt-auto flex justify-center">
                 {@render footer()}
             </div>
         {/if}

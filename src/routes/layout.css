@@ -6,37 +6,76 @@
 @font-face {
     font-family: 'Outfit';
     src: url("/Outfit-VariableFont_wght.ttf") format("truetype");
+    font-display: swap;
+    font-weight: 100 900;
 }
 
 @theme {
+    --font-sans: 'Outfit';
     --animate-drift: drift 20s linear infinite;
-    @keyframes drift {
-        0% {
-            transform: translate(0px, 0px);
-        }
-        100% {
-            transform: translate(310px, 236px);
-        }
-    }
-
-    --font-sans: 'Outfit', sans-serif;
-    --bg-nucats: background-color: #1b1b18;
 }
 
-@keyframes bgFloat {
-    0% {
-        transform: translate(0px, 0px);
+@layer base {
+    html {
+        color-scheme: dark;
+        background: #18181b;
+        font-family: var(--font-sans), sans-serif;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
     }
-    25% {
-        transform: translate(10px, -5px);
+
+    body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        background: #18181b;
+        color: white;
     }
-    50% {
-        transform: translate(20px, 10px);
+
+    button,
+    input,
+    textarea,
+    select {
+        font: inherit;
     }
-    75% {
-        transform: translate(10px, 15px);
+
+    a {
+        text-decoration: none;
     }
-    100% {
-        transform: translate(0px, 0px);
+
+    :focus-visible {
+        outline: 2px solid #a5b4fc;
+        outline-offset: 4px;
+    }
+
+    ::selection {
+        background: color-mix(in oklab, #a5b4fc 35%, transparent);
+        color: white;
+    }
+}
+
+@layer components {
+    .tx-heading {
+        @apply text-2xl font-bold leading-tight;
+    }
+    .tx-section-heading {
+        @apply text-2xl font-semibold leading-tight;
+    }
+    .tx-subheading {
+        @apply text-xl font-semibold leading-snug;
+    }
+    .tx-muted {
+        @apply text-zinc-400;
+    }
+}
+
+@keyframes drift {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 310px 236px;
     }
 }

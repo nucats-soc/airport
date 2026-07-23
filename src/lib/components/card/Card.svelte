@@ -2,7 +2,7 @@
     import classNames from "classnames";
     import type {Snippet} from "svelte";
 
-    interface Props {
+    export interface Props {
         type?: "horizontal" | "vertical";
         padding?: "sm" | "md" | "lg";
         thumbnail?: Snippet;
@@ -36,9 +36,9 @@
     let contentClasses = $derived(
         classNames(
             {
-                "gap-3 p-5": padding == "sm",
-                "gap-5 p-7": padding == "md",
-                "gap-6 p-9": padding == "lg",
+                "gap-4 p-4": padding == "sm",
+                "gap-6 p-6": padding == "md",
+                "gap-8 p-8": padding == "lg",
             },
             "flex",
             "flex-1",
@@ -50,11 +50,14 @@
     let thumbnailClasses = $derived(
         classNames(
             {
-                "w-full md:min-w-64 md:w-1/3 md:max-w-90": type == "horizontal",
+                "w-full md:w-1/3": type == "horizontal",
                 "w-full": type == "vertical",
             },
             "flex",
-            "shrink-0"
+            "min-w-0",
+            "items-center",
+            "justify-center",
+            "overflow-hidden"
         )
     );
 </script>
@@ -67,7 +70,7 @@
     {/if}
 
     <div class={contentClasses}>
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-4">
             {#if children}
                 {@render children()}
             {/if}

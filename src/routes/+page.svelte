@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+    import Hero from "$lib/sections/Hero.svelte";
+    import Socials from "$lib/sections/Socials.svelte";
+    import About from "$lib/sections/About.svelte";
+    import EventsOverview from "$lib/sections/EventsOverview.svelte";
+    import Footer from "$lib/components/navigation/Footer.svelte";
+</script>
+
+<Hero/>
+<About/>
+<Socials/>
+<EventsOverview/>

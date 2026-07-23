@@ -1,3 +1,91 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+@plugin '@iconify/tailwind4';
+
+@font-face {
+    font-family: 'Outfit';
+    src: url("/Outfit-VariableFont_wght.ttf") format("truetype");
+    font-display: swap;
+    font-weight: 100 900;
+}
+
+@theme {
+    --font-sans: 'Outfit';
+    --animate-drift: drift 20s linear infinite;
+}
+
+@layer base {
+    html {
+        color-scheme: dark;
+        background: #18181b;
+        font-family: var(--font-sans), sans-serif;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        min-width: 320px;
+        min-height: 100vh;
+        margin: 0;
+        background: #18181b;
+        color: white;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+        font: inherit;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    :focus-visible {
+        outline: 2px solid #a5b4fc;
+        outline-offset: 4px;
+    }
+
+    ::selection {
+        background: color-mix(in oklab, #a5b4fc 35%, transparent);
+        color: white;
+    }
+}
+
+@layer components {
+    .tx-page-title {
+        @apply text-3xl font-bold leading-tight lg:text-4xl;
+    }
+    .tx-section-title {
+        @apply text-2xl font-semibold leading-tight lg:text-3xl;
+    }
+    .tx-item-title {
+        @apply text-lg font-semibold leading-none;
+    }
+    .tx-body {
+        @apply text-base leading-6;
+    }
+    .tx-tagline {
+        @apply text-xl leading-snug text-zinc-400;
+    }
+    .tx-brand {
+        @apply text-2xl font-extrabold leading-none tracking-normal;
+    }
+    .tx-nav-link,
+    .tx-button-label {
+        @apply text-base leading-5;
+    }
+}
+
+@keyframes drift {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 310px 236px;
+    }
+}

@@ -8,6 +8,7 @@
         thumbnail?: Snippet;
         children?: Snippet;
         footer?: Snippet;
+        extraClass?: string;
     }
 
     let {
@@ -15,7 +16,8 @@
         padding = "md",
         thumbnail,
         children,
-        footer
+        footer,
+        extraClass
     }: Props = $props();
 
     let cardClasses = $derived(
@@ -29,7 +31,8 @@
             "flex",
             "flex-1",
             "min-w-0",
-            "overflow-hidden"
+            "overflow-hidden",
+            extraClass
         )
     );
 
@@ -50,7 +53,7 @@
     let thumbnailClasses = $derived(
         classNames(
             {
-                "w-full md:w-1/3": type == "horizontal",
+                "w-full md:w-fit": type == "horizontal",
                 "w-full": type == "vertical",
             },
             "flex",

@@ -111,3 +111,27 @@ e.g. 10 img * 6 = 60s
 .infinite-scroll {
 	animation: infinite-scroll 60s linear infinite;
 }
+
+.carousel-button {
+	display: none;
+}
+
+/* reduced motion compatibility */
+@media (prefers-reduced-motion: reduce) {
+	.infinite-scroll {
+		animation: none;
+	}
+
+	.carousel-button {
+		display: block;
+	}
+}
+
+.scrollbar-none {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+	display: none;
+}

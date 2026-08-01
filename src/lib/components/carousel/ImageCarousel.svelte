@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/components/button/IconButton.svelte';
+	import Button from '$lib/components/button/ActionButton.svelte';
 	import carouselData from '$lib/assets/carousel/AltText.json';
 
 	// Load images from assets

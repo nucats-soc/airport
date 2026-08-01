@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Button from '$lib/components/button/ActionButton.svelte';
+	import Button from '$lib/components/button/IconButton.svelte';
 	import carouselData from '$lib/assets/carousel/AltText.json';
 
 	// Load images from assets
@@ -27,23 +27,11 @@
 <div class="relative">
 	<!-- Conditional if reduce motion is enabled -->
 	<div class="absolute top-1/2 left-4 z-10 -translate-y-1/2">
-		<Button
-			type="secondary"
-			onClick={() => scrollCarousel(-1)}
-			extraClass="rounded-full p-1 carousel-button"
-		>
-			←
-		</Button>
+		<Button type="icon" onClick={() => scrollCarousel(-1)} extraClass="carousel-button">←</Button>
 	</div>
 
 	<div class="absolute top-1/2 right-4 z-10 -translate-y-1/2">
-		<Button
-			type="secondary"
-			onClick={() => scrollCarousel(1)}
-			extraClass="rounded-full p-1 carousel-button"
-		>
-			→
-		</Button>
+		<Button type="icon" onClick={() => scrollCarousel(1)} extraClass="carousel-button">→</Button>
 	</div>
 
 	<div

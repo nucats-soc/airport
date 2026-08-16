@@ -15,7 +15,7 @@ To recreate this project with the same configuration:
 
 ```sh
 # recreate this project
-npx sv@0.15.3 create --template minimal --types ts --add prettier tailwindcss="plugins:typography,forms" drizzle="database:postgresql+postgresql:postgres.js+docker:yes" better-auth="demo:password" mdsvex --install npm ./
+npx sv@0.15.3 create --template minimal --types ts --add prettier tailwindcss="plugins:typography,forms" mdsvex --install npm ./
 ```
 
 ## Developing

@@ -34,6 +34,7 @@
 		"vite": "^8.0.7"
 	},
 	"dependencies": {
+		"@notionhq/client": "^5.25.2",
 		"classnames": "^2.5.1"
 	}
 }

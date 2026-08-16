@@ -3,7 +3,7 @@
 	import carouselData from '$lib/assets/carousel/AltText.json';
 
 	// Load images from assets
-	const imageFiles = import.meta.glob('/src/lib/assets/carousel/*.{jpg,png,jpeg}', {
+	const imageFiles = import.meta.glob<string>('/src/lib/assets/carousel/*.{jpg,png,jpeg}', {
 		eager: true,
 		import: 'default'
 	});

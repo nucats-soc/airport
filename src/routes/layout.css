@@ -63,7 +63,7 @@
 		@apply text-2xl leading-tight font-semibold lg:text-3xl;
 	}
 	.tx-item-title {
-		@apply text-lg leading-none font-semibold;
+		@apply text-lg leading-none font-medium;
 	}
 	.tx-body {
 		@apply text-base leading-6;

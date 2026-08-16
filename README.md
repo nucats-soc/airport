@@ -20,6 +20,20 @@ npx sv@0.15.3 create --template minimal --types ts --add prettier tailwindcss="p
 
 ## Developing
 
+Create a local environment file and add the token for your Notion integration:
+
+```sh
+cp .env.example .env
+```
+
+The integration must also be connected to every Notion page or data source that the app needs to access. The configured client is available to server-side SvelteKit code:
+
+```ts
+import { notion } from '$lib/server/notion/client';
+```
+
+Keep this import in server-only modules such as `+page.server.ts`, `+server.ts`, or other files under `$lib/server` so the token is never sent to the browser.
+
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```sh

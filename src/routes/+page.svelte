@@ -12,4 +12,3 @@
 <About />
 <Socials />
 <EventsOverview />
-<Footer />

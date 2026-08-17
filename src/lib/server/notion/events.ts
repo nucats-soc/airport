@@ -2,7 +2,16 @@ import { env } from '$env/dynamic/private';
 import { renderMaterialSymbol } from '$lib/server/material-symbols';
 import { queryDataSource, retrievePage } from './content';
 import { getPlace } from './places';
-import { relationIdOf, selectColorOf, startDateOf, statusOf, textOf } from './properties';
+import {
+	endDateOf,
+	relationIdOf,
+	selectColorOf,
+	selectNameOf,
+	startDateOf,
+	statusOf,
+	textOf,
+	urlOf
+} from './properties';
 
 import { type Event, type EventColor } from '../../types/event';
 import type { PageObjectResponse } from '@notionhq/client';
@@ -32,8 +41,10 @@ const EVENT_COLORS: readonly EventColor[] = [
 
 async function parseEvent(page: PageObjectResponse): Promise<Event> {
 	const dateProperty = page.properties['Date'];
+	const eventTypeProperty = page.properties['Event Type'];
 	const date = startDateOf(dateProperty);
-	const placeId = relationIdOf(page.properties['Venue']);
+	const endDate = endDateOf(dateProperty);
+	const placeId = relationIdOf(page.properties['Venue (Optional)']);
 
 	if (!date) {
 		throw new Error(`Event ${page.id} does not have a start date`);
@@ -42,17 +53,28 @@ async function parseEvent(page: PageObjectResponse): Promise<Event> {
 	return {
 		id: page.id,
 		iconSvg: renderMaterialSymbol(textOf(page.properties['Material Symbol'])),
-		color: parseEventColor(selectColorOf(page.properties['Event Type']) ?? 'default'),
+		color: parseEventColor(selectColorOf(eventTypeProperty) ?? 'default'),
 		name: textOf(page.properties['Name']) || 'Unnamed',
+		type: selectNameOf(eventTypeProperty) ?? 'Event',
 		date,
-		hasTime:
-			dateProperty?.type === 'date' && dateProperty.date !== null
+		durationMinutes: durationMinutesBetween(date, endDate),
+		hasTime: dateProperty?.type === 'date' && dateProperty.date !== null
 				? dateProperty.date.start.includes('T')
 				: false,
 		description: textOf(page.properties['Description']) || undefined,
 		location: placeId ? ((await getPlace(placeId)) ?? undefined) : undefined,
-		room: textOf(page.properties['Room (Optional)']) || undefined
+		room: textOf(page.properties['Room (Optional)']) || undefined,
+		url: urlOf(page.properties['URL (Optional)']) ?? undefined
 	};
+}
+
+function durationMinutesBetween(start: Date, end: Date | null): number | undefined {
+	if (!end) {
+		return undefined;
+	}
+
+	const durationMinutes = Math.round((end.getTime() - start.getTime()) / 60_000);
+	return durationMinutes > 0 ? durationMinutes : undefined;
 }
 
 export function parseEventColor(color: string): EventColor {

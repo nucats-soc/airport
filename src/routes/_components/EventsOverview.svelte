@@ -33,7 +33,7 @@
 		{#if events.length > 0}
 			<div class="mt-4 flex flex-col gap-3">
 				{#each events as event (event.id)}
-					<EventCard {...event} />
+					<EventCard {event} />
 				{/each}
 			</div>
 		{/if}

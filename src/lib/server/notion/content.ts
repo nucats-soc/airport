@@ -28,10 +28,7 @@ export async function queryDataSource<T>(
 	return parsePages(results, parsePage);
 }
 
-export async function retrievePage<T>(
-	pageId: string,
-	parsePage: PageParser<T>
-): Promise<T | null> {
+export async function retrievePage<T>(pageId: string, parsePage: PageParser<T>): Promise<T | null> {
 	const page = await notion.pages.retrieve({ page_id: pageId });
 
 	return isFullPage(page) ? await parsePage(page) : null;

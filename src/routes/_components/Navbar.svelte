@@ -3,16 +3,16 @@
 
 	const navItems = [
 		{ label: 'Home', href: '/', icon: 'icon-[material-symbols--home-outline]', active: true },
-		{ label: 'Committee', href: '/committee', icon: 'icon-[material-symbols--groups]' },
 		{ label: 'Events', href: '/events', icon: 'icon-[material-symbols--calendar-month-outline]' },
-		{ label: 'Sponsors', href: '/sponsors', icon: 'icon-[material-symbols--apartment]' }
+		{ label: 'Committee', href: '/committee', icon: 'icon-[material-symbols--groups]' },
+		// { label: 'Sponsors', href: '/sponsors', icon: 'icon-[material-symbols--apartment]' }
 	];
 </script>
 
 <header class="sticky top-0 z-50 w-full bg-[#18181b]">
 	<Container>
 		<div class="flex items-center justify-between gap-8">
-			<a href="/static" class="flex shrink-0 items-center gap-4" aria-label="NUCATS home">
+			<a href="/" class="flex shrink-0 items-center gap-4" aria-label="NUCATS home">
 				<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
 				<span class="tx-brand text-white">NUCATS</span>
 			</a>

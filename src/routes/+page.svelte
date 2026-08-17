@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Hero from '$lib/sections/Hero.svelte';
-    import ImageCarousel from "$lib/components/carousel/ImageCarousel.svelte";
-    import Socials from '$lib/sections/Socials.svelte';
-    import About from '$lib/sections/About.svelte';
+	import Hero from './_components/Hero.svelte';
+	import ImageCarousel from '$lib/components/carousel/ImageCarousel.svelte';
+	import Socials from './_components/Socials.svelte';
+	import About from './_components/About.svelte';
 
-	import EventsOverview from '$lib/sections/EventsOverview.svelte';
-    import type { PageProps } from './$types';
+	import EventsOverview from './_components/EventsOverview.svelte';
+	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 </script>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import Navbar from '$lib/components/navigation/Navbar.svelte';
-	import Footer from '$lib/components/navigation/Footer.svelte';
+	import Navbar from './_components/Navbar.svelte';
+	import Footer from './_components/Footer.svelte';
 
 	let { children } = $props();
 </script>

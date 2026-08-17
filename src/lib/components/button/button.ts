@@ -14,7 +14,6 @@ export function getButtonStyle(
 			'bg-zinc-700 px-6 py-3 hover:bg-zinc-600 active:bg-zinc-700':
 				type == 'secondary' && !isDisabled,
 			'bg-zinc-700 px-4 py-3 hover:bg-zinc-600 active:bg-zinc-700': type == 'icon' && !isDisabled,
-
 			'cursor-not-allowed opacity-60': isDisabled,
 			'cursor-pointer': !isDisabled
 		},

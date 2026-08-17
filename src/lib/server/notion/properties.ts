@@ -67,6 +67,14 @@ export function numberOf(property: PageProperty): number | null {
 	return property.number;
 }
 
+export function emailOf(property: PageProperty): string | null {
+	if (!property || property.type !== 'email') {
+		return null;
+	}
+
+	return property.email;
+}
+
 export function relationIdOf(property: PageProperty): string | null {
 	if (!property || property.type !== 'relation') {
 		return null;
@@ -86,6 +94,24 @@ export function textOf(property: PageProperty): string | null {
 
 	if (property.type === 'rich_text') {
 		return property.rich_text.map((rich) => rich.plain_text).join(' ');
+	}
+
+	return null;
+}
+
+export function firstFileUrlOf(property: PageProperty): string | null {
+	if (!property || property.type !== 'files') {
+		return null;
+	}
+
+	for (const file of property.files) {
+		if (file.type === 'external') {
+			return file.external.url;
+		}
+
+		if (file.type === 'file') {
+			return file.file.url;
+		}
 	}
 
 	return null;

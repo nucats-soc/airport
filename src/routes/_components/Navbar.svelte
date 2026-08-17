@@ -12,7 +12,7 @@
 <header class="sticky top-0 z-50 w-full bg-[#18181b]">
 	<Container>
 		<div class="flex items-center justify-between gap-8">
-			<a href="/static" class="flex shrink-0 items-center gap-4" aria-label="NUCATS home">
+			<a href="/" class="flex shrink-0 items-center gap-4" aria-label="NUCATS home">
 				<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
 				<span class="tx-brand text-white">NUCATS</span>
 			</a>

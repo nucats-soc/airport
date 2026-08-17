@@ -96,6 +96,6 @@
 		{/each}
 	</dl>
 	{#snippet footer()}
-		<LinkButton type="secondary" href={googleMapsUrl} isExternal>Open Google Maps</LinkButton>
+		<LinkButton type="secondary" href={googleMapsUrl} isExternal extraClass="w-full">Open Google Maps</LinkButton>
 	{/snippet}
 </Card>

@@ -80,7 +80,15 @@
 	}
 
 	.prose .notion-callout {
-		@apply my-6 flow-root rounded-2xl bg-zinc-700/30 px-[1.25em] text-white;
+		@apply my-6 rounded-2xl bg-zinc-700/30 p-[1.25em] text-white;
+	}
+
+	.prose .notion-callout__content > :first-child {
+		margin-top: 0 !important;
+	}
+
+	.prose .notion-callout__content > :last-child {
+		margin-bottom: 0 !important;
 	}
 
 	.prose .notion-callout--gray {

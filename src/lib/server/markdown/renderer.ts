@@ -49,7 +49,8 @@ const notionSanitizeSchema: SanitizeSchema = {
 	tagNames: [...(defaultSchema.tagNames ?? []), 'aside'],
 	attributes: {
 		...defaultSchema.attributes,
-		aside: [['className', 'notion-callout', /^notion-callout--[a-z]+$/]]
+		aside: [['className', 'notion-callout', /^notion-callout--[a-z]+$/]],
+		div: [...(defaultSchema.attributes?.div ?? []), ['className', 'notion-callout__content']]
 	}
 };
 

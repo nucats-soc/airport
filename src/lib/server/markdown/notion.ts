@@ -11,6 +11,7 @@ import type { Plugin } from 'unified';
 
 const NOTION_LINE_BREAK = /^<br\s*\/?>$/i;
 const NOTION_EMPTY_BLOCK = /^<empty-block\s*\/>$/i;
+const NOTION_UNKNOWN_BLOCK = /^<unknown\b[^>]*\/>$/i;
 const NOTION_CALLOUT_OPEN = /^<callout(?:\s+([^>]*))?>$/i;
 const NOTION_CALLOUT_CLOSE = /^<\/callout>$/i;
 const NOTION_CALLOUT_MARKER = /^\[!NOTION_CALLOUT color=([a-z_]+)\]$/;
@@ -158,6 +159,30 @@ function normalizeChildren(parent: Parent): void {
 	parent.children = children;
 }
 
+function isNonRenderingCalloutBlock(node: Blockquote['children'][number]): boolean {
+	if (node.type === 'html') return NOTION_UNKNOWN_BLOCK.test(node.value.trim());
+
+	return (
+		node.type === 'paragraph' &&
+		node.children.every((child) => {
+			if (child.type === 'break') return true;
+			if (child.type === 'text') return child.value.trim() === '';
+			return child.type === 'html' && NOTION_UNKNOWN_BLOCK.test(child.value.trim());
+		})
+	);
+}
+
+function trimCalloutEdges(children: Blockquote['children']): Blockquote['children'] {
+	let start = 0;
+	let end = children.length;
+
+	while (start < end && children[start] && isNonRenderingCalloutBlock(children[start])) start += 1;
+	while (end > start && children[end - 1] && isNonRenderingCalloutBlock(children[end - 1]))
+		end -= 1;
+
+	return children.slice(start, end);
+}
+
 function transformCallouts(parent: Parent): void {
 	for (const child of parent.children) {
 		if (child.type !== 'blockquote') {
@@ -180,12 +205,22 @@ function transformCallouts(parent: Parent): void {
 		}
 
 		const color = normalizeCalloutColor(markerText[1]);
+		const content = trimCalloutEdges(callout.children.slice(1));
 
 		callout.data = {
 			hName: 'aside',
 			hProperties: { className: ['notion-callout', `notion-callout--${color}`] }
 		};
-		callout.children = callout.children.slice(1);
+		callout.children = [
+			{
+				type: 'blockquote',
+				children: content,
+				data: {
+					hName: 'div',
+					hProperties: { className: ['notion-callout__content'] }
+				}
+			}
+		];
 		transformCallouts(callout);
 	}
 }

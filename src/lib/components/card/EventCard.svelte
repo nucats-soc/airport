@@ -1,41 +1,26 @@
 <script lang="ts">
-	import type { Event, EventColor } from '../../types/event.ts';
+	import type { Event } from '../../types/event.ts';
 	import Card from '$lib/components/card/Card.svelte';
 	import LinkButton from '$lib/components/button/LinkButton.svelte';
+	import { formatDate } from '$lib/presentation/dateTime';
+	import { EVENT_COLOR_CLASSES } from '$lib/presentation/event';
 
-	let event: Event = $props();
+	interface Props {
+		event: Event;
+	}
 
-	const EVENT_COLOR_CLASSES: Record<EventColor, string> = {
-		gray: 'bg-gray-200 text-black',
-		brown: 'bg-amber-200 text-black',
-		orange: 'bg-orange-200 text-black',
-		yellow: 'bg-yellow-200 text-black',
-		green: 'bg-green-200 text-black',
-		blue: 'bg-blue-200 text-black',
-		purple: 'bg-purple-200 text-black',
-		pink: 'bg-pink-200 text-black',
-		red: 'bg-red-200 text-black'
-	};
+	let { event }: Props = $props();
 
 	function formatPlace(event: Event): string {
 		return (
-			[event.location?.name, event.room || event.location?.details].filter(Boolean).join(', ') ||
+			[event.location?.name, event.room].filter(Boolean).join(', ') ||
 			event.location?.address ||
-			event.room ||
 			'TBD'
 		);
 	}
 
 	let colorClasses: string = $derived(EVENT_COLOR_CLASSES[event.color]);
-	let formattedDate = $derived(
-		new Intl.DateTimeFormat('en-GB', {
-			weekday: 'short',
-			day: 'numeric',
-			month: 'short',
-			...(event.hasTime ? { hour: '2-digit', minute: '2-digit' } : {}),
-			timeZone: event.hasTime ? 'Europe/London' : 'UTC'
-		}).format(event.date)
-	);
+	let formattedDate = $derived(formatDate(event.date, event.hasTime));
 	let formattedPlace = $derived(formatPlace(event));
 	let formattedUrl = $derived(`/events/${event.id}`);
 </script>

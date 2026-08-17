@@ -51,6 +51,14 @@ export function selectColorOf(property: PageProperty): string | null {
 	return property.select.color;
 }
 
+export function selectNameOf(property: PageProperty): string | null {
+	if (!property || property.type !== 'select' || !property.select) {
+		return null;
+	}
+
+	return property.select.name;
+}
+
 export function numberOf(property: PageProperty): number | null {
 	if (!property || property.type !== 'number') {
 		return null;

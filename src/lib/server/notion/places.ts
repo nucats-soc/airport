@@ -16,7 +16,6 @@ function parsePlace(page: PageObjectResponse): Place {
 		id: page.id,
 		name: textOf(page.properties['Name']) || 'Unnamed room',
 		address: textOf(page.properties['Address']) || undefined,
-		details: textOf(page.properties['Room / Details']) || undefined,
 		latitude: numberOf(page.properties['Latitude']) ?? undefined,
 		longitude: numberOf(page.properties['Longitude']) ?? undefined
 	};

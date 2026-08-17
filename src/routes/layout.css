@@ -78,6 +78,46 @@
 	.tx-button-label {
 		@apply text-base leading-5;
 	}
+
+	.prose .notion-callout {
+		@apply my-6 flow-root rounded-2xl bg-zinc-700/30 px-[1.25em] text-white;
+	}
+
+	.prose .notion-callout--gray {
+		@apply bg-zinc-800;
+	}
+
+	.prose .notion-callout--brown {
+		@apply bg-amber-900/30;
+	}
+
+	.prose .notion-callout--orange {
+		@apply bg-orange-900/30;
+	}
+
+	.prose .notion-callout--yellow {
+		@apply bg-yellow-900/30;
+	}
+
+	.prose .notion-callout--green {
+		@apply bg-green-900/30;
+	}
+
+	.prose .notion-callout--blue {
+		@apply bg-blue-900/30;
+	}
+
+	.prose .notion-callout--purple {
+		@apply bg-purple-900/30;
+	}
+
+	.prose .notion-callout--pink {
+		@apply bg-pink-900/30;
+	}
+
+	.prose .notion-callout--red {
+		@apply bg-red-900/30;
+	}
 }
 
 @keyframes drift {

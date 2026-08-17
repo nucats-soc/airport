@@ -3,9 +3,9 @@
 
 	const navItems = [
 		{ label: 'Home', href: '/', icon: 'icon-[material-symbols--home-outline]', active: true },
-		{ label: 'Committee', href: '/committee', icon: 'icon-[material-symbols--groups]' },
 		{ label: 'Events', href: '/events', icon: 'icon-[material-symbols--calendar-month-outline]' },
-		{ label: 'Sponsors', href: '/sponsors', icon: 'icon-[material-symbols--apartment]' }
+		{ label: 'Committee', href: '/committee', icon: 'icon-[material-symbols--groups]' },
+		// { label: 'Sponsors', href: '/sponsors', icon: 'icon-[material-symbols--apartment]' }
 	];
 </script>
 

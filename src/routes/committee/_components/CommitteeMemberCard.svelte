@@ -71,7 +71,7 @@
 		{#if member.imageUrl}
 			<img
 				src={member.imageUrl}
-				alt={`${member.name} profile`}
+				alt={`A photo of ${member.name}, who is the ${member.position} this year.`}
 				class="aspect-[4/3] w-full object-cover"
 				loading="lazy"
 			/>

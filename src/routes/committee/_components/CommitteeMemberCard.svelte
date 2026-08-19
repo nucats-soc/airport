@@ -101,7 +101,7 @@
 		{#if profileLinks.length > 0}
 			<div class="flex w-full flex-wrap items-center gap-2">
 				{#each profileLinks as link}
-					<a href={link.href} class="flex items-center gap-1 text-zinc-300 hover:text-zinc-100 text-xl" target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+					<a href={link.href} class="flex items-center gap-1 text-zinc-300 hover:text-indigo-300 text-xl" target="_blank" rel="noopener noreferrer" aria-label={link.label}>
 						<span class={link.icon}></span>
 					</a>
 				{/each}

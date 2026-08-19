@@ -47,6 +47,16 @@ function propertyByAliases(properties: PageProperties, aliases: readonly string[
 	return undefined;
 }
 
+function titlePropertyOf(properties: PageProperties): PageProperty {
+	for (const property of Object.values(properties)) {
+		if (property?.type === 'title') {
+			return property;
+		}
+	}
+
+	return undefined;
+}
+
 function iconUrlOf(page: PageObjectResponse): string | null {
 	if (!page.icon) {
 		return null;
@@ -71,6 +81,34 @@ function textLikeValueOf(property: PageProperty): string | null {
 	return textOf(property) ?? selectNameOf(property) ?? urlOf(property);
 }
 
+function nameOf(property: PageProperty): string | null {
+	if (!property || property.type !== 'title') {
+		return null;
+	}
+
+	return property.title.map((rich) => rich.plain_text).join(' ');
+}
+
+function committeeMemberNameOf(properties: PageProperties): string | null {
+	const aliasedNameProperty = propertyByAliases(properties, NAME_PROPERTY_ALIASES);
+	const inferredTitleProperty = titlePropertyOf(properties);
+
+	return (
+		nameOf(aliasedNameProperty) ??
+		textOf(aliasedNameProperty) ??
+		nameOf(inferredTitleProperty) ??
+		textOf(inferredTitleProperty)
+	);
+}
+
+function positionOf(property: PageProperty): string | null {
+	if (!property) {
+		return null;
+	}
+
+	return selectNameOf(property) ?? textOf(property);
+}
+
 function parseCommitteeYear(property: PageProperty): number | null {
 	const yearFromNumber = numberOf(property);
 
@@ -90,7 +128,6 @@ function parseCommitteeYear(property: PageProperty): number | null {
 
 function parseCommitteeMember(page: PageObjectResponse): CommitteeMember {
 	const properties = page.properties;
-	const nameProperty = propertyByAliases(properties, NAME_PROPERTY_ALIASES);
 	const positionProperty = propertyByAliases(properties, POSITION_PROPERTY_ALIASES);
 	const photoProperty = propertyByAliases(properties, PHOTO_PROPERTY_ALIASES);
 	const emailProperty = propertyByAliases(properties, EMAIL_PROPERTY_ALIASES);
@@ -102,8 +139,8 @@ function parseCommitteeMember(page: PageObjectResponse): CommitteeMember {
 	return {
 		id: page.id,
 		year: parseCommitteeYear(yearProperty) ?? new Date().getFullYear(),
-		name: textOf(nameProperty) || 'Unnamed member',
-		position: textLikeValueOf(positionProperty) || 'Committee member',
+		name: committeeMemberNameOf(properties) || 'Unnamed member',
+		position: positionOf(positionProperty) || 'Committee member',
 		imageUrl: firstFileUrlOf(photoProperty) ?? iconUrlOf(page) ?? undefined,
 		email: emailOf(emailProperty) || undefined,
 		website: urlOf(websiteProperty) || undefined,

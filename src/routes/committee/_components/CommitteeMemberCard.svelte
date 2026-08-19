@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Card from '$lib/components/card/Card.svelte';
+	import Pill from '$lib/components/pill/Pill.svelte';
 	import type { CommitteeMember } from '$lib/types/committeeMember';
 
 	interface ProfileLink {
@@ -67,7 +68,7 @@
 	let profileLinks = $derived(profileLinksOf(member));
 </script>
 
-<Card padding="md" extraClass="h-full">
+<Card padding="sm" extraClass="h-full">
 	{#snippet thumbnail()}
 		{#if member.imageUrl}
 			<img
@@ -90,16 +91,21 @@
 
 	{#snippet footer()}
 		{#if profileLinks.length > 0}
-			<div class="flex w-full flex-wrap items-center gap-3">
+			<div class="flex w-full flex-wrap items-center gap-2">
 				{#each profileLinks as link}
 					<a
 						href={link.href}
 						target={link.label === 'Email' ? undefined : '_blank'}
 						rel={link.label === 'Email' ? undefined : 'noopener noreferrer'}
-						class="tx-body inline-flex items-center gap-1 text-indigo-300 hover:text-indigo-200"
+						aria-label={link.label}
+						title={link.label}
 					>
-						<span class={[link.icon, 'size-5']} aria-hidden="true"></span>
-						<span>{link.label}</span>
+						<Pill
+							icon={link.icon}
+							extraClass="bg-zinc-700 text-indigo-300 transition-colors hover:bg-zinc-600 hover:text-indigo-200"
+						>
+							<span class="sr-only">{link.label}</span>
+						</Pill>
 					</a>
 				{/each}
 			</div>

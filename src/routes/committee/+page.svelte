@@ -14,26 +14,30 @@
 	);
 </script>
 
-<AnimatedCatBackground>
-	<Container>
-		<section aria-labelledby="committee-title" class="flex flex-col gap-6 py-4 lg:py-8">
-			<div class="flex flex-col gap-2">
+<section aria-labelledby="committee-title">
+	<AnimatedCatBackground>
+		<Container>
+			<div class="flex flex-col gap-2 py-4 lg:py-8">
 				<h1 id="committee-title" class="tx-page-title">Committee</h1>
 				<p class="tx-tagline">{committeeSummary}</p>
 			</div>
+		</Container>
+	</AnimatedCatBackground>
 
+	<Container>
+		<div class="flex flex-col gap-6 py-4 lg:py-8">
 			{#if data.committeeMembers.length === 0}
 				<p class="tx-body text-zinc-300">
 					No committee members found for {data.selectedYear}. Try another year with
 					<code>?year=YYYY</code>.
 				</p>
 			{:else}
-				<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
 					{#each data.committeeMembers as member}
 						<CommitteeMemberCard {member} />
 					{/each}
 				</div>
 			{/if}
-		</section>
+		</div>
 	</Container>
-</AnimatedCatBackground>
+</section>

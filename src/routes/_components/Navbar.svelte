@@ -1,12 +1,17 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import Container from '$lib/components/layout/Container.svelte';
 
 	const navItems = [
-		{ label: 'Home', href: '/', icon: 'icon-[material-symbols--home-outline]', active: true },
+		{ label: 'Home', href: '/', icon: 'icon-[material-symbols--home-outline]' },
 		{ label: 'Events', href: '/events', icon: 'icon-[material-symbols--calendar-month-outline]' },
 		{ label: 'Committee', href: '/committee', icon: 'icon-[material-symbols--groups]' },
-		// { label: 'Sponsors', href: '/sponsors', icon: 'icon-[material-symbols--apartment]' }
+		{ label: 'Sponsors', href: '/sponsors', icon: 'icon-[material-symbols--apartment]' }
 	];
+
+	function isActive(href: string): boolean {
+		return page.url.pathname === href || (href !== '/' && page.url.pathname.startsWith(`${href}/`));
+	}
 </script>
 
 <header class="sticky top-0 z-50 w-full bg-[#18181b]">
@@ -21,15 +26,15 @@
 				{#each navItems as item}
 					<a
 						href={item.href}
-						aria-current={item.active ? 'page' : undefined}
+						aria-current={isActive(item.href) ? 'page' : undefined}
 						class="tx-nav-link group flex items-center gap-4 whitespace-nowrap text-white transition-colors duration-200 hover:text-indigo-300"
-						class:text-indigo-300={item.active}
+						class:text-indigo-300={isActive(item.href)}
 					>
 						<span
 							class={[
 								item.icon,
 								'h-6 w-6 shrink-0 text-white transition-colors duration-200 group-hover:text-indigo-300',
-								item.active ? 'text-indigo-300' : ''
+								isActive(item.href) ? 'text-indigo-300' : ''
 							]}
 							aria-hidden="true"
 						></span>

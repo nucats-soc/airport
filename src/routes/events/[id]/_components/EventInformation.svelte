@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Event } from '$lib/types/event';
 	import Pill from '$lib/components/pill/Pill.svelte';
-	import { EVENT_COLOR_CLASSES } from '$lib/presentation/event';
-	import { formatDuration } from '$lib/presentation/dateTime';
+	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
+	import { formatDuration } from '$lib/util/dateTime';
 
 	interface Props {
 		event: Event;

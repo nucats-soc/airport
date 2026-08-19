@@ -26,44 +26,45 @@
 		return `${baseUrl}${value.replace(/^@/, '')}`;
 	}
 
-	let profileLinks: ProfileLink[] = $derived([
-		...(member.email
-			? [
-					{
-						label: 'Email',
-						href: `mailto:${member.email}`,
-						icon: 'icon-[material-symbols--mail-outline]'
-					}
-				]
-			: []),
-		...(member.website
-			? [
-					{
-						label: 'Website',
-						href: asLink(member.website, 'https://'),
-						icon: 'icon-[material-symbols--language]'
-					}
-				]
-			: []),
-		...(member.instagram
-			? [
-					{
-						label: 'Instagram',
-						href: asLink(member.instagram, 'https://instagram.com/'),
-						icon: 'icon-[simple-icons--instagram]'
-					}
-				]
-			: []),
-		...(member.linkedIn
-			? [
-					{
-						label: 'LinkedIn',
-						href: asLink(member.linkedIn, 'https://linkedin.com/in/'),
-						icon: 'icon-[simple-icons--linkedin]'
-					}
-				]
-			: [])
-	]);
+	function profileLinksOf(member: CommitteeMember): ProfileLink[] {
+		const profileLinks: ProfileLink[] = [];
+
+		if (member.email) {
+			profileLinks.push({
+				label: 'Email',
+				href: `mailto:${member.email}`,
+				icon: 'icon-[material-symbols--mail-outline]'
+			});
+		}
+
+		if (member.website) {
+			profileLinks.push({
+				label: 'Website',
+				href: asLink(member.website, 'https://'),
+				icon: 'icon-[material-symbols--language]'
+			});
+		}
+
+		if (member.instagram) {
+			profileLinks.push({
+				label: 'Instagram',
+				href: asLink(member.instagram, 'https://instagram.com/'),
+				icon: 'icon-[simple-icons--instagram]'
+			});
+		}
+
+		if (member.linkedIn) {
+			profileLinks.push({
+				label: 'LinkedIn',
+				href: asLink(member.linkedIn, 'https://linkedin.com/in/'),
+				icon: 'icon-[simple-icons--linkedin]'
+			});
+		}
+
+		return profileLinks;
+	}
+
+	let profileLinks = $derived(profileLinksOf(member));
 </script>
 
 <Card padding="md" extraClass="h-full">
@@ -71,7 +72,7 @@
 		{#if member.imageUrl}
 			<img
 				src={member.imageUrl}
-				alt={`A photo of ${member.name}, who is the ${member.position} this year.`}
+				alt={`A photo of ${member.name}, who is the ${member.position} for ${member.year}.`}
 				class="aspect-[4/3] w-full object-cover"
 				loading="lazy"
 			/>

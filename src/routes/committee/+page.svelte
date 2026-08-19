@@ -7,10 +7,10 @@
 	let { data }: PageProps = $props();
 	let committeeSummary = $derived(
 		data.committeeMembers.length === 0
-			? 'Meet the team running NUCATS this year.'
+			? `Meet the team running NUCATS in ${data.selectedYear}.`
 			: data.committeeMembers.length === 1
-				? 'Meet the committee member running NUCATS this year.'
-				: `Meet the ${data.committeeMembers.length} committee members running NUCATS this year.`
+				? `Meet the committee member running NUCATS in ${data.selectedYear}.`
+				: `Meet the ${data.committeeMembers.length} committee members running NUCATS in ${data.selectedYear}.`
 	);
 </script>
 
@@ -23,7 +23,10 @@
 			</div>
 
 			{#if data.committeeMembers.length === 0}
-				<p class="tx-body text-zinc-300">Committee members will be listed here soon.</p>
+				<p class="tx-body text-zinc-300">
+					No committee members found for {data.selectedYear}. Try another year with
+					<code>?year=YYYY</code>.
+				</p>
 			{:else}
 				<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{#each data.committeeMembers as member}

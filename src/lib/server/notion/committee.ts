@@ -1,6 +1,6 @@
 import { env } from '$env/dynamic/private';
 import { queryDataSource } from './content';
-import { emailOf, firstFileUrlOf, selectNameOf, textOf, urlOf } from './properties';
+import { emailOf, firstFileUrlOf, numberOf, selectNameOf, textOf, urlOf } from './properties';
 
 import type { CommitteeMember } from '$lib/types/committeeMember';
 import type { PageObjectResponse } from '@notionhq/client';
@@ -24,6 +24,7 @@ const EMAIL_PROPERTY_ALIASES = ['Email'];
 const WEBSITE_PROPERTY_ALIASES = ['Website'];
 const INSTAGRAM_PROPERTY_ALIASES = ['Instagram'];
 const LINKEDIN_PROPERTY_ALIASES = ['LinkedIn'];
+const YEAR_PROPERTY_ALIASES = ['Year', 'Committee Year'];
 
 type PageProperties = PageObjectResponse['properties'];
 type PageProperty = PageProperties[string] | undefined;
@@ -70,6 +71,23 @@ function textLikeValueOf(property: PageProperty): string | null {
 	return textOf(property) ?? selectNameOf(property) ?? urlOf(property);
 }
 
+function parseCommitteeYear(property: PageProperty): number | null {
+	const yearFromNumber = numberOf(property);
+
+	if (yearFromNumber !== null && Number.isInteger(yearFromNumber)) {
+		return yearFromNumber;
+	}
+
+	const yearFromText = textLikeValueOf(property);
+
+	if (!yearFromText) {
+		return null;
+	}
+
+	const yearMatch = yearFromText.match(/\b\d{4}\b/);
+	return yearMatch ? Number.parseInt(yearMatch[0], 10) : null;
+}
+
 function parseCommitteeMember(page: PageObjectResponse): CommitteeMember {
 	const properties = page.properties;
 	const nameProperty = propertyByAliases(properties, NAME_PROPERTY_ALIASES);
@@ -79,9 +97,11 @@ function parseCommitteeMember(page: PageObjectResponse): CommitteeMember {
 	const websiteProperty = propertyByAliases(properties, WEBSITE_PROPERTY_ALIASES);
 	const instagramProperty = propertyByAliases(properties, INSTAGRAM_PROPERTY_ALIASES);
 	const linkedInProperty = propertyByAliases(properties, LINKEDIN_PROPERTY_ALIASES);
+	const yearProperty = propertyByAliases(properties, YEAR_PROPERTY_ALIASES);
 
 	return {
 		id: page.id,
+		year: parseCommitteeYear(yearProperty) ?? new Date().getFullYear(),
 		name: textOf(nameProperty) || 'Unnamed member',
 		position: textLikeValueOf(positionProperty) || 'Committee member',
 		imageUrl: firstFileUrlOf(photoProperty) ?? iconUrlOf(page) ?? undefined,
@@ -92,8 +112,10 @@ function parseCommitteeMember(page: PageObjectResponse): CommitteeMember {
 	};
 }
 
-export function getCommitteeMembers(): Promise<CommitteeMember[]> {
-	return queryDataSource(
+export async function getCommitteeMembers(
+	year: number = new Date().getFullYear()
+): Promise<CommitteeMember[]> {
+	const committeeMembers = await queryDataSource(
 		{
 			data_source_id: committeeDataSourceIdOf(),
 			sorts: [
@@ -107,4 +129,6 @@ export function getCommitteeMembers(): Promise<CommitteeMember[]> {
 		parseCommitteeMember,
 		true
 	);
+
+	return committeeMembers.filter((committeeMember) => committeeMember.year === year);
 }

@@ -34,6 +34,12 @@ import { notion } from '$lib/server/notion/client';
 
 Keep this import in server-only modules such as `+page.server.ts`, `+server.ts`, or other files under `$lib/server` so the token is never sent to the browser.
 
+Current Notion data source variables used by the app are:
+
+- `NOTION_EVENT_DATASOURCE`
+- `NOTION_PLACE_DATASOURCE`
+- `NOTION_COMMITTEE_DATASOURCE`
+
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```sh

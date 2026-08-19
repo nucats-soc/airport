@@ -25,11 +25,11 @@
 	</AnimatedCatBackground>
 
 	<Container>
-		<div class="flex flex-col gap-6">
+		<div class="flex flex-col gap-8">
 			{#if data.committeeMembers.length === 0}
 				<p class="tx-body text-zinc-300">Committee members will be listed here soon.</p>
 			{:else}
-				<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+				<div class="grid gap-8 6 sm:grid-cols-2 lg:grid-cols-4">
 					{#each data.committeeMembers as member}
 						<CommitteeMemberCard {member} />
 					{/each}

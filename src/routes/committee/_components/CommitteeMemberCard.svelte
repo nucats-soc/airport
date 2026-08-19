@@ -1,6 +1,6 @@
 <script lang="ts">
+	import LinkButton from '$lib/components/button/LinkButton.svelte';
 	import Card from '$lib/components/card/Card.svelte';
-	import Pill from '$lib/components/pill/Pill.svelte';
 	import type { CommitteeMember } from '$lib/types/committeeMember';
 
 	interface ProfileLink {
@@ -93,19 +93,8 @@
 		{#if profileLinks.length > 0}
 			<div class="flex w-full flex-wrap items-center gap-2">
 				{#each profileLinks as link}
-					<a
-						href={link.href}
-						target={link.label === 'Email' ? undefined : '_blank'}
-						rel={link.label === 'Email' ? undefined : 'noopener noreferrer'}
-						aria-label={link.label}
-						title={link.label}
-					>
-						<Pill
-							icon={link.icon}
-							extraClass="bg-zinc-700 text-indigo-300 transition-colors hover:bg-zinc-600 hover:text-indigo-200"
-						>
-							<span class="sr-only">{link.label}</span>
-						</Pill>
+					<a href={link.href} class="flex items-center gap-1 text-zinc-300 hover:text-zinc-100 text-xl" target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+						<span class={link.icon}></span>
 					</a>
 				{/each}
 			</div>

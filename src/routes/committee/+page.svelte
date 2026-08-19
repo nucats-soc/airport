@@ -17,7 +17,7 @@
 <section aria-labelledby="committee-title">
 	<AnimatedCatBackground>
 		<Container>
-			<div class="flex flex-col gap-2 py-4 lg:py-8">
+			<div class="flex flex-col gap-2">
 				<h1 id="committee-title" class="tx-page-title">Committee</h1>
 				<p class="tx-tagline">{committeeSummary}</p>
 			</div>
@@ -25,7 +25,7 @@
 	</AnimatedCatBackground>
 
 	<Container>
-		<div class="flex flex-col gap-6 py-4 lg:py-8">
+		<div class="flex flex-col gap-6">
 			{#if data.committeeMembers.length === 0}
 				<p class="tx-body text-zinc-300">Committee members will be listed here soon.</p>
 			{:else}

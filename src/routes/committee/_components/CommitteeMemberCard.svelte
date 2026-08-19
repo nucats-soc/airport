@@ -62,6 +62,14 @@
 			});
 		}
 
+		if (member.github) {
+			profileLinks.push({
+				label: 'GitHub',
+				href: asLink(member.github, 'https://github.com/'),
+				icon: 'icon-[simple-icons--github]'
+			});
+		}
+
 		return profileLinks;
 	}
 

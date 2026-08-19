@@ -8,4 +8,5 @@ export interface CommitteeMember {
 	website?: string;
 	instagram?: string;
 	linkedIn?: string;
+	github?: string;
 }

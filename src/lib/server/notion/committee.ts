@@ -24,6 +24,7 @@ const EMAIL_PROPERTY_ALIASES = ['Email'];
 const WEBSITE_PROPERTY_ALIASES = ['Website'];
 const INSTAGRAM_PROPERTY_ALIASES = ['Instagram'];
 const LINKEDIN_PROPERTY_ALIASES = ['LinkedIn'];
+const GITHUB_PROPERTY_ALIASES = ['GitHub', 'Github'];
 const YEAR_PROPERTY_ALIASES = ['Year', 'Committee Year'];
 
 type PageProperties = PageObjectResponse['properties'];
@@ -134,6 +135,7 @@ function parseCommitteeMember(page: PageObjectResponse): CommitteeMember {
 	const websiteProperty = propertyByAliases(properties, WEBSITE_PROPERTY_ALIASES);
 	const instagramProperty = propertyByAliases(properties, INSTAGRAM_PROPERTY_ALIASES);
 	const linkedInProperty = propertyByAliases(properties, LINKEDIN_PROPERTY_ALIASES);
+	const githubProperty = propertyByAliases(properties, GITHUB_PROPERTY_ALIASES);
 	const yearProperty = propertyByAliases(properties, YEAR_PROPERTY_ALIASES);
 
 	return {
@@ -145,7 +147,8 @@ function parseCommitteeMember(page: PageObjectResponse): CommitteeMember {
 		email: emailOf(emailProperty) || undefined,
 		website: urlOf(websiteProperty) || undefined,
 		instagram: textLikeValueOf(instagramProperty) || undefined,
-		linkedIn: textLikeValueOf(linkedInProperty) || undefined
+		linkedIn: textLikeValueOf(linkedInProperty) || undefined,
+		github: textLikeValueOf(githubProperty) || undefined
 	};
 }
 

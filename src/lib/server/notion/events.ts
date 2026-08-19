@@ -19,6 +19,8 @@ import type {
 	PropertyFilter,
 	TimestampFilter
 } from '@notionhq/client/build/src/api-endpoints/common';
+import { cache } from '$lib/server/cache';
+import { HOURS, MINUTES } from '$lib/util/timeUnits';
 
 if (!env.NOTION_EVENT_DATASOURCE) {
 	throw new Error('NOTION_EVENT_DATASOURCE environment variable is not set');
@@ -26,7 +28,9 @@ if (!env.NOTION_EVENT_DATASOURCE) {
 
 type EventFilter = PropertyFilter | TimestampFilter;
 const LISTED_EVENT_STATUSES = ['Scheduled', 'Completed', 'Cancelled'];
-const UPCOMING_EVENT_PAGE_SIZE = 3;
+const UPCOMING_EVENT_PREVIEW_SIZE = 3;
+const EVENT_CACHE_TTL = 10 * MINUTES;
+const HISTORICAL_EVENT_CACHE_TTL = 2 * HOURS;
 const EVENT_COLORS: readonly EventColor[] = [
 	'gray',
 	'brown',
@@ -58,7 +62,8 @@ async function parseEvent(page: PageObjectResponse): Promise<Event> {
 		type: selectNameOf(eventTypeProperty) ?? 'Event',
 		date,
 		durationMinutes: durationMinutesBetween(date, endDate),
-		hasTime: dateProperty?.type === 'date' && dateProperty.date !== null
+		hasTime:
+			dateProperty?.type === 'date' && dateProperty.date !== null
 				? dateProperty.date.start.includes('T')
 				: false,
 		description: textOf(page.properties['Description']) || undefined,
@@ -108,56 +113,92 @@ async function getEvents(filters: EventFilter[], pageSize?: number): Promise<Eve
 			],
 			page_size: pageSize
 		},
-		parseEvent
+		async (page) => {
+			const event = await parseEvent(page);
+			await cache.set(`events:${event.id}`, event, EVENT_CACHE_TTL);
+			return event;
+		},
+		pageSize === undefined
 	);
 }
 
 export async function getEventById(id: string): Promise<Event | null> {
-	const page = await retrievePage(id, (result) => result);
+	return cache.wrap(
+		`events:${id}`,
+		async () => {
+			const page = await retrievePage(id, (result) => result);
 
-	if (!page) {
-		return null;
-	}
-
-	const status = statusOf(page.properties['Status']) ?? 'Planned';
-
-	if (!LISTED_EVENT_STATUSES.includes(status)) {
-		return null;
-	}
-
-	return parseEvent(page);
-}
-
-export function getUpcomingEvents(now: Date = new Date()): Promise<Event[]> {
-	return getEvents(
-		[
-			{
-				property: 'Date',
-				type: 'date',
-				date: {
-					on_or_after: now.toISOString()
-				}
+			if (!page) {
+				return null;
 			}
-		],
-		UPCOMING_EVENT_PAGE_SIZE
+
+			const status = statusOf(page.properties['Status']) ?? 'Planned';
+
+			if (!LISTED_EVENT_STATUSES.includes(status)) {
+				return null;
+			}
+
+			return parseEvent(page);
+		},
+		EVENT_CACHE_TTL
 	);
 }
 
-export function getEventsByYear(year: number): Promise<Event[]> {
-	return getEvents([
-		{
-			property: 'Date',
-			type: 'date',
-			date: {
-				on_or_after: `${year}-01-01`
-			}
+function getUpcomingEventsWithLimit(now: Date, pageSize?: number): Promise<Event[]> {
+	const date = now.toISOString().slice(0, 10);
+	const resultSize = pageSize ?? 'all';
+
+	return cache.wrap(
+		`events:upcoming:${date}:${resultSize}`,
+		() => {
+			return getEvents(
+				[
+					{
+						property: 'Date',
+						type: 'date',
+						date: {
+							on_or_after: now.toISOString()
+						}
+					}
+				],
+				pageSize
+			);
 		},
-		{
-			property: 'Date',
-			type: 'date',
-			date: {
-				before: `${year + 1}-01-01`
-			}
-		}
-	]);
+		EVENT_CACHE_TTL
+	);
+}
+
+export function getUpcomingEvents(now: Date = new Date()): Promise<Event[]> {
+	return getUpcomingEventsWithLimit(now, UPCOMING_EVENT_PREVIEW_SIZE);
+}
+
+export function getAllUpcomingEvents(now: Date = new Date()): Promise<Event[]> {
+	return getUpcomingEventsWithLimit(now);
+}
+
+export function getEventsByYear(year: number): Promise<Event[]> {
+	const cacheTime =
+		year === new Date().getFullYear() ? EVENT_CACHE_TTL : HISTORICAL_EVENT_CACHE_TTL;
+	return cache.wrap(
+		`events:year:${year}`,
+		() => {
+			return getEvents([
+				{
+					property: 'Date',
+					type: 'date',
+					date: {
+						on_or_after: `${year}-01-01`
+					}
+				},
+				{
+					property: 'Date',
+					type: 'date',
+					date: {
+						before: `${year + 1}-01-01`
+					}
+				}
+			]);
+		},
+		cacheTime
+	);
 }

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Event } from '$lib/types/event';
-	import { formatDate } from '$lib/presentation/dateTime';
-	import { EVENT_COLOR_CLASSES } from '$lib/presentation/event';
+	import { formatDate } from '$lib/util/dateTime';
+	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
 
 	interface Props {
 		event: Event;

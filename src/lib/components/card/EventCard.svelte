@@ -2,8 +2,8 @@
 	import type { Event } from '../../types/event.ts';
 	import Card from '$lib/components/card/Card.svelte';
 	import LinkButton from '$lib/components/button/LinkButton.svelte';
-	import { formatDate } from '$lib/presentation/dateTime';
-	import { EVENT_COLOR_CLASSES } from '$lib/presentation/event';
+	import { formatDate } from '$lib/util/dateTime';
+	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
 
 	interface Props {
 		event: Event;

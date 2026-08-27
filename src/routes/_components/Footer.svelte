@@ -97,7 +97,7 @@
 	</ul>
 {/snippet}
 
-<footer class="mt-45 w-full bg-zinc-950">
+<footer class="mt-20 w-full bg-zinc-950">
 	<Container>
 		<div class="grid gap-10 py-10 sm:grid-cols-2 md:grid-cols-4 lg:gap-8">
 			<div>

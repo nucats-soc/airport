@@ -14,6 +14,7 @@
 		href: string;
 		isExternal?: boolean;
 		layout?: 'card' | 'responsive-banner';
+		iconClass?: string;
 	}
 
 	let {
@@ -24,7 +25,8 @@
 		actionLabel,
 		href,
 		isExternal = false,
-		layout = 'card'
+		layout = 'card',
+		iconClass = 'text-green-300'
 	}: Props = $props();
 </script>
 
@@ -36,25 +38,13 @@
 				layout === 'responsive-banner' && 'lg:flex-row lg:items-center lg:justify-between lg:gap-8'
 			]}
 		>
-			{#if layout === 'responsive-banner'}
-				<div class="flex min-w-0 flex-1 items-center gap-4">
-					<Inset space="sm" extraClass="shrink-0">
-						<Icon {icon} size="lg" extraClass="text-green-300" />
-					</Inset>
-					<div class="min-w-0">
-						<p class="tx-card-title">{title}</p>
-						<p class="tx-body mt-2 text-zinc-300">{description}</p>
-					</div>
-				</div>
-			{:else}
-				<div class="flex min-w-0 flex-1 flex-col gap-4">
-					<Cluster gap="sm">
-						<Icon {icon} />
-						<p class="tx-card-title">{title}</p>
-					</Cluster>
-					<p class="tx-body text-zinc-300">{description}</p>
-				</div>
-			{/if}
+			<div class="min-w-0 flex-1">
+				<Cluster gap="sm">
+					<Icon {icon} extraClass={iconClass} />
+					<p class="tx-card-title">{title}</p>
+				</Cluster>
+				<p class="tx-body mt-3 text-zinc-300">{description}</p>
+			</div>
 			<LinkButton
 				type="primary"
 				{href}

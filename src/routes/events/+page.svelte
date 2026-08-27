@@ -22,6 +22,23 @@
 	let eventsQuery = $derived(browser ? getEventsByYear(selection.year) : undefined);
 	let events = $derived(eventsQuery?.current ?? []);
 	let visibleEvents = $derived(eventsForSelection(events, selection));
+	const monthFormatter = new Intl.DateTimeFormat('en-GB', {
+		month: 'long',
+		year: 'numeric',
+		timeZone: 'UTC'
+	});
+	const dayFormatter = new Intl.DateTimeFormat('en-GB', {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+		timeZone: 'UTC'
+	});
+	let selectionHeading = $derived.by(() => {
+		const date = new Date(Date.UTC(selection.year, selection.month, selection.day ?? 1));
+		return selection.day === undefined
+			? `Events in ${monthFormatter.format(date)}`
+			: `Events on ${dayFormatter.format(date)}`;
+	});
 </script>
 
 <svelte:head>
@@ -33,23 +50,33 @@
 </svelte:head>
 
 <Container>
-	<Stack gap="sm">
+	<Stack gap="md">
 		<PageHeader
 			image={headerImage}
 			title="Event Schedule"
 			description="See what we're doing and come along."
+
 		/>
-		<div class="grid gap-4 lg:min-h-180 lg:grid-cols-3 lg:items-start">
-			<div class="contents lg:order-2 lg:col-start-3 lg:row-start-1 lg:grid lg:gap-4">
-				<div class="order-1 lg:order-none">
+		<div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-6">
+			<aside class="contents lg:order-2 lg:grid lg:gap-4">
+				<div class="order-1 lg:order-0">
 					<CalendarCard {events} {selection} onUpdateSelection={(next) => (selection = next)} />
 				</div>
-				<div class="order-3 lg:order-none">
+				<div class="order-3 lg:order-0">
 					<DiscordEventInfo />
 				</div>
-			</div>
+			</aside>
 
-			<div class="order-2 lg:order-1 lg:col-span-2 lg:row-start-1">
+			<section class="order-2 min-w-0 lg:order-1" aria-labelledby="events-list-title">
+				<div class="mb-4 flex items-baseline justify-between gap-4 px-1">
+					<h2 id="events-list-title" class="tx-section-title">{selectionHeading}</h2>
+					{#if eventsQuery && !eventsQuery.loading && !eventsQuery.error}
+						<p class="tx-body shrink-0 text-zinc-400">
+							{visibleEvents.length}
+							{visibleEvents.length === 1 ? 'event' : 'events'}
+						</p>
+					{/if}
+				</div>
 				<Loadable
 					state={eventsQuery}
 					loadingLabel="Loading events"
@@ -74,11 +101,9 @@
 						</div>
 					</div>
 				</Loadable>
-			</div>
-
-			<div class="order-4 lg:order-3 lg:col-span-3">
-				<CalendarSubscriptionCard />
-			</div>
+			</section>
 		</div>
+
+		<CalendarSubscriptionCard />
 	</Stack>
 </Container>

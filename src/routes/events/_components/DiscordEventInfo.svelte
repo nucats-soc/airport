@@ -10,5 +10,6 @@
 	actionIcon="icon-[simple-icons--discord]"
 	actionLabel="Join Discord"
 	href={discordInvite}
+	iconClass="text-indigo-300"
 	isExternal
 />

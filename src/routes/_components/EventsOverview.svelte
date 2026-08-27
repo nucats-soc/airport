@@ -19,7 +19,7 @@
 	);
 </script>
 
-<Container>
+<Container extraClass="py-8">
 	<section aria-labelledby="upcoming-events-title">
 		<div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
 			<div>

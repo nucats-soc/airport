@@ -36,7 +36,7 @@
 	];
 </script>
 
-<Container>
+<Container extraClass="py-8">
 	<SplitLayout>
 		{#snippet left()}
 			<div class="flex flex-col">

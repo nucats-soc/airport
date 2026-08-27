@@ -58,7 +58,7 @@
 	}
 </script>
 
-<Container>
+<Container extraClass="py-8">
 	<p class="tx-section-title">What do we do?</p>
 	<p class="tx-body">
 		We have something for everyone, whether it be game nights and tournaments, coding workshops, or

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Box from '$lib/components/layout/Box.svelte';
 	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
 	import LinkButton from '$lib/components/ui/LinkButton.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import type { Event } from '$lib/types/event';
@@ -35,15 +34,17 @@
 
 <Box background="card" extraClass="flex min-w-0 flex-1 flex-row">
 	<div class={['w-2 shrink-0 self-stretch', colorClasses]} aria-hidden="true"></div>
-	<Inset space="md" extraClass="min-w-0 flex-1">
-		<div class="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
+	<div class="min-w-0 flex-1 p-4 sm:p-6">
+		<div
+			class="grid grid-cols-1 gap-x-6 gap-y-4 sm:gap-y-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-start"
+		>
 			<Cluster gap="sm" extraClass="min-w-0">
 				<Cluster
 					gap="none"
 					justify="center"
-					extraClass={`size-16 shrink-0 rounded-lg ${colorClasses}`}
+					extraClass={`size-14 shrink-0 rounded-lg sm:size-16 ${colorClasses}`}
 				>
-					<span class="inline-flex text-4xl" aria-hidden="true">
+					<span class="inline-flex text-3xl sm:text-4xl" aria-hidden="true">
 						{@html event.iconSvg}
 					</span>
 				</Cluster>
@@ -70,13 +71,17 @@
 
 				<Cluster gap="none" extraClass="min-w-0 gap-2">
 					<Icon icon="icon-[material-symbols--location-on]" size="sm" />
-					<span class="tx-body truncate">{formattedPlace}</span>
+					<span class="tx-body min-w-0 break-words">{formattedPlace}</span>
 				</Cluster>
 			</Cluster>
 
-			<div class="justify-self-start md:col-start-2 md:row-start-1 md:justify-self-end">
-				<LinkButton href={formattedUrl} type="secondary">View Details</LinkButton>
+			<div
+				class="w-full justify-self-start md:col-start-2 md:row-start-1 md:w-auto md:justify-self-end"
+			>
+				<LinkButton href={formattedUrl} type="secondary" extraClass="w-full md:w-auto">
+					View Details
+				</LinkButton>
 			</div>
 		</div>
-	</Inset>
+	</div>
 </Box>

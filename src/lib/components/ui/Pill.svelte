@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import Icon from './Icon.svelte';
 
 	interface Props {
 		children: Snippet;
@@ -11,10 +12,10 @@
 </script>
 
 <div
-	class={['inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 leading-5', extraClass]}
+	class={['tx-body inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1', extraClass]}
 >
 	{#if icon}
-		<span class={['size-4 shrink-0', icon]} aria-hidden="true"></span>
+		<Icon {icon} size="sm" />
 	{/if}
 	{@render children()}
 </div>

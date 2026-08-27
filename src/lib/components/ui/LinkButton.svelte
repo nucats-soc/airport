@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { type ButtonVariant, getButtonStyle } from './button';
+	import Icon from './Icon.svelte';
 
 	type Props = {
 		children?: Snippet;
@@ -23,8 +24,12 @@
 		{@render children()}
 	{/if}
 	{#if isExternal}
-		<span class="size-4 shrink-0 overflow-hidden" aria-hidden="true">
-			<span class="external-arrow icon-[material-symbols--arrow-outward] block size-4"></span>
+		<span class="size-4 shrink-0 overflow-hidden">
+			<Icon
+				icon="icon-[material-symbols--arrow-outward]"
+				size="sm"
+				extraClass="external-arrow block"
+			/>
 		</span>
 	{/if}
 </a>
@@ -45,12 +50,12 @@
 		}
 	}
 
-	a:hover .external-arrow {
+	a:hover :global(.external-arrow) {
 		animation: wrap-arrow 300ms cubic-bezier(0.45, 0, 0.55, 1);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		a:hover .external-arrow {
+		a:hover :global(.external-arrow) {
 			animation: none;
 		}
 	}

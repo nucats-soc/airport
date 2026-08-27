@@ -1,7 +1,10 @@
 <script lang="ts">
-	import LinkButton from '$lib/components/button/LinkButton.svelte';
-	import Card from '$lib/components/card/Card.svelte';
+	import Box from '$lib/components/layout/Box.svelte';
+	import Cluster from '$lib/components/layout/Cluster.svelte';
+	import Inset from '$lib/components/layout/Inset.svelte';
+	import Stack from '$lib/components/layout/Stack.svelte';
 	import type { CommitteeMember } from '$lib/types/committeeMember';
+	import Icon from '$lib/components/ui/Icon.svelte';
 
 	interface ProfileLink {
 		label: string;
@@ -16,6 +19,7 @@
 	let { member }: Props = $props();
 
 	function asLink(value: string, baseUrl: string): string {
+		// noinspection HttpUrlsUsage
 		if (
 			value.startsWith('http://') ||
 			value.startsWith('https://') ||
@@ -76,36 +80,42 @@
 	let profileLinks = $derived(profileLinksOf(member));
 </script>
 
-<Card padding="sm" extraClass="h-full">
-	{#snippet thumbnail()}
-		{#if member.imageUrl}
-			<img
-				src={member.imageUrl}
-				alt={`A photo of ${member.name}, who is the ${member.position} for ${member.year}.`}
-				class="aspect-[4/3] w-full object-cover"
-				loading="lazy"
-			/>
-		{:else}
-			<div class="flex aspect-[4/3] w-full items-center justify-center bg-zinc-700">
-				<span class="icon-[material-symbols--person] size-14 text-zinc-300"></span>
-			</div>
-		{/if}
-	{/snippet}
+<Box background="card" extraClass="flex h-full flex-1 flex-col">
+	{#if member.imageUrl}
+		<img
+			src={member.imageUrl}
+			alt={`A photo of ${member.name}, who is the ${member.position} for ${member.year}.`}
+			class="aspect-4/3 w-full object-cover"
+			loading="lazy"
+		/>
+	{:else}
+		<div class="flex aspect-4/3 w-full items-center justify-center bg-zinc-700">
+			<Icon icon="icon-[material-symbols--person]" size="lg" extraClass="text-zinc-300" />
+		</div>
+	{/if}
 
-	<div class="min-w-0">
-		<p class="tx-item-title truncate">{member.name}</p>
-		<p class="tx-body text-zinc-300">{member.position}</p>
-	</div>
-
-	{#snippet footer()}
-		{#if profileLinks.length > 0}
-			<div class="flex w-full flex-wrap items-center gap-4">
-				{#each profileLinks as link}
-					<a href={link.href} class="flex items-center gap-1 text-zinc-300 hover:text-indigo-300 text-xl" target="_blank" rel="noopener noreferrer" aria-label={link.label}>
-						<span class={link.icon}></span>
-					</a>
-				{/each}
+	<Inset space="sm" extraClass="flex flex-1 min-w-0">
+		<Stack gap="sm" extraClass="min-w-0 flex-1">
+			<div class="min-w-0">
+				<p class="tx-item-title truncate">{member.name}</p>
+				<p class="tx-body text-zinc-300">{member.position}</p>
 			</div>
-		{/if}
-	{/snippet}
-</Card>
+
+			{#if profileLinks.length > 0}
+				<Cluster gap="sm" extraClass="mt-auto w-full">
+					{#each profileLinks as link}
+						<a
+							href={link.href}
+							class="flex items-center gap-1 text-xl text-zinc-300 hover:text-indigo-300"
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={link.label}
+						>
+							<Icon icon={link.icon} size="sm" />
+						</a>
+					{/each}
+				</Cluster>
+			{/if}
+		</Stack>
+	</Inset>
+</Box>

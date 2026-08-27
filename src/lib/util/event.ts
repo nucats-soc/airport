@@ -11,3 +11,15 @@ export const EVENT_COLOR_CLASSES = {
 	pink: 'bg-pink-200 text-black',
 	red: 'bg-red-200 text-black'
 } satisfies Record<EventColor, string>;
+
+export const EVENT_TEXT_COLOR_CLASSES = {
+	gray: 'text-gray-200',
+	brown: 'text-amber-200',
+	orange: 'text-orange-200',
+	yellow: 'text-yellow-200',
+	green: 'text-green-200',
+	blue: 'text-blue-200',
+	purple: 'text-purple-200',
+	pink: 'text-pink-200',
+	red: 'text-red-200'
+} satisfies Record<EventColor, string>;

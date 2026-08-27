@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Hero from './_components/Hero.svelte';
-	import ImageCarousel from '$lib/components/carousel/ImageCarousel.svelte';
+	import ImageCarousel from './_components/ImageCarousel.svelte';
 	import Socials from './_components/Socials.svelte';
 	import About from './_components/About.svelte';
 

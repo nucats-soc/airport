@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Container from '$lib/components/layout/Container.svelte';
-	import EventCard from '$lib/components/card/EventCard.svelte';
-	import LinkButton from '$lib/components/button/LinkButton.svelte';
+	import EventCard from '$lib/components/domain/EventCard.svelte';
+	import LinkButton from '$lib/components/ui/LinkButton.svelte';
 
 	import type { Event } from '$lib/types/event';
 
@@ -19,7 +19,7 @@
 	);
 </script>
 
-<Container>
+<Container extraClass="py-8">
 	<section aria-labelledby="upcoming-events-title">
 		<div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
 			<div>

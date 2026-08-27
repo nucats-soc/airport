@@ -63,13 +63,16 @@
 		@apply text-2xl leading-tight font-semibold lg:text-3xl;
 	}
 	.tx-item-title {
-		@apply text-lg leading-none font-medium;
+		@apply text-lg leading-tight font-medium;
+	}
+	.tx-card-title {
+		@apply text-xl leading-tight font-semibold;
 	}
 	.tx-body {
-		@apply text-base leading-6;
+		@apply text-base leading-6 text-zinc-100;
 	}
 	.tx-tagline {
-		@apply text-xl leading-snug text-zinc-400;
+		@apply text-xl leading-snug text-zinc-300;
 	}
 	.tx-brand {
 		@apply text-2xl leading-none font-extrabold tracking-normal;

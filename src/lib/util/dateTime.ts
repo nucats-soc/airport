@@ -1,10 +1,25 @@
-export function formatDate(date: Date, hasTime: boolean): string {
+export function formatDate(date: Date): string {
 	return new Intl.DateTimeFormat('en-GB', {
 		weekday: 'short',
 		day: 'numeric',
 		month: 'short',
-		...(hasTime ? { hour: '2-digit', minute: '2-digit' } : {}),
-		timeZone: hasTime ? 'Europe/London' : 'UTC'
+		timeZone: 'UTC'
+	}).format(date);
+}
+
+export function formatMonth(date: Date): string {
+	return new Intl.DateTimeFormat('en-GB', {
+		month: 'long',
+		year: 'numeric',
+		timeZone: 'UTC'
+	}).format(date);
+}
+
+export function formatTime(date: Date): string {
+	return new Intl.DateTimeFormat('en-GB', {
+		hour: '2-digit',
+		minute: '2-digit',
+		timeZone: 'Europe/London'
 	}).format(date);
 }
 

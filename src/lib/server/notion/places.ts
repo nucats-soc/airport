@@ -4,8 +4,8 @@ import { numberOf, textOf } from './properties';
 
 import type { Place } from '../../types/place';
 import type { PageObjectResponse } from '@notionhq/client';
-import {cache} from "$lib/server/cache";
-import {MINUTES} from "$lib/util/timeUnits";
+import { cache } from '$lib/server/cache';
+import { MINUTES } from '$lib/util/timeUnits';
 
 if (!env.NOTION_PLACE_DATASOURCE) {
 	throw new Error('NOTION_PLACE_DATASOURCE environment variable is not set');
@@ -25,22 +25,26 @@ function parsePlace(page: PageObjectResponse): Place {
 }
 
 export function getPlaces(): Promise<Place[]> {
-	return cache.wrap(`places`, () => {
-		return queryDataSource(
-			{
-				data_source_id: env.NOTION_PLACE_DATASOURCE,
-				sorts: [
-					{
-						property: 'Name',
-						direction: 'ascending'
-					}
-				],
-				page_size: PLACE_PAGE_SIZE
-			},
-			parsePlace,
-			true
-		);
-	}, PLACE_TTL);
+	return cache.wrap(
+		`places`,
+		() => {
+			return queryDataSource(
+				{
+					data_source_id: env.NOTION_PLACE_DATASOURCE,
+					sorts: [
+						{
+							property: 'Name',
+							direction: 'ascending'
+						}
+					],
+					page_size: PLACE_PAGE_SIZE
+				},
+				parsePlace,
+				true
+			);
+		},
+		PLACE_TTL
+	);
 }
 
 export async function getPlace(id: string): Promise<Place | null> {

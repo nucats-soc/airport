@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Event } from '$lib/types/event';
-	import Pill from '$lib/components/pill/Pill.svelte';
+	import Pill from '$lib/components/ui/Pill.svelte';
 	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
 	import { formatDuration } from '$lib/util/dateTime';
 

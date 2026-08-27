@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Container from '$lib/components/layout/Container.svelte';
+	import Icon from '$lib/components/ui/Icon.svelte';
 
 	interface FooterLink {
 		label: string;
@@ -79,12 +80,15 @@
 					rel={link.external ? 'noopener noreferrer' : undefined}
 					class="group inline-flex items-center gap-2 text-zinc-300 transition-colors hover:text-indigo-200"
 				>
-					<span class={[link.icon, 'size-5 shrink-0']} aria-hidden="true"></span>
+					<Icon icon={link.icon} size="sm" />
 					<span>{link.label}</span>
 					{#if link.external}
-						<span class="size-4 shrink-0 overflow-hidden" aria-hidden="true">
-							<span class="external-arrow icon-[material-symbols--arrow-outward] block size-4"
-							></span>
+						<span class="size-4 shrink-0 overflow-hidden">
+							<Icon
+								icon="icon-[material-symbols--arrow-outward]"
+								size="sm"
+								extraClass="external-arrow block"
+							/>
 						</span>
 					{/if}
 				</a>
@@ -93,9 +97,9 @@
 	</ul>
 {/snippet}
 
-<footer class="mt-16 w-full bg-zinc-950">
+<footer class="mt-45 w-full bg-zinc-950">
 	<Container>
-		<div class="grid gap-10 py-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+		<div class="grid gap-10 py-10 sm:grid-cols-2 md:grid-cols-4 lg:gap-8">
 			<div>
 				<a href="/" class="flex w-fit shrink-0 items-center gap-4" aria-label="NUCATS home">
 					<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
@@ -140,12 +144,12 @@
 		}
 	}
 
-	a:hover .external-arrow {
+	a:hover :global(.external-arrow) {
 		animation: wrap-arrow 300ms cubic-bezier(0.45, 0, 0.55, 1);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		a:hover .external-arrow {
+		a:hover :global(.external-arrow) {
 			animation: none;
 		}
 	}

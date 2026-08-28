@@ -17,6 +17,8 @@
 	}
 
 	let { member }: Props = $props();
+	type PortraitState = 'loading' | 'loaded' | 'failed';
+	let portraitState = $state<PortraitState>('loading');
 
 	function asLink(value: string, baseUrl: string): string {
 		// noinspection HttpUrlsUsage
@@ -81,13 +83,28 @@
 </script>
 
 <Box background="card" extraClass="flex h-full flex-1 flex-col">
-	{#if member.imageUrl}
-		<img
-			src={member.imageUrl}
-			alt={`A photo of ${member.name}, who is the ${member.position} for ${member.year}.`}
-			class="aspect-4/3 w-full object-cover"
-			loading="lazy"
-		/>
+	{#if member.imageUrl && portraitState !== 'failed'}
+		<div class="relative aspect-4/3 w-full bg-zinc-700">
+			{#if portraitState === 'loading'}
+				<div class="absolute inset-0 flex items-center justify-center">
+					<Icon icon="icon-[material-symbols--person]" size="lg" extraClass="text-zinc-300" />
+				</div>
+			{/if}
+			<img
+				src={member.imageUrl}
+				alt={`A photo of ${member.name}, who is the ${member.position} for ${member.year}.`}
+				class={[
+					'absolute inset-0 size-full object-cover transition-opacity duration-150',
+					portraitState === 'loaded' ? 'opacity-100' : 'opacity-0'
+				]}
+				width="400"
+				height="300"
+				loading="eager"
+				decoding="async"
+				onload={() => (portraitState = 'loaded')}
+				onerror={() => (portraitState = 'failed')}
+			/>
+		</div>
 	{:else}
 		<div class="flex aspect-4/3 w-full items-center justify-center bg-zinc-700">
 			<Icon icon="icon-[material-symbols--person]" size="lg" extraClass="text-zinc-300" />

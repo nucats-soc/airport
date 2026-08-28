@@ -1,7 +1,0 @@
-import { getCommitteeMembers } from '$lib/server/notion/committee';
-
-import type { PageServerLoad } from './$types';
-
-export const load: PageServerLoad = async () => ({
-	committeeMembers: await getCommitteeMembers()
-});

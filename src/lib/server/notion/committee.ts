@@ -1,4 +1,6 @@
 import { env } from '$env/dynamic/private';
+import { cache } from '$lib/server/cache';
+import { MINUTES } from '$lib/util/timeUnits';
 import { queryDataSource } from './content';
 import { emailOf, firstFileUrlOf, numberOf, selectNameOf, textOf, urlOf } from './properties';
 
@@ -10,6 +12,7 @@ if (!env.NOTION_COMMITTEE_DATASOURCE) {
 }
 
 const COMMITTEE_PAGE_SIZE = 100;
+const COMMITTEE_CACHE_TTL = 45 * MINUTES;
 
 function iconUrlOf(page: PageObjectResponse): string | null {
 	if (!page.icon) {
@@ -45,19 +48,24 @@ function parseCommitteeMember(page: PageObjectResponse): CommitteeMember {
 export async function getCommitteeMembers(
 	year: number = new Date().getFullYear()
 ): Promise<CommitteeMember[]> {
-	const committeeMembers = await queryDataSource(
-		{
-			data_source_id: env.NOTION_COMMITTEE_DATASOURCE,
-			sorts: [
+	const committeeMembers = await cache.wrap(
+		'committee:members',
+		() =>
+			queryDataSource(
 				{
-					timestamp: 'created_time',
-					direction: 'ascending'
-				}
-			],
-			page_size: COMMITTEE_PAGE_SIZE
-		},
-		parseCommitteeMember,
-		true
+					data_source_id: env.NOTION_COMMITTEE_DATASOURCE,
+					sorts: [
+						{
+							timestamp: 'created_time',
+							direction: 'ascending'
+						}
+					],
+					page_size: COMMITTEE_PAGE_SIZE
+				},
+				parseCommitteeMember,
+				true
+			),
+		COMMITTEE_CACHE_TTL
 	);
 
 	return committeeMembers.filter((committeeMember) => committeeMember.year === year);

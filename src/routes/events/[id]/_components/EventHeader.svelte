@@ -12,11 +12,7 @@
 
 	let { event }: Props = $props();
 	let colorClasses = $derived(EVENT_COLOR_CLASSES[event.color]);
-	let formattedDate = $derived(
-		event.hasTime
-			? `${formatDate(event.date)} at ${formatTime(event.date)}`
-			: formatDate(event.date)
-	);
+	let formattedDate = $derived(`${formatDate(event.date)} at ${formatTime(event.date)}`);
 </script>
 
 <Box background="card" extraClass="flex min-w-0 flex-1 flex-row">

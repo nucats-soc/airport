@@ -5,6 +5,7 @@ import {
 	type QueryDataSourceParameters,
 	type QueryDataSourceResponse
 } from '@notionhq/client';
+import { cache, EVENT_CACHE_TTL } from '$lib/server/cache';
 
 import { notion } from './client';
 
@@ -35,9 +36,15 @@ export async function retrievePage<T>(pageId: string, parsePage: PageParser<T>):
 }
 
 export async function retrievePageMarkdown(pageId: string): Promise<string> {
-	const response = await notion.pages.retrieveMarkdown({
-		page_id: pageId
-	});
+	return cache.wrap(
+		`pages:${pageId}:markdown`,
+		async () => {
+			const response = await notion.pages.retrieveMarkdown({
+				page_id: pageId
+			});
 
-	return response.markdown;
+			return response.markdown;
+		},
+		EVENT_CACHE_TTL
+	);
 }

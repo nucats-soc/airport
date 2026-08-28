@@ -3,9 +3,14 @@
 	import type { Snippet } from 'svelte';
 
 	type Background = 'none' | 'card' | 'raised';
+	const backgroundClasses: Record<Background, string | undefined> = {
+		none: undefined,
+		card: 'bg-zinc-800',
+		raised: 'bg-zinc-700'
+	};
 
 	interface Props {
-		children?: Snippet;
+		children: Snippet;
 		background?: Background;
 		allowOverflow?: boolean;
 		extraClass?: string;
@@ -16,21 +21,13 @@
 	let classes = $derived(
 		classNames(
 			'rounded-[1.25rem]',
-			{
-				'overflow-hidden': !allowOverflow,
-				'overflow-visible': allowOverflow
-			},
-			{
-				'bg-zinc-800': background == 'card',
-				'bg-zinc-700': background == 'raised'
-			},
+			allowOverflow ? 'overflow-visible' : 'overflow-hidden',
+			backgroundClasses[background],
 			extraClass
 		)
 	);
 </script>
 
 <div class={classes}>
-	{#if children}
-		{@render children()}
-	{/if}
+	{@render children()}
 </div>

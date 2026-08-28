@@ -3,29 +3,23 @@
 	import type { Snippet } from 'svelte';
 
 	type Space = 'sm' | 'md' | 'lg';
+	const spaceClasses: Record<Space, string> = {
+		sm: 'p-4',
+		md: 'p-6',
+		lg: 'p-8'
+	};
 
 	interface Props {
-		children?: Snippet;
+		children: Snippet;
 		space?: Space;
 		extraClass?: string;
 	}
 
 	let { children, space = 'md', extraClass }: Props = $props();
 
-	let classes = $derived(
-		classNames(
-			{
-				'p-4': space == 'sm',
-				'p-6': space == 'md',
-				'p-8': space == 'lg'
-			},
-			extraClass
-		)
-	);
+	let classes = $derived(classNames(spaceClasses[space], extraClass));
 </script>
 
 <div class={classes}>
-	{#if children}
-		{@render children()}
-	{/if}
+	{@render children()}
 </div>

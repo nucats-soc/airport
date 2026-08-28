@@ -2,6 +2,8 @@ import type { Place } from './place';
 
 export interface Event {
 	id: string;
+	createdAt: Date;
+	lastEditedAt: Date;
 	name: string;
 	type: string;
 	iconSvg: string;

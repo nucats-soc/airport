@@ -8,20 +8,36 @@
 	import CalendarSubscriptionCard from './_components/CalendarSubscriptionCard.svelte';
 	import DiscordEventInfo from './_components/DiscordEventInfo.svelte';
 	import EndOfResultsCard from './_components/EndOfResultsCard.svelte';
-	import { eventsForSelection } from './event-selection';
+	import { eventsForSelection, initialCalendarSelection } from './event-selection';
 	import { getEventsByYear } from './events.remote';
 	import type { CalendarSelection } from './types';
 	import PageHeader from '$lib/components/ui/PageHeader.svelte';
-	import headerImage from '$lib/assets/nucats-bae.jpg';
+	import headerImage from '$lib/assets/headers/events.jpg';
 
 	let selection = $state<CalendarSelection>({
 		year: new Date().getFullYear(),
 		month: new Date().getMonth()
 	});
+	let initialSelectionApplied = $state(false);
 
 	let eventsQuery = $derived(browser ? getEventsByYear(selection.year) : undefined);
 	let events = $derived(eventsQuery?.current ?? []);
 	let visibleEvents = $derived(eventsForSelection(events, selection));
+
+	$effect(() => {
+		if (initialSelectionApplied || !eventsQuery || eventsQuery.loading || eventsQuery.error) {
+			return;
+		}
+
+		selection = initialCalendarSelection(events);
+		initialSelectionApplied = true;
+	});
+
+	function updateSelection(nextSelection: CalendarSelection) {
+		initialSelectionApplied = true;
+		selection = nextSelection;
+	}
+
 	const monthFormatter = new Intl.DateTimeFormat('en-GB', {
 		month: 'long',
 		year: 'numeric',
@@ -60,7 +76,7 @@
 		<div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-6">
 			<aside class="contents lg:order-2 lg:grid lg:gap-4">
 				<div class="order-1 lg:order-0">
-					<CalendarCard {events} {selection} onUpdateSelection={(next) => (selection = next)} />
+					<CalendarCard {events} {selection} onUpdateSelection={updateSelection} />
 				</div>
 				<div class="order-3 lg:order-0">
 					<DiscordEventInfo />
@@ -96,7 +112,7 @@
 							<EndOfResultsCard
 								events={visibleEvents}
 								{selection}
-								onUpdateSelection={(next) => (selection = next)}
+								onUpdateSelection={updateSelection}
 							/>
 						</div>
 					</div>

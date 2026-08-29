@@ -10,7 +10,6 @@ export interface Event {
 	durationMinutes?: number;
 	location?: Place;
 	room?: string;
-	hasTime: boolean;
 	description?: string;
 	url?: string;
 }

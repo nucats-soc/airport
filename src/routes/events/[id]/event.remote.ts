@@ -1,11 +1,14 @@
 import { error } from '@sveltejs/kit';
+import { query } from '$app/server';
 import { renderMarkdown } from '$lib/server/markdown/renderer';
 import { retrievePageMarkdown } from '$lib/server/notion/content';
 import { getEventById } from '$lib/server/notion/events';
-import type { PageServerLoad } from './$types';
+import * as v from 'valibot';
 
-export const load: PageServerLoad = async ({ params }) => {
-	const event = await getEventById(params.id);
+const eventIdSchema = v.pipe(v.string(), v.nonEmpty());
+
+export const getEvent = query(eventIdSchema, async (id) => {
+	const event = await getEventById(id);
 
 	if (!event) {
 		error(404, 'Event not found');
@@ -15,4 +18,4 @@ export const load: PageServerLoad = async ({ params }) => {
 	const contentHtml = await renderMarkdown(markdown, 'notion');
 
 	return { event, contentHtml };
-};
+});

@@ -19,8 +19,8 @@ import type {
 	PropertyFilter,
 	TimestampFilter
 } from '@notionhq/client/build/src/api-endpoints/common';
-import { cache } from '$lib/server/cache';
-import { HOURS, MINUTES } from '$lib/util/timeUnits';
+import { cache, EVENT_CACHE_TTL } from '$lib/server/cache';
+import { HOURS } from '$lib/util/timeUnits';
 
 if (!env.NOTION_EVENT_DATASOURCE) {
 	throw new Error('NOTION_EVENT_DATASOURCE environment variable is not set');
@@ -29,7 +29,6 @@ if (!env.NOTION_EVENT_DATASOURCE) {
 type EventFilter = PropertyFilter | TimestampFilter;
 const LISTED_EVENT_STATUSES = ['Scheduled', 'Completed', 'Cancelled'];
 const UPCOMING_EVENT_PREVIEW_SIZE = 3;
-const EVENT_CACHE_TTL = 10 * MINUTES;
 const HISTORICAL_EVENT_CACHE_TTL = 2 * HOURS;
 const EVENT_COLORS: readonly EventColor[] = [
 	'gray',
@@ -62,10 +61,6 @@ async function parseEvent(page: PageObjectResponse): Promise<Event> {
 		type: selectNameOf(eventTypeProperty) ?? 'Event',
 		date,
 		durationMinutes: durationMinutesBetween(date, endDate),
-		hasTime:
-			dateProperty?.type === 'date' && dateProperty.date !== null
-				? dateProperty.date.start.includes('T')
-				: false,
 		description: textOf(page.properties['Description']) || undefined,
 		location: placeId ? ((await getPlace(placeId)) ?? undefined) : undefined,
 		room: textOf(page.properties['Room (Optional)']) || undefined,

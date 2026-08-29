@@ -23,11 +23,7 @@
 
 	let colorClasses = $derived(EVENT_COLOR_CLASSES[event.color]);
 	let textColorClasses = $derived(EVENT_TEXT_COLOR_CLASSES[event.color]);
-	let formattedDate = $derived(
-		event.hasTime
-			? `${formatDate(event.date)} at ${formatTime(event.date)}`
-			: formatDate(event.date)
-	);
+	let formattedDate = $derived(`${formatDate(event.date)} at ${formatTime(event.date)}`);
 	let formattedPlace = $derived(formatPlace(event));
 	let formattedUrl = $derived(`/events/${event.id}`);
 </script>

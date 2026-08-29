@@ -3,7 +3,7 @@
 	import type { Snippet } from 'svelte';
 
 	interface Props {
-		children?: Snippet;
+		children: Snippet;
 		extraClass?: string;
 	}
 
@@ -14,8 +14,6 @@
 
 <div class={outerClasses}>
 	<div class="mx-auto w-full max-w-225">
-		{#if children}
-			{@render children()}
-		{/if}
+		{@render children()}
 	</div>
 </div>

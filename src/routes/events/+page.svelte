@@ -55,7 +55,6 @@
 			image={headerImage}
 			title="Event Schedule"
 			description="See what we're doing and come along."
-
 		/>
 		<div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-6">
 			<aside class="contents lg:order-2 lg:grid lg:gap-4">

@@ -29,7 +29,7 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<header class="sticky pt-8 top-0 z-50 w-full bg-[#18181b]">
+<header class="sticky top-0 z-50 w-full bg-[#18181b] pt-8">
 	<Container extraClass="pb-8">
 		<div class="flex items-center justify-between gap-4 md:gap-8">
 			<a href="/" class="flex shrink-0 items-center gap-4" aria-label="NUCATS home">

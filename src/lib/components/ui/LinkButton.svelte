@@ -4,7 +4,7 @@
 	import Icon from './Icon.svelte';
 
 	type Props = {
-		children?: Snippet;
+		children: Snippet;
 		type: ButtonVariant;
 		href: string;
 		isExternal?: boolean;
@@ -20,9 +20,7 @@
 </script>
 
 <a href={isDisabled ? undefined : href} {target} {rel} class={classNames}>
-	{#if children}
-		{@render children()}
-	{/if}
+	{@render children()}
 	{#if isExternal}
 		<span class="size-4 shrink-0 overflow-hidden">
 			<Icon

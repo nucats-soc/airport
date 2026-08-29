@@ -8,7 +8,7 @@
 	}
 
 	interface Props {
-		children?: Snippet;
+		children: Snippet;
 		state?: LoadableState;
 		loadingLabel?: string;
 		errorMessage?: string;
@@ -28,6 +28,6 @@
 	<Spinner label={loadingLabel} {extraClass} />
 {:else if state.error}
 	<p class="tx-body">{errorMessage}</p>
-{:else if children}
+{:else}
 	{@render children()}
 {/if}

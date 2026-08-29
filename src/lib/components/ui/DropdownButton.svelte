@@ -6,7 +6,7 @@
 	import Icon from './Icon.svelte';
 
 	interface Props {
-		children?: Snippet<[close: () => void]>;
+		children: Snippet<[close: () => void]>;
 		label: string;
 		type: ButtonVariant;
 		extraClass?: string;
@@ -63,17 +63,15 @@
 		{/if}
 	</ActionButton>
 
-	{#if children}
-		<div id={dropdownId} class={dropdownClass}>
-			<div
-				class="absolute top-0 left-1/2 z-50 mt-2 size-5 -translate-x-1/2 rotate-45 bg-zinc-700"
-				aria-hidden="true"
-			></div>
-			<div
-				class="relative left-1/2 mt-4 w-max max-w-[calc(100vw-2rem)] min-w-full -translate-x-1/2 rounded-md bg-zinc-700 p-4"
-			>
-				{@render children(close)}
-			</div>
+	<div id={dropdownId} class={dropdownClass}>
+		<div
+			class="absolute top-0 left-1/2 z-50 mt-2 size-5 -translate-x-1/2 rotate-45 bg-zinc-700"
+			aria-hidden="true"
+		></div>
+		<div
+			class="relative left-1/2 mt-4 w-max max-w-[calc(100vw-2rem)] min-w-full -translate-x-1/2 rounded-md bg-zinc-700 p-4"
+		>
+			{@render children(close)}
 		</div>
-	{/if}
+	</div>
 </div>

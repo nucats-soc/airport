@@ -3,7 +3,7 @@
 	import { type ButtonVariant, getButtonStyle } from './button';
 
 	type Props = {
-		children?: Snippet;
+		children: Snippet;
 		type: ButtonVariant;
 		onClick: () => void;
 		extraClass?: string;
@@ -37,7 +37,5 @@
 	aria-expanded={ariaExpanded}
 	aria-controls={ariaControls}
 >
-	{#if children}
-		{@render children()}
-	{/if}
+	{@render children()}
 </button>

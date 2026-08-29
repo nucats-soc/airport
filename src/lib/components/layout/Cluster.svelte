@@ -29,14 +29,23 @@
 		gap?: Gap;
 		align?: Alignment;
 		justify?: Justification;
+		collapse?: boolean;
 		extraClass?: string;
 	}
 
-	let { children, gap = 'md', align = 'center', justify = 'start', extraClass }: Props = $props();
+	let {
+		children,
+		gap = 'md',
+		align = 'center',
+		justify = 'start',
+		collapse = false,
+		extraClass
+	}: Props = $props();
 
 	let classes = $derived(
 		classNames(
 			'flex',
+			collapse && 'flex-col lg:flex-row',
 			gapClasses[gap],
 			alignmentClasses[align],
 			justificationClasses[justify],

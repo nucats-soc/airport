@@ -51,9 +51,6 @@ web_modules/
 # TernJS port file
 .tern-port
 
-# Stores VSCode versions used for testing VSCode extensions
-.vscode-test
-
 # pnpm
 .pnpm-store
 

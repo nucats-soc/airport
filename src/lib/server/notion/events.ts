@@ -55,6 +55,8 @@ async function parseEvent(page: PageObjectResponse): Promise<Event> {
 
 	return {
 		id: page.id,
+		createdAt: new Date(page.created_time),
+		lastEditedAt: new Date(page.last_edited_time),
 		iconSvg: renderMaterialSymbol(textOf(page.properties['Material Symbol'])),
 		color: parseEventColor(selectColorOf(eventTypeProperty) ?? 'default'),
 		name: textOf(page.properties['Name']) || 'Unnamed',
@@ -195,5 +197,30 @@ export function getEventsByYear(year: number): Promise<Event[]> {
 			]);
 		},
 		cacheTime
+	);
+}
+
+export function getEventsByYearRange(startYear: number, endYear: number): Promise<Event[]> {
+	return cache.wrap(
+		`events:years:${startYear}:${endYear}`,
+		() => {
+			return getEvents([
+				{
+					property: 'Date',
+					type: 'date',
+					date: {
+						on_or_after: `${startYear}-01-01`
+					}
+				},
+				{
+					property: 'Date',
+					type: 'date',
+					date: {
+						before: `${endYear + 1}-01-01`
+					}
+				}
+			]);
+		},
+		EVENT_CACHE_TTL
 	);
 }

@@ -5,7 +5,7 @@
 	import Loadable from '$lib/components/ui/Loadable.svelte';
 	import CommitteeMemberCard from './_components/CommitteeMemberCard.svelte';
 	import PageHeader from '$lib/components/ui/PageHeader.svelte';
-	import headerImage from '$lib/assets/nucats-usb.jpg';
+	import headerImage from '$lib/assets/headers/committee.jpg';
 	import { getCommitteeMembers } from './committee.remote';
 
 	let committeeQuery = $derived(browser ? getCommitteeMembers() : undefined);

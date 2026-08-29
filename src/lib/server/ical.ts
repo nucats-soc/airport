@@ -16,6 +16,7 @@ async function generateCalendarFeed(): Promise<string> {
 
 	const result = [
 		'BEGIN:VCALENDAR',
+		'NAME:NUCATS Events',
 		'VERSION:2.0',
 		'PRODID:-//NUCATS//Events//EN',
 		'CALSCALE:GREGORIAN'

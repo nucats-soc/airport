@@ -24,6 +24,16 @@
 			label: 'Committee',
 			href: '/committee',
 			icon: 'icon-[material-symbols--groups]'
+		},
+		{
+			label: 'Terms of Service',
+			href: '/tos',
+			icon: 'icon-[material-symbols--gavel]'
+		},
+		{
+			label: 'Privacy Policy',
+			href: '/privacy',
+			icon: 'icon-[material-symbols--shield-outline]'
 		}
 	];
 

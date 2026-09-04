@@ -2,7 +2,7 @@
     import Container from '$lib/components/layout/Container.svelte';
 </script>
 
-<Container>
+<Container extraClass="prose-invert">
     <h1 class="tx-page-title">Terms of Service</h1>
     <p class="tx-page-subtitle">Last updated: 2026-09-04</p>
     <p>This is "nucats.org" ("we", "us", "our").</p>

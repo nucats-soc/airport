@@ -2,7 +2,7 @@
     import Container from '$lib/components/layout/Container.svelte';
 </script>
 
-<Container>
+<Container extraClass="prose-invert">
     <h1 class="tx-page-title">Privacy Policy</h1>
     <p class="tx-page-subtitle">Last updated: 2026-09-04</p>
     <p>This is "nucats.org" ("we", "us", "our").</p>
@@ -10,7 +10,7 @@
     <p>Any additional questions about this privacy policy should be directed to soc-computingtechnology@ncl.ac.uk.</p>
 </Container>
 <br/>
-<Container>
+<Container extraClass="prose-invert">
     <h2 class="tx-section-title">Information we collect</h2>
     <p>When visiting our site, we will collect the following information:</p>
     <ul class="list-disc list-inside">

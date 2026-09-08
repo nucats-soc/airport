@@ -60,3 +60,13 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Docker
+
+Build and run the app in Docker with:
+
+```sh
+docker compose up --build
+```
+
+The app will be available on http://localhost:3000. Make sure you have a local `.env` file with your Notion settings before starting the container.

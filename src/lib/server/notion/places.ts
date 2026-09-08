@@ -7,10 +7,6 @@ import type { PageObjectResponse } from '@notionhq/client';
 import { cache } from '$lib/server/cache';
 import { MINUTES } from '$lib/util/timeUnits';
 
-if (!env.NOTION_PLACE_DATASOURCE) {
-	throw new Error('NOTION_PLACE_DATASOURCE environment variable is not set');
-}
-
 const PLACE_PAGE_SIZE = 100;
 const PLACE_TTL = 5 * MINUTES;
 
@@ -30,7 +26,7 @@ export function getPlaces(): Promise<Place[]> {
 		() => {
 			return queryDataSource(
 				{
-					data_source_id: env.NOTION_PLACE_DATASOURCE,
+					data_source_id: env.NOTION_PLACE_DATASOURCE ?? '',
 					sorts: [
 						{
 							property: 'Name',

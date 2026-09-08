@@ -22,10 +22,6 @@ import type {
 import { cache, EVENT_CACHE_TTL } from '$lib/server/cache';
 import { HOURS } from '$lib/util/timeUnits';
 
-if (!env.NOTION_EVENT_DATASOURCE) {
-	throw new Error('NOTION_EVENT_DATASOURCE environment variable is not set');
-}
-
 type EventFilter = PropertyFilter | TimestampFilter;
 const LISTED_EVENT_STATUSES = ['Scheduled', 'Completed', 'Cancelled'];
 const UPCOMING_EVENT_PREVIEW_SIZE = 3;
@@ -89,7 +85,7 @@ export function parseEventColor(color: string): EventColor {
 async function getEvents(filters: EventFilter[], pageSize?: number): Promise<Event[]> {
 	return queryDataSource(
 		{
-			data_source_id: env.NOTION_EVENT_DATASOURCE,
+			data_source_id: env.NOTION_EVENT_DATASOURCE ?? '',
 			filter: {
 				and: [
 					{

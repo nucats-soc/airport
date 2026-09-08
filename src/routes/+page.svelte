@@ -4,6 +4,7 @@
 	import Socials from './_components/Socials.svelte';
 	import About from './_components/About.svelte';
 	import EventsOverview from './_components/EventsOverview.svelte';
+	import CallToAction from './_components/CallToAction.svelte';
 </script>
 
 <Hero />
@@ -11,3 +12,4 @@
 <About />
 <Socials />
 <EventsOverview />
+<CallToAction />

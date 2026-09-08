@@ -67,3 +67,6 @@ web_modules/
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# SvelteKit Node adapter output
+build/

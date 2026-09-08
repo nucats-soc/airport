@@ -7,10 +7,6 @@ import { emailOf, firstFileUrlOf, numberOf, selectNameOf, textOf, urlOf } from '
 import type { CommitteeMember } from '$lib/types/committeeMember';
 import type { PageObjectResponse } from '@notionhq/client';
 
-if (!env.NOTION_COMMITTEE_DATASOURCE) {
-	throw new Error('NOTION_COMMITTEE_DATASOURCE environment variable is not set');
-}
-
 const COMMITTEE_PAGE_SIZE = 100;
 const COMMITTEE_CACHE_TTL = 45 * MINUTES;
 
@@ -53,7 +49,7 @@ export async function getCommitteeMembers(
 		() =>
 			queryDataSource(
 				{
-					data_source_id: env.NOTION_COMMITTEE_DATASOURCE,
+					data_source_id: env.NOTION_COMMITTEE_DATASOURCE ?? '',
 					sorts: [
 						{
 							timestamp: 'created_time',

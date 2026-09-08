@@ -118,6 +118,10 @@
 				<p class="tx-body mt-3 max-w-sm text-zinc-400">
 					Newcastle University Computing and Technology Society
 				</p>
+				<br>
+				<p class="tx-body text-zinc-400">
+					Crafted in the North East by <a href="https://amnexya.com" class="text-indigo-400 hover:text-indigo-300 hover:underline">Jack</a> and <a href="https://www.linkedin.com/in/tyler-walker-502960430" class="text-indigo-400 hover:text-indigo-300 hover:underline">Tyler</a>.
+				</p>
 			</div>
 
 			<nav aria-labelledby="footer-pages-heading">

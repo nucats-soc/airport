@@ -1,5 +1,10 @@
 import type { EventColor } from '$lib/types/event';
 
+const EVENT_ICON_SIZE = 256;
+const EVENT_ICON_PADDING = 48;
+const EVENT_ICON_CONTENT_SIZE = EVENT_ICON_SIZE - EVENT_ICON_PADDING * 2;
+const SVG_DIMENSION_ATTRIBUTES = /\s+(width|height)=["'][^"']*["']/gi;
+
 export function buildEventIconSvg({
 	iconSvg,
 	background
@@ -8,16 +13,15 @@ export function buildEventIconSvg({
 	background: string;
 }): string {
 	const sizedIconSvg = iconSvg
-		.replace(/\s+width="[^"]*"/, '')
-		.replace(/\s+height="[^"]*"/, '')
+		.replace(SVG_DIMENSION_ATTRIBUTES, '')
 		.replace(
 			'<svg ',
-			'<svg x="48" y="48" width="160" height="160" color="#000000" fill="#000000" '
+			`<svg x="${EVENT_ICON_PADDING}" y="${EVENT_ICON_PADDING}" width="${EVENT_ICON_CONTENT_SIZE}" height="${EVENT_ICON_CONTENT_SIZE}" style="filter: brightness(0)" `
 		);
 
 	return [
-		'<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">',
-		`<rect width="256" height="256" fill="${background}"/>`,
+		`<svg xmlns="http://www.w3.org/2000/svg" width="${EVENT_ICON_SIZE}" height="${EVENT_ICON_SIZE}" viewBox="0 0 ${EVENT_ICON_SIZE} ${EVENT_ICON_SIZE}">`,
+		`<rect width="${EVENT_ICON_SIZE}" height="${EVENT_ICON_SIZE}" fill="${background}"/>`,
 		sizedIconSvg,
 		'</svg>'
 	].join('');

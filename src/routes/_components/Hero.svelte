@@ -7,7 +7,7 @@
 </script>
 
 <AnimatedCatBackground>
-	<div class="py-8 lg:py-24">
+	<div class="py-24">
 		<Container>
 			<SplitLayout reverseOnSmall>
 				{#snippet left()}

@@ -12,7 +12,8 @@
 	import { getEventsByYear } from './events.remote';
 	import type { CalendarSelection } from './types';
 	import PageHeader from '$lib/components/ui/PageHeader.svelte';
-	import headerImage from '$lib/assets/headers/events.jpg';
+	import headerImage from '$lib/assets/headers/events.jpg?enhanced';
+	import PageMetadata from '$lib/components/PageMetadata.svelte';
 
 	let selection = $state<CalendarSelection>({
 		year: new Date().getFullYear(),
@@ -34,8 +35,18 @@
 	});
 
 	function updateSelection(nextSelection: CalendarSelection) {
+		const monthChanged =
+			selection.year !== nextSelection.year || selection.month !== nextSelection.month;
+
 		initialSelectionApplied = true;
 		selection = nextSelection;
+
+		if (browser && monthChanged) {
+			window.scrollTo({
+				top: 0,
+				behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+			});
+		}
 	}
 
 	const monthFormatter = new Intl.DateTimeFormat('en-GB', {
@@ -57,13 +68,10 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Events - NUCATS</title>
-	<meta
-		name="description"
-		content="See upcoming events from Newcastle University's Computing and Technology Society."
-	/>
-</svelte:head>
+<PageMetadata
+	title="Events"
+	description="See upcoming events from Newcastle University's Computing and Technology Society."
+/>
 
 <Container>
 	<Stack gap="md">
@@ -118,7 +126,6 @@
 				</Loadable>
 			</section>
 		</div>
-
 		<CalendarSubscriptionCard />
 	</Stack>
 </Container>

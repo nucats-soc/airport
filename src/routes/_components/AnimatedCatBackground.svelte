@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -6,12 +7,25 @@
 	}
 
 	let { children }: Props = $props();
+	let isDocumentVisible = $state(true);
+
+	onMount(() => {
+		const updateVisibility = () => {
+			isDocumentVisible = document.visibilityState === 'visible';
+		};
+
+		updateVisibility();
+		document.addEventListener('visibilitychange', updateVisibility);
+
+		return () => document.removeEventListener('visibilitychange', updateVisibility);
+	});
 </script>
 
 <div class="relative overflow-hidden">
 	<div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
 		<div
-			class="absolute inset-0 animate-drift bg-[url('/bg-patt.svg')] bg-repeat opacity-2 motion-reduce:animate-none"
+			class="absolute inset-0 animate-drift bg-[url('/bg-patt.svg')] bg-repeat opacity-3 motion-reduce:animate-none"
+			class:animation-paused={!isDocumentVisible}
 		></div>
 		<div class="absolute inset-x-0 top-0 h-24 bg-linear-to-b from-[#18181b] to-transparent"></div>
 		<div
@@ -23,3 +37,9 @@
 		{@render children()}
 	</div>
 </div>
+
+<style>
+	.animation-paused {
+		animation-play-state: paused;
+	}
+</style>

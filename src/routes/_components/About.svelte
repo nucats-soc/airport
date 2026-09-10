@@ -64,7 +64,7 @@
 		We have something for everyone, whether it be game nights and tournaments, coding workshops, or
 		networking events.
 	</p>
-	<div class="grid grid-cols-2 gap-4 py-4 md:grid-cols-3">
+	<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4 md:grid-cols-3">
 		{#each thingsWeDo as thingWeDo}
 			<Box background="card" extraClass="flex-1 cursor-pointer transition-colors hover:bg-zinc-700">
 				<Inset space="md">

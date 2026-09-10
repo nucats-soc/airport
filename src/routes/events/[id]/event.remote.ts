@@ -7,7 +7,7 @@ import * as v from 'valibot';
 
 const eventIdSchema = v.pipe(v.string(), v.nonEmpty());
 
-export const getEvent = query(eventIdSchema, async (id) => {
+export const getEventDescription = query(eventIdSchema, async (id) => {
 	const event = await getEventById(id);
 
 	if (!event) {
@@ -17,5 +17,5 @@ export const getEvent = query(eventIdSchema, async (id) => {
 	const markdown = await retrievePageMarkdown(event.id);
 	const contentHtml = await renderMarkdown(markdown, 'notion');
 
-	return { event, contentHtml };
+	return { contentHtml };
 });

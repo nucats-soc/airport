@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Container from '$lib/components/layout/Container.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
+	import Stack from '$lib/components/layout/Stack.svelte';
+	import Cluster from '$lib/components/layout/Cluster.svelte';
 
 	interface FooterLink {
 		label: string;
@@ -107,38 +109,46 @@
 	</ul>
 {/snippet}
 
-<footer class="mt-20 w-full bg-zinc-950">
+<footer class="mt-20 py-10 w-full bg-zinc-950">
 	<Container>
-		<div class="grid gap-10 py-10 sm:grid-cols-2 md:grid-cols-4 lg:gap-8">
-			<div>
-				<a href="/" class="flex w-fit shrink-0 items-center gap-4" aria-label="NUCATS home">
-					<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
-					<span class="tx-brand text-white">NUCATS</span>
-				</a>
-				<p class="tx-body mt-3 max-w-sm text-zinc-400">
-					Newcastle University Computing and Technology Society
-				</p>
-				<br>
-				<p class="tx-body text-zinc-400">
-					Crafted in the North East by <a href="https://amnexya.com" class="text-indigo-400 hover:text-indigo-300 hover:underline">Jack</a> and <a href="https://www.linkedin.com/in/tyler-walker-502960430" class="text-indigo-400 hover:text-indigo-300 hover:underline">Tyler</a>.
-				</p>
+		<Stack>
+			<div class="grid gap-10 sm:grid-cols-2 md:grid-cols-4 lg:gap-8">
+				<div>
+					<a href="/" class="flex w-fit shrink-0 items-center gap-4" aria-label="NUCATS home">
+						<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
+						<span class="tx-brand text-white">NUCATS</span>
+					</a>
+					<p class="tx-body mt-3 max-w-sm text-zinc-400">
+						Newcastle University Computing and Technology Society
+					</p>
+				</div>
+
+				<nav aria-labelledby="footer-pages-heading">
+					<h2 id="footer-pages-heading" class="tx-item-title mb-4">Pages</h2>
+					{@render linkList(pageLinks)}
+				</nav>
+
+				<nav aria-labelledby="footer-socials-heading">
+					<h2 id="footer-socials-heading" class="tx-item-title mb-4">Find NUCATS</h2>
+					{@render linkList(socialLinks)}
+				</nav>
+
+				<nav aria-labelledby="footer-union-heading">
+					<h2 id="footer-union-heading" class="tx-item-title mb-4">Students' Union</h2>
+					{@render linkList(studentsUnionLinks)}
+				</nav>
 			</div>
-
-			<nav aria-labelledby="footer-pages-heading">
-				<h2 id="footer-pages-heading" class="tx-item-title mb-4">Pages</h2>
-				{@render linkList(pageLinks)}
-			</nav>
-
-			<nav aria-labelledby="footer-socials-heading">
-				<h2 id="footer-socials-heading" class="tx-item-title mb-4">Find NUCATS</h2>
-				{@render linkList(socialLinks)}
-			</nav>
-
-			<nav aria-labelledby="footer-union-heading">
-				<h2 id="footer-union-heading" class="tx-item-title mb-4">Students' Union</h2>
-				{@render linkList(studentsUnionLinks)}
-			</nav>
-		</div>
+			<Cluster gap="xs">
+				<Icon icon="icon-[material-symbols--design-services]" size="sm" extraClass="text-indigo-400"/>
+				<p class="tx-body text-zinc-400">
+					Crafted in the North East by
+					<a href="https://amnexya.com" class="text-indigo-400 hover:text-indigo-300 hover:underline">Jack</a>
+					and
+					<a href="https://www.linkedin.com/in/tyler-walker-502960430" class="text-indigo-400 hover:text-indigo-300 hover:underline">Tyler</a>.
+					Source code available on
+					<a href="https://github.com/nucats-soc/airport" class="text-indigo-400 hover:text-indigo-300 hover:underline">GitHub</a>.</p>
+			</Cluster>
+		</Stack>
 	</Container>
 </footer>
 

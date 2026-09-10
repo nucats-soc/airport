@@ -8,14 +8,16 @@
 		type: ButtonVariant;
 		href: string;
 		isExternal?: boolean;
+		openInNewTab?: boolean;
 		extraClass?: string;
 		isDisabled?: boolean;
 	};
 
-	let { children, type, extraClass, isDisabled, href, isExternal }: Props = $props();
+	let { children, type, extraClass, isDisabled, href, isExternal, openInNewTab }: Props = $props();
 
-	let target = $derived(isExternal ? '_blank' : '_self');
-	let rel = $derived(isExternal ? 'noopener noreferrer' : undefined);
+	let shouldOpenInNewTab = $derived(openInNewTab ?? isExternal ?? false);
+	let target = $derived(shouldOpenInNewTab ? '_blank' : '_self');
+	let rel = $derived(shouldOpenInNewTab ? 'noopener noreferrer' : undefined);
 	let classNames = $derived(getButtonStyle(type, isDisabled, extraClass));
 </script>
 

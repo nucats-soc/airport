@@ -12,9 +12,17 @@
 		extraClass?: string;
 		showArrow?: boolean;
 		ariaLabel?: string;
+		align?: 'center' | 'right';
 	}
 
-	let { children, label, showArrow = true, ariaLabel, ...buttonProps }: Props = $props();
+	let {
+		children,
+		label,
+		showArrow = true,
+		ariaLabel,
+		align = 'center',
+		...buttonProps
+	}: Props = $props();
 	let dropdownElement: HTMLDivElement;
 	let open = $state(false);
 	let dropdownId = $props.id();
@@ -45,6 +53,12 @@
 			'rotate-180': open
 		})
 	);
+	let dropdownContentClass = $derived(
+		classNames(
+			'absolute top-0 mt-4 w-max max-w-[calc(100vw-2rem)] min-w-full rounded-md bg-zinc-700 p-4',
+			align === 'right' ? 'right-0' : 'left-1/2 -translate-x-1/2'
+		)
+	);
 </script>
 
 <div bind:this={dropdownElement} class="relative inline-block">
@@ -68,9 +82,7 @@
 			class="absolute top-0 left-1/2 z-50 mt-2 size-5 -translate-x-1/2 rotate-45 bg-zinc-700"
 			aria-hidden="true"
 		></div>
-		<div
-			class="relative left-1/2 mt-4 w-max max-w-[calc(100vw-2rem)] min-w-full -translate-x-1/2 rounded-md bg-zinc-700 p-4"
-		>
+		<div class={dropdownContentClass}>
 			{@render children(close)}
 		</div>
 	</div>

@@ -6,7 +6,7 @@ export const GET: RequestHandler = async () => {
 
 	return new Response(calendarFeed, {
 		headers: {
-			'Content-Type': 'text/plain; charset=utf-8'
+			'Content-Type': 'text/calendar; charset=utf-8'
 		}
 	});
 };

@@ -2,8 +2,10 @@ import { cache } from '$lib/server/cache';
 import { getEventsByYearRange } from '$lib/server/notion/events';
 import type { Event } from '$lib/types/event';
 import { MINUTES } from '$lib/util/timeUnits';
+import { Temporal } from '@js-temporal/polyfill';
 
 const EVENT_FEED_CACHE = 30 * MINUTES;
+const EVENT_TIME_ZONE = 'Europe/London';
 
 export function getCalendarFeed(): Promise<string> {
 	return cache.wrap('events:calendar', generateCalendarFeed, EVENT_FEED_CACHE);
@@ -16,10 +18,11 @@ async function generateCalendarFeed(): Promise<string> {
 
 	const result = [
 		'BEGIN:VCALENDAR',
-		'NAME:NUCATS Events',
 		'VERSION:2.0',
 		'PRODID:-//NUCATS//Events//EN',
-		'CALSCALE:GREGORIAN'
+		'CALSCALE:GREGORIAN',
+		'X-WR-CALNAME:NUCATS',
+		`X-WR-TIMEZONE:${EVENT_TIME_ZONE}`
 	];
 
 	for (const event of events) {
@@ -28,7 +31,7 @@ async function generateCalendarFeed(): Promise<string> {
 
 	result.push('END:VCALENDAR');
 
-	return result.map(foldICalLine).join('\r\n');
+	return result.map(foldICalLine).join('\r\n') + '\r\n';
 }
 
 function encodeDate(date: Date): string {
@@ -71,7 +74,10 @@ function encodeEvent(event: Event): string[] {
 	}
 
 	if (event.durationMinutes) {
-		result.push(`DTSTART:${encodeDateTime(event.date)}`, `DURATION:PT${event.durationMinutes}M`);
+		result.push(
+			`DTSTART;TZID=${EVENT_TIME_ZONE}:${encodeDateTimeInTimeZone(event.date, EVENT_TIME_ZONE)}`,
+			`DURATION:PT${event.durationMinutes}M`
+		);
 	} else {
 		result.push(`DTSTART;VALUE=DATE:${encodeDate(event.date)}`, 'DURATION:P1D');
 	}
@@ -91,6 +97,22 @@ function encodeDateTime(date: Date): string {
 		].join('') +
 		'Z'
 	);
+}
+
+function encodeDateTimeInTimeZone(date: Date, timeZone: string): string {
+	const zonedDate = Temporal.Instant.fromEpochMilliseconds(date.getTime()).toZonedDateTimeISO(
+		timeZone
+	);
+
+	return [
+		zonedDate.year,
+		String(zonedDate.month).padStart(2, '0'),
+		String(zonedDate.day).padStart(2, '0'),
+		'T',
+		String(zonedDate.hour).padStart(2, '0'),
+		String(zonedDate.minute).padStart(2, '0'),
+		String(zonedDate.second).padStart(2, '0')
+	].join('');
 }
 
 function sanitize(value: string): string {

@@ -2,11 +2,12 @@
 	import classNames from 'classnames';
 	import type { Snippet } from 'svelte';
 
-	type Gap = 'none' | 'sm' | 'md' | 'lg';
+	type Gap = 'none' | 'xs' | 'sm' | 'md' | 'lg';
 	type Alignment = 'start' | 'center' | 'end' | 'stretch';
 	type Justification = 'start' | 'center' | 'end' | 'between';
 	const gapClasses: Record<Gap, string | undefined> = {
 		none: undefined,
+		xs: 'gap-2',
 		sm: 'gap-4',
 		md: 'gap-6',
 		lg: 'gap-8'

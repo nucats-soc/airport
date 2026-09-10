@@ -28,7 +28,7 @@
 				name: 'Duration',
 				icon: 'icon-[material-symbols--schedule-outline]',
 				color: 'bg-zinc-700',
-				value: formatDuration(event.durationMinutes)
+				value: 'Lasts ' + formatDuration(event.durationMinutes)
 			});
 		}
 		return attributes;

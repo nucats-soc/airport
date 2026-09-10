@@ -10,16 +10,26 @@ export function getButtonStyle(
 ): string {
 	return classNames(
 		{
-			'bg-green-700 px-6 py-3 hover:bg-green-600 active:bg-green-600':
-				type === 'primary' && !isDisabled,
-			'bg-zinc-700 px-6 py-3 hover:bg-zinc-600 active:bg-zinc-700':
-				type === 'secondary' && !isDisabled,
-			'px-4 py-3 text-zinc-400 hover:bg-zinc-700 hover:text-white active:bg-zinc-700':
-				type === 'subtle' && !isDisabled,
-			'bg-zinc-700 size-9 hover:bg-zinc-600 active:bg-zinc-700': type === 'icon' && !isDisabled,
+			// Sizing
+			'px-6 py-3': type === 'primary' || type === 'secondary',
+			'px-4 py-3': type === 'subtle',
+			'size-9': type === 'icon',
 			'min-w-16 px-3 py-2': type === 'compact',
+
+			// Variant styling
+			'bg-green-700 hover:bg-green-600 active:bg-green-600':
+				type === 'primary' && !isDisabled,
+			'bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700':
+				(type === 'secondary' || type === 'icon') && !isDisabled,
+			'text-zinc-400 hover:bg-zinc-700 hover:text-white active:bg-zinc-700':
+				type === 'subtle' && !isDisabled,
+
+			// Compact state
 			'bg-zinc-600 text-white': type === 'compact' && isSelected,
-			'text-zinc-200 hover:bg-zinc-600': type === 'compact' && !isSelected && !isDisabled,
+			'text-zinc-200 hover:bg-zinc-600':
+				type === 'compact' && !isSelected && !isDisabled,
+
+			// Disabled state
 			'cursor-not-allowed opacity-60': isDisabled,
 			'cursor-pointer': !isDisabled
 		},

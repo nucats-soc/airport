@@ -145,7 +145,7 @@
 					<a href="https://amnexya.com" class="text-indigo-400 hover:text-indigo-300 hover:underline">Jack</a>
 					and
 					<a href="https://www.linkedin.com/in/tyler-walker-502960430" class="text-indigo-400 hover:text-indigo-300 hover:underline">Tyler</a>.
-					Source code available on
+					AGPL licensed source code available on
 					<a href="https://github.com/nucats-soc/airport" class="text-indigo-400 hover:text-indigo-300 hover:underline">GitHub</a>.</p>
 			</Cluster>
 		</Stack>

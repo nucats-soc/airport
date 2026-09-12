@@ -23,7 +23,8 @@ async function generateCalendarFeed(): Promise<string> {
 		'PRODID:-//NUCATS//Events//EN',
 		'CALSCALE:GREGORIAN',
 		'X-WR-CALNAME:NUCATS Events',
-		`X-WR-TIMEZONE:${EVENT_TIME_ZONE}`
+		`X-WR-TIMEZONE:${EVENT_TIME_ZONE}`,
+		'REFRESH-INTERVAL;VALUE=DURATION:PT1H'
 	];
 
 	for (const event of events) {

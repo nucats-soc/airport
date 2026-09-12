@@ -21,6 +21,7 @@ import type {
 } from '@notionhq/client/build/src/api-endpoints/common';
 import { cache, EVENT_CACHE_TTL } from '$lib/server/cache';
 import { HOURS } from '$lib/util/timeUnits';
+import { ACADEMIC_YEAR_START_MONTH, getAcademicYear } from '$lib/util/academicYear';
 
 type EventFilter = PropertyFilter | TimestampFilter;
 const LISTED_EVENT_STATUSES = ['Scheduled', 'Completed', 'Cancelled'];
@@ -75,7 +76,7 @@ function durationMinutesBetween(start: Date, end: Date | null): number | undefin
 	return durationMinutes > 0 ? durationMinutes : undefined;
 }
 
-export function parseEventColor(color: string): EventColor {
+function parseEventColor(color: string): EventColor {
 	if (EVENT_COLORS.includes(color as EventColor)) {
 		return color as EventColor;
 	}
@@ -165,29 +166,26 @@ export function getUpcomingEvents(now: Date = new Date()): Promise<Event[]> {
 	return getUpcomingEventsWithLimit(now, UPCOMING_EVENT_PREVIEW_SIZE);
 }
 
-export function getAllUpcomingEvents(now: Date = new Date()): Promise<Event[]> {
-	return getUpcomingEventsWithLimit(now);
-}
-
-export function getEventsByYear(year: number): Promise<Event[]> {
+export function getEventsByAcademicYear(academicYear: number): Promise<Event[]> {
+	const startMonth = String(ACADEMIC_YEAR_START_MONTH + 1).padStart(2, '0');
 	const cacheTime =
-		year === new Date().getFullYear() ? EVENT_CACHE_TTL : HISTORICAL_EVENT_CACHE_TTL;
+		academicYear === getAcademicYear() ? EVENT_CACHE_TTL : HISTORICAL_EVENT_CACHE_TTL;
 	return cache.wrap(
-		`events:year:${year}`,
+		`events:academic-year:${academicYear}`,
 		() => {
 			return getEvents([
 				{
 					property: 'Date',
 					type: 'date',
 					date: {
-						on_or_after: `${year}-01-01`
+						on_or_after: `${academicYear}-${startMonth}-01`
 					}
 				},
 				{
 					property: 'Date',
 					type: 'date',
 					date: {
-						before: `${year + 1}-01-01`
+						before: `${academicYear + 1}-${startMonth}-01`
 					}
 				}
 			]);

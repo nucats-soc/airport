@@ -29,6 +29,10 @@ export async function queryDataSource<T>(
 	return parsePages(results, parsePage);
 }
 
+export async function retrieveDataSource(dataSourceId: string) {
+	return notion.dataSources.retrieve({ data_source_id: dataSourceId });
+}
+
 export async function retrievePage<T>(pageId: string, parsePage: PageParser<T>): Promise<T | null> {
 	const page = await notion.pages.retrieve({ page_id: pageId });
 

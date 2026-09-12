@@ -8,12 +8,14 @@
 	import CalendarSubscriptionCard from './_components/CalendarSubscriptionCard.svelte';
 	import DiscordEventInfo from './_components/DiscordEventInfo.svelte';
 	import EndOfResultsCard from './_components/EndOfResultsCard.svelte';
+	import PreviousEventsDropdown from './_components/PreviousEventsDropdown.svelte';
 	import {
 		clampCalendarSelection,
 		eventsForSelection,
 		formatSelectionHeading,
 		initialCalendarSelection,
-		isSameCalendarMonth
+		isSameCalendarMonth,
+		partitionEventsByDate
 	} from './event-selection';
 	import { getEventsByAcademicYear } from './events.remote';
 	import type { CalendarSelection } from './types';
@@ -42,6 +44,9 @@
 	let eventsDisplayState = $derived(isYearPending ? { loading: true } : eventsQuery);
 	let events = $derived(eventsQuery?.current ?? []);
 	let visibleEvents = $derived(eventsForSelection(events, selection));
+	let partitionedEvents = $derived(partitionEventsByDate(visibleEvents, selection));
+	let previousEvents = $derived(partitionedEvents.previousEvents);
+	let upcomingEvents = $derived(partitionedEvents.upcomingEvents);
 
 	$effect(() => {
 		if (initialSelectionApplied || !eventsQuery || eventsQuery.loading || eventsQuery.error) {
@@ -115,7 +120,10 @@
 						]}
 					>
 						<div class="grid gap-4">
-							{#each visibleEvents as event}
+							{#if previousEvents.length > 0}
+								<PreviousEventsDropdown events={previousEvents} extraClass="mb-6 sm:mb-8" />
+							{/if}
+							{#each upcomingEvents as event (event.id)}
 								<EventCard {event} />
 							{/each}
 							<EndOfResultsCard

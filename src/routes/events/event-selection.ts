@@ -90,55 +90,6 @@ export function clampCalendarSelection(
 	return selection;
 }
 
-export function initialCalendarSelection<T extends Pick<Event, 'date'>>(
-	events: T[],
-	today: Date = new Date()
-): CalendarSelection {
-	const initialSelection = clampCalendarSelection(
-		{ year: today.getFullYear(), month: today.getMonth() },
-		today
-	);
-	const { year, month: currentMonth } = initialSelection;
-	const latestSelection = latestEventSelection(today);
-
-	for (let offset = 0; offset < INITIAL_MONTH_WINDOW; offset += 1) {
-		const candidate = shiftCalendarMonth({ year, month: currentMonth }, offset);
-		if (isCalendarMonthAfter(candidate, latestSelection)) {
-			break;
-		}
-		if (
-			events.some(
-				(event) =>
-					event.date.getFullYear() === candidate.year && event.date.getMonth() === candidate.month
-			)
-		) {
-			return candidate;
-		}
-	}
-
-	return { year, month: currentMonth };
-}
-
-export function eventsForSelection<T extends Pick<Event, 'date'>>(
-	events: T[],
-	selection: CalendarSelection
-): T[] {
-	return events.filter(
-		(event) =>
-			event.date.getFullYear() === selection.year &&
-			event.date.getMonth() === selection.month &&
-			(selection.day === undefined || event.date.getDate() === selection.day)
-	);
-}
-
-export function nextCalendarSelection(selection: CalendarSelection): CalendarSelection {
-	if (selection.day !== undefined) {
-		return { year: selection.year, month: selection.month };
-	}
-
-	return shiftCalendarMonth(selection, 1);
-}
-
 export function formatSelectionHeading(selection: CalendarSelection): string {
 	const date = selectionToDate(selection);
 	return selection.day === undefined
@@ -156,4 +107,147 @@ export function isSelectionInPast(selection: CalendarSelection, now: Date = new 
 		selection.year < now.getFullYear() ||
 		(selection.year === now.getFullYear() && selection.month < now.getMonth())
 	);
+}
+
+export function getEventEndDate<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
+	event: T
+): Date {
+	if (event.durationMinutes && event.durationMinutes > 0) {
+		return new Date(event.date.getTime() + event.durationMinutes * 60_000);
+	}
+	return event.date;
+}
+
+export function isEventOnDate<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
+	event: T,
+	date: Date
+): boolean {
+	const dayStart = new Date(
+		date.getFullYear(),
+		date.getMonth(),
+		date.getDate(),
+		0,
+		0,
+		0,
+		0
+	).getTime();
+	const dayEnd = new Date(
+		date.getFullYear(),
+		date.getMonth(),
+		date.getDate(),
+		23,
+		59,
+		59,
+		999
+	).getTime();
+	const start = event.date.getTime();
+	const end = getEventEndDate(event).getTime();
+	return start <= dayEnd && end >= dayStart;
+}
+
+export function initialCalendarSelection<
+	T extends Pick<Event, 'date'> & { durationMinutes?: number }
+>(events: T[], today: Date = new Date()): CalendarSelection {
+	const initialSelection = clampCalendarSelection(
+		{ year: today.getFullYear(), month: today.getMonth() },
+		today
+	);
+	const { year, month: currentMonth } = initialSelection;
+	const latestSelection = latestEventSelection(today);
+
+	for (let offset = 0; offset < INITIAL_MONTH_WINDOW; offset += 1) {
+		const candidate = shiftCalendarMonth({ year, month: currentMonth }, offset);
+		if (isCalendarMonthAfter(candidate, latestSelection)) {
+			break;
+		}
+		const monthStart = new Date(candidate.year, candidate.month, 1, 0, 0, 0, 0).getTime();
+		const nextMonthStart = new Date(candidate.year, candidate.month + 1, 1, 0, 0, 0, 0).getTime();
+		if (
+			events.some((event) => {
+				const start = event.date.getTime();
+				const end = getEventEndDate(event).getTime();
+				return start < nextMonthStart && end >= monthStart;
+			})
+		) {
+			return candidate;
+		}
+	}
+
+	return { year, month: currentMonth };
+}
+
+export function eventsForSelection<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
+	events: T[],
+	selection: CalendarSelection
+): T[] {
+	return events.filter((event) => {
+		const start = event.date;
+		const end = getEventEndDate(event);
+
+		if (selection.day !== undefined) {
+			const dayStart = new Date(selection.year, selection.month, selection.day, 0, 0, 0, 0);
+			const dayEnd = new Date(selection.year, selection.month, selection.day, 23, 59, 59, 999);
+			return start.getTime() <= dayEnd.getTime() && end.getTime() >= dayStart.getTime();
+		}
+
+		const monthStart = new Date(selection.year, selection.month, 1, 0, 0, 0, 0);
+		const nextMonthStart = new Date(selection.year, selection.month + 1, 1, 0, 0, 0, 0);
+		return start.getTime() < nextMonthStart.getTime() && end.getTime() >= monthStart.getTime();
+	});
+}
+
+export function nextCalendarSelection(selection: CalendarSelection): CalendarSelection {
+	if (selection.day !== undefined) {
+		return { year: selection.year, month: selection.month };
+	}
+
+	return shiftCalendarMonth(selection, 1);
+}
+
+export function isCurrentMonthSelection(
+	selection: CalendarSelection,
+	today: Date = new Date()
+): boolean {
+	return (
+		selection.day === undefined &&
+		selection.year === today.getFullYear() &&
+		selection.month === today.getMonth()
+	);
+}
+
+export function isEventBeforeDate<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
+	event: T,
+	today: Date = new Date()
+): boolean {
+	const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+	const eventEnd = getEventEndDate(event);
+	const eventEndDay = new Date(
+		eventEnd.getFullYear(),
+		eventEnd.getMonth(),
+		eventEnd.getDate()
+	).getTime();
+	return eventEndDay < todayStart;
+}
+
+export function partitionEventsByDate<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
+	events: T[],
+	selection: CalendarSelection,
+	today: Date = new Date()
+): { previousEvents: T[]; upcomingEvents: T[] } {
+	if (!isCurrentMonthSelection(selection, today)) {
+		return { previousEvents: [], upcomingEvents: events };
+	}
+
+	const previousEvents: T[] = [];
+	const upcomingEvents: T[] = [];
+
+	for (const event of events) {
+		if (isEventBeforeDate(event, today)) {
+			previousEvents.push(event);
+		} else {
+			upcomingEvents.push(event);
+		}
+	}
+
+	return { previousEvents, upcomingEvents };
 }

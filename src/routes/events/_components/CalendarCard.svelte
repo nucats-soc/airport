@@ -6,7 +6,7 @@
 	import CalendarMonth from './CalendarMonth.svelte';
 	import type { Event } from '$lib/types/event';
 	import type { CalendarSelection } from '../types';
-	import { isEventOnDate } from '../event-selection';
+	import { isSameDay } from '../event-selection';
 
 	interface Props {
 		events: Event[];
@@ -33,7 +33,7 @@
 	let days = $derived(
 		calendarDates(selection).map((date) => ({
 			date,
-			events: events.filter((event) => isEventOnDate(event, date))
+			events: events.filter((event) => isSameDay(event.date, date))
 		}))
 	);
 </script>

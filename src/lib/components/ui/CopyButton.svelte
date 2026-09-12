@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onDestroy, type Snippet } from 'svelte';
 	import { type ButtonVariant, getButtonStyle } from './button';
-	import { copyWithFeedback } from './copyButton';
 	import Icon from './Icon.svelte';
 
 	interface Props {
@@ -26,25 +25,24 @@
 
 	let copied = $state(false);
 	let copying = false;
-	let cancelReset: (() => void) | undefined;
-	let classNames = $derived(getButtonStyle(type, isDisabled, extraClass));
+	let resetTimer: ReturnType<typeof setTimeout> | undefined;
 
 	async function copy() {
 		if (copying || isDisabled) return;
 
 		copying = true;
-		cancelReset?.();
+		if (resetTimer !== undefined) {
+			clearTimeout(resetTimer);
+			resetTimer = undefined;
+		}
 
 		try {
-			cancelReset = await copyWithFeedback({
-				text: value,
-				writeText: (text) => navigator.clipboard.writeText(text),
-				setCopied: (nextCopied) => (copied = nextCopied),
-				scheduleReset: (reset, delay) => {
-					const timeout = window.setTimeout(reset, delay);
-					return () => window.clearTimeout(timeout);
-				}
-			});
+			await navigator.clipboard.writeText(value);
+			copied = true;
+			resetTimer = setTimeout(() => {
+				copied = false;
+				resetTimer = undefined;
+			}, 1500);
 		} catch {
 			copied = false;
 		} finally {
@@ -52,13 +50,15 @@
 		}
 	}
 
-	onDestroy(() => cancelReset?.());
+	onDestroy(() => {
+		if (resetTimer !== undefined) clearTimeout(resetTimer);
+	});
 </script>
 
 <button
 	type="button"
 	onclick={copy}
-	class={classNames}
+	class={getButtonStyle(type, isDisabled, extraClass)}
 	disabled={isDisabled}
 	aria-label={ariaLabel}
 >

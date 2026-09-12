@@ -109,7 +109,7 @@
 	</ul>
 {/snippet}
 
-<footer class="mt-20 py-10 w-full bg-zinc-950">
+<footer class="mt-20 w-full bg-zinc-950 py-10">
 	<Container>
 		<Stack>
 			<div class="grid gap-10 sm:grid-cols-2 md:grid-cols-4 lg:gap-8">
@@ -139,14 +139,27 @@
 				</nav>
 			</div>
 			<Cluster gap="xs">
-				<Icon icon="icon-[material-symbols--design-services]" size="sm" extraClass="text-indigo-400"/>
+				<Icon
+					icon="icon-[material-symbols--design-services]"
+					size="sm"
+					extraClass="text-indigo-400"
+				/>
 				<p class="tx-body text-zinc-400">
 					Crafted in the North East by
-					<a href="https://amnexya.com" class="text-indigo-400 hover:text-indigo-300 hover:underline">Jack</a>
+					<a
+						href="https://amnexya.com"
+						class="text-indigo-400 hover:text-indigo-300 hover:underline">Jack</a
+					>
 					and
-					<a href="https://www.linkedin.com/in/tyler-walker-502960430" class="text-indigo-400 hover:text-indigo-300 hover:underline">Tyler</a>.
-					AGPL licensed source code available on
-					<a href="https://github.com/nucats-soc/airport" class="text-indigo-400 hover:text-indigo-300 hover:underline">GitHub</a>.</p>
+					<a
+						href="https://www.linkedin.com/in/tyler-walker-502960430"
+						class="text-indigo-400 hover:text-indigo-300 hover:underline">Tyler</a
+					>. AGPL licensed source code available on
+					<a
+						href="https://github.com/nucats-soc/airport"
+						class="text-indigo-400 hover:text-indigo-300 hover:underline">GitHub</a
+					>.
+				</p>
 			</Cluster>
 		</Stack>
 	</Container>

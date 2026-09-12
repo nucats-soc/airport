@@ -47,7 +47,7 @@
 			{#each images as image}
 				<li class="mx-2 md:mx-4">
 					<enhanced:img
-						class="h-auto w-auto max-h-40 max-w-none rounded-xl sm:max-h-52 md:max-h-64 md:rounded-[1.25rem]"
+						class="h-40 w-auto max-w-none rounded-xl sm:h-52 md:h-64 md:rounded-[1.25rem]"
 						src={image.src}
 						alt={image.alt}
 						sizes="(min-width: 768px) 360px, 220px"
@@ -65,7 +65,7 @@
 			{#each images as image}
 				<li class="mx-2 md:mx-4">
 					<enhanced:img
-						class="h-auto w-auto max-h-40 max-w-none rounded-xl sm:max-h-52 md:max-h-64 md:rounded-[1.25rem]"
+						class="h-40 w-auto max-w-none rounded-xl sm:h-52 md:h-64 md:rounded-[1.25rem]"
 						src={image.src}
 						alt=""
 						sizes="(min-width: 768px) 360px, 220px"

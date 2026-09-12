@@ -2,7 +2,7 @@
 	import Box from '$lib/components/layout/Box.svelte';
 	import Inset from '$lib/components/layout/Inset.svelte';
 	import type { Event } from '$lib/types/event';
-	import { formatDate, formatTime } from '$lib/util/dateTime';
+	import { formatDateTime } from '$lib/util/dateTime';
 	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
 	import Icon from '$lib/components/ui/Icon.svelte';
 
@@ -12,7 +12,7 @@
 
 	let { event }: Props = $props();
 	let colorClasses = $derived(EVENT_COLOR_CLASSES[event.color]);
-	let formattedDate = $derived(`${formatDate(event.date)} at ${formatTime(event.date)}`);
+	let formattedDate = $derived(formatDateTime(event.date));
 </script>
 
 <Box background="card" extraClass="flex min-w-0 flex-1 flex-row">

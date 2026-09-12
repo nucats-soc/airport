@@ -33,13 +33,7 @@
 						<source media="(prefers-reduced-motion: reduce)" {srcset} type={'image/' + format} />
 					{/each}
 					<source media="(prefers-reduced-motion: reduce)" srcset={staticSpinner.img.src} />
-					<img
-						class={imageClass}
-						src={spinner}
-						alt="Loading spinner"
-						width="512"
-						height="512"
-					/>
+					<img class={imageClass} src={spinner} alt="Loading spinner" width="512" height="512" />
 				</picture>
 			</Inset>
 		</Box>

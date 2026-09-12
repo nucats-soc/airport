@@ -6,23 +6,40 @@
 	import CommitteeMemberCard from './_components/CommitteeMemberCard.svelte';
 	import PageHeader from '$lib/components/ui/PageHeader.svelte';
 	import headerImage from '$lib/assets/headers/committee.jpg?enhanced';
-	import { getAcademicYear } from '$lib/util/academicYear';
-	import { getCommitteeMembers, getCommitteeYears } from './committee.remote';
+	import { formatAcademicYear, getAcademicYear } from '$lib/util/academicYear';
+	import { getAllCommitteeMembers, getCommitteeYears } from './committee.remote';
 	import CommitteeYearSelector from './_components/CommitteeYearSelector.svelte';
 	import PageMetadata from '$lib/components/PageMetadata.svelte';
+	import { debounced } from '$lib/util/debounced.svelte';
 
-	let year = $state<number>(getAcademicYear());
+	const initialYear = getAcademicYear();
+	let year = $state<number>(initialYear);
+	const requestedYear = debounced(() => year, 1000);
 
-	let committeeYearsQuery = $derived(browser ? getCommitteeYears() : undefined);
-	let committeeYears = $derived(committeeYearsQuery?.current ?? []);
-	let committeeQuery = $derived(browser ? getCommitteeMembers(year) : undefined);
-	let committeeMembers = $derived(committeeQuery?.current ?? []);
-	let committeeSummary = $derived(
-		committeeMembers.length === 0
+	let yearsQuery = $derived(browser ? getCommitteeYears() : undefined);
+	let committeeYears = $derived(yearsQuery?.current ?? []);
+	let allMembersQuery = $derived(browser ? getAllCommitteeMembers() : undefined);
+	let members = $derived(
+		(allMembersQuery?.current ?? []).filter((member) => member.year === requestedYear())
+	);
+	let queryState = $derived.by(() => {
+		if (
+			!yearsQuery ||
+			yearsQuery.loading ||
+			!allMembersQuery ||
+			allMembersQuery.loading ||
+			requestedYear() !== year
+		) {
+			return { loading: true };
+		}
+
+		return { loading: false, error: yearsQuery.error ?? allMembersQuery.error };
+	});
+
+	let summary = $derived(
+		year === initialYear
 			? 'Meet the team running NUCATS this year.'
-			: committeeMembers.length === 1
-				? 'Meet the committee member running NUCATS this year.'
-				: `Meet the ${committeeMembers.length} committee members running NUCATS this year.`
+			: `Meet the team who ran NUCATS during the ${formatAcademicYear(year)} academic year.`
 	);
 
 	$effect(() => {
@@ -32,11 +49,11 @@
 	});
 </script>
 
-<PageMetadata title="Committee" description={committeeSummary} />
+<PageMetadata title="Committee" description={summary} />
 
 <section aria-labelledby="committee-title">
 	<Container>
-		<PageHeader image={headerImage} title="Committee" description={committeeSummary} />
+		<PageHeader image={headerImage} title="Committee" description={summary} />
 	</Container>
 	<Container extraClass="py-4">
 		<Stack>
@@ -48,17 +65,17 @@
 				/>
 			</div>
 			<Loadable
-				state={committeeQuery}
+				state={queryState}
 				loadingLabel="Loading committee members"
 				errorMessage="Committee members could not be loaded."
 				extraClass="w-full py-8"
 			>
 				<Stack gap="sm">
-					{#if committeeMembers.length === 0}
+					{#if members.length === 0}
 						<p class="tx-body text-zinc-300">Committee members will be listed here soon.</p>
 					{:else}
 						<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-							{#each committeeMembers as member (member.id)}
+							{#each members as member (member.id)}
 								<CommitteeMemberCard {member} />
 							{/each}
 						</div>

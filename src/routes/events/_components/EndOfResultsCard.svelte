@@ -6,7 +6,13 @@
 	import type { CalendarSelection } from '../types';
 	import type { Event } from '$lib/types/event';
 	import { formatDate, formatMonth } from '$lib/util/dateTime';
-	import { nextCalendarSelection } from '../event-selection';
+	import {
+		isCalendarMonthBefore,
+		isSelectionInPast,
+		latestEventSelection,
+		nextCalendarSelection,
+		selectionToDate
+	} from '../event-selection';
 
 	interface Props {
 		events: Event[];
@@ -17,23 +23,30 @@
 	let { events, selection, onUpdateSelection }: Props = $props();
 
 	const card = $derived.by(() => {
-		const date = new Date(Date.UTC(selection.year, selection.month, selection.day ?? 1));
+		const date = selectionToDate(selection);
 		const nextSelection = nextCalendarSelection(selection);
-		const nextDate = new Date(Date.UTC(nextSelection.year, nextSelection.month, 1));
+		const nextDate = selectionToDate(nextSelection);
 		const formattedSelection = selection.day ? formatDate(date) : formatMonth(date);
+		const isPast = isSelectionInPast(selection);
+		const canAdvance =
+			selection.day !== undefined || isCalendarMonthBefore(selection, latestEventSelection());
 
 		return {
 			nextSelection,
+			canAdvance,
 			icon:
 				events.length === 0
 					? 'icon-[material-symbols--event-busy-outline]'
 					: 'icon-[material-symbols--calendar-today-outline]',
 			title:
 				events.length === 0
-					? `There's nothing on during ${formattedSelection}`
+					? isPast
+						? `There was no events during ${formattedSelection}`
+						: `No events during ${formattedSelection} right now`
 					: `That's all for ${formattedSelection}`,
-			action:
-				selection.day === undefined
+			action: !canAdvance
+				? `You've reached the end of the current academic year.`
+				: selection.day === undefined
 					? `Click to view ${formatMonth(nextDate)}.`
 					: `Click to view all events in ${formatMonth(date)}.`,
 			color: events.length === 0 ? 'text-red-300' : 'text-green-300'
@@ -43,8 +56,12 @@
 
 <button
 	type="button"
-	class="mx-auto block w-fit max-w-full cursor-pointer rounded-[1.25rem] text-left"
+	class={[
+		'mx-auto block w-fit max-w-full rounded-[1.25rem] text-left',
+		card.canAdvance ? 'cursor-pointer' : 'cursor-default'
+	]}
 	onclick={() => onUpdateSelection(card.nextSelection)}
+	disabled={!card.canAdvance}
 >
 	<Box extraClass="flex-1 transition-colors hover:bg-zinc-800/50">
 		<Inset space="md">

@@ -6,6 +6,7 @@
 	import CalendarMonth from './CalendarMonth.svelte';
 	import type { Event } from '$lib/types/event';
 	import type { CalendarSelection } from '../types';
+	import { isSameDay } from '../event-selection';
 
 	interface Props {
 		events: Event[];
@@ -27,14 +28,6 @@
 			date.setDate(start.getDate() + index);
 			return date;
 		});
-	}
-
-	function isSameDay(left: Date, right: Date): boolean {
-		return (
-			left.getFullYear() === right.getFullYear() &&
-			left.getMonth() === right.getMonth() &&
-			left.getDate() === right.getDate()
-		);
 	}
 
 	let days = $derived(

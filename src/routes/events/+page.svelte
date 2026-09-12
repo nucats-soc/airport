@@ -8,56 +8,46 @@
 	import CalendarSubscriptionCard from './_components/CalendarSubscriptionCard.svelte';
 	import DiscordEventInfo from './_components/DiscordEventInfo.svelte';
 	import EndOfResultsCard from './_components/EndOfResultsCard.svelte';
+	import PreviousEventsDropdown from './_components/PreviousEventsDropdown.svelte';
 	import {
-		clampCalendarSelection,
 		eventsForSelection,
-		formatSelectionHeading,
 		initialCalendarSelection,
-		isSameCalendarMonth
+		partitionEventsByDate
 	} from './event-selection';
-	import { getEventsByAcademicYear } from './events.remote';
+	import { getEventsByYear } from './events.remote';
 	import type { CalendarSelection } from './types';
 	import PageHeader from '$lib/components/ui/PageHeader.svelte';
 	import headerImage from '$lib/assets/headers/events.jpg?enhanced';
 	import PageMetadata from '$lib/components/PageMetadata.svelte';
-	import { academicYearOfMonth } from '$lib/util/academicYear';
-	import { debounced } from '$lib/util/debounced.svelte';
 
-	const initialSelection = clampCalendarSelection({
+	let selection = $state<CalendarSelection>({
 		year: new Date().getFullYear(),
 		month: new Date().getMonth()
 	});
-	let selection = $state<CalendarSelection>(initialSelection);
 	let initialSelectionApplied = $state(false);
-	const requestedAcademicYear = debounced(
-		() => academicYearOfMonth(selection.year, selection.month),
-		1000
-	);
-	let eventsQuery = $derived(
-		browser ? getEventsByAcademicYear(requestedAcademicYear()) : undefined
-	);
-	let isYearPending = $derived(
-		requestedAcademicYear() !== academicYearOfMonth(selection.year, selection.month)
-	);
-	let eventsDisplayState = $derived(isYearPending ? { loading: true } : eventsQuery);
+
+	let eventsQuery = $derived(browser ? getEventsByYear(selection.year) : undefined);
 	let events = $derived(eventsQuery?.current ?? []);
 	let visibleEvents = $derived(eventsForSelection(events, selection));
+	let partitionedEvents = $derived(partitionEventsByDate(visibleEvents, selection));
+	let previousEvents = $derived(partitionedEvents.previousEvents);
+	let upcomingEvents = $derived(partitionedEvents.upcomingEvents);
 
 	$effect(() => {
 		if (initialSelectionApplied || !eventsQuery || eventsQuery.loading || eventsQuery.error) {
 			return;
 		}
 
-		selection = initialCalendarSelection(eventsQuery.current ?? []);
+		selection = initialCalendarSelection(events);
 		initialSelectionApplied = true;
 	});
 
 	function updateSelection(nextSelection: CalendarSelection) {
-		const clampedSelection = clampCalendarSelection(nextSelection);
-		const monthChanged = !isSameCalendarMonth(selection, clampedSelection);
+		const monthChanged =
+			selection.year !== nextSelection.year || selection.month !== nextSelection.month;
 
 		initialSelectionApplied = true;
-		selection = clampedSelection;
+		selection = nextSelection;
 
 		if (browser && monthChanged) {
 			window.scrollTo({
@@ -66,6 +56,24 @@
 			});
 		}
 	}
+
+	const monthFormatter = new Intl.DateTimeFormat('en-GB', {
+		month: 'long',
+		year: 'numeric',
+		timeZone: 'UTC'
+	});
+	const dayFormatter = new Intl.DateTimeFormat('en-GB', {
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
+		timeZone: 'UTC'
+	});
+	let selectionHeading = $derived.by(() => {
+		const date = new Date(Date.UTC(selection.year, selection.month, selection.day ?? 1));
+		return selection.day === undefined
+			? `Events in ${monthFormatter.format(date)}`
+			: `Events on ${dayFormatter.format(date)}`;
+	});
 </script>
 
 <PageMetadata
@@ -92,10 +100,8 @@
 
 			<section class="order-2 min-w-0 lg:order-1" aria-labelledby="events-list-title">
 				<div class="mb-4 flex items-baseline justify-between gap-4 px-1">
-					<h2 id="events-list-title" class="tx-section-title">
-						{formatSelectionHeading(selection)}
-					</h2>
-					{#if !isYearPending && eventsQuery && !eventsQuery.loading && !eventsQuery.error}
+					<h2 id="events-list-title" class="tx-section-title">{selectionHeading}</h2>
+					{#if eventsQuery && !eventsQuery.loading && !eventsQuery.error}
 						<p class="tx-body shrink-0 text-zinc-400">
 							{visibleEvents.length}
 							{visibleEvents.length === 1 ? 'event' : 'events'}
@@ -103,7 +109,7 @@
 					{/if}
 				</div>
 				<Loadable
-					state={eventsDisplayState}
+					state={eventsQuery}
 					loadingLabel="Loading events"
 					errorMessage="Events could not be loaded."
 					extraClass="w-full py-8"
@@ -115,7 +121,10 @@
 						]}
 					>
 						<div class="grid gap-4">
-							{#each visibleEvents as event}
+							{#if previousEvents.length > 0}
+								<PreviousEventsDropdown events={previousEvents} extraClass="mb-6 sm:mb-8" />
+							{/if}
+							{#each upcomingEvents as event (event.id)}
 								<EventCard {event} />
 							{/each}
 							<EndOfResultsCard

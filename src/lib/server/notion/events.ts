@@ -13,7 +13,7 @@ import {
 	urlOf
 } from './properties';
 
-import { type Event, type EventColor } from '../../types/event';
+import { type Event, type EventColor, type EventStatus } from '../../types/event';
 import type { PageObjectResponse } from '@notionhq/client';
 import type {
 	PropertyFilter,
@@ -24,7 +24,7 @@ import { HOURS } from '$lib/util/timeUnits';
 import { ACADEMIC_YEAR_START_MONTH, getAcademicYear } from '$lib/util/academicYear';
 
 type EventFilter = PropertyFilter | TimestampFilter;
-const LISTED_EVENT_STATUSES = ['Scheduled', 'Completed', 'Cancelled'];
+const LISTED_EVENT_STATUSES = ['Confirmed', 'Planned', 'Completed', 'Cancelled'];
 const UPCOMING_EVENT_PREVIEW_SIZE = 3;
 const HISTORICAL_EVENT_CACHE_TTL = 2 * HOURS;
 const EVENT_COLORS: readonly EventColor[] = [
@@ -39,12 +39,22 @@ const EVENT_COLORS: readonly EventColor[] = [
 	'red'
 ];
 
+function parseEventStatus(status: string | null): EventStatus {
+	if (status === 'Planned') return 'Planned';
+	if (status === 'Draft') return 'Draft';
+	if (status === 'Completed') return 'Completed';
+	if (status === 'Cancelled') return 'Cancelled';
+	return 'Confirmed';
+}
+
 async function parseEvent(page: PageObjectResponse): Promise<Event> {
 	const dateProperty = page.properties['Date'];
 	const eventTypeProperty = page.properties['Event Type'];
 	const date = startDateOf(dateProperty);
 	const endDate = endDateOf(dateProperty);
 	const placeId = relationIdOf(page.properties['Venue (Optional)']);
+	const rawStatus = statusOf(page.properties['Status']);
+	const status = parseEventStatus(rawStatus);
 
 	if (!date) {
 		throw new Error(`Event ${page.id} does not have a start date`);
@@ -58,6 +68,7 @@ async function parseEvent(page: PageObjectResponse): Promise<Event> {
 		color: parseEventColor(selectColorOf(eventTypeProperty) ?? 'default'),
 		name: textOf(page.properties['Name']) || 'Unnamed',
 		type: selectNameOf(eventTypeProperty) ?? 'Event',
+		status,
 		date,
 		durationMinutes: durationMinutesBetween(date, endDate),
 		description: textOf(page.properties['Description']) || undefined,
@@ -126,7 +137,7 @@ export async function getEventById(id: string): Promise<Event | null> {
 				return null;
 			}
 
-			const status = statusOf(page.properties['Status']) ?? 'Planned';
+			const status = statusOf(page.properties['Status']) ?? 'Confirmed';
 
 			if (!LISTED_EVENT_STATUSES.includes(status)) {
 				return null;
@@ -139,26 +150,17 @@ export async function getEventById(id: string): Promise<Event | null> {
 }
 
 function getUpcomingEventsWithLimit(now: Date, pageSize?: number): Promise<Event[]> {
-	const date = now.toISOString().slice(0, 10);
-	const resultSize = pageSize ?? 'all';
-
-	return cache.wrap(
-		`events:upcoming:${date}:${resultSize}`,
-		() => {
-			return getEvents(
-				[
-					{
-						property: 'Date',
-						type: 'date',
-						date: {
-							on_or_after: now.toISOString()
-						}
-					}
-				],
-				pageSize
-			);
-		},
-		EVENT_CACHE_TTL
+	return getEvents(
+		[
+			{
+				property: 'Date',
+				type: 'date',
+				date: {
+					on_or_after: now.toISOString()
+				}
+			}
+		],
+		pageSize
 	);
 }
 

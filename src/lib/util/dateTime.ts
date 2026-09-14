@@ -19,6 +19,12 @@ export function formatMonth(date: Date): string {
 	});
 }
 
+export function formatMonthName(date: Date): string {
+	return toZonedDateTime(date, 'UTC').toLocaleString('en-GB', {
+		month: 'long'
+	});
+}
+
 export function formatShortMonth(date: Date): string {
 	return toZonedDateTime(date, 'UTC').toLocaleString('en-GB', {
 		month: 'short'

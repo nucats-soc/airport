@@ -1,4 +1,4 @@
-import type { Event } from '$lib/types/event';
+import type { Event, EventStatus } from '$lib/types/event';
 import { getAcademicYear } from '$lib/util/academicYear';
 import { formatLongDate, formatMonth } from '$lib/util/dateTime';
 import type { CalendarSelection } from './types';
@@ -109,6 +109,10 @@ export function isSelectionInPast(selection: CalendarSelection, now: Date = new 
 	);
 }
 
+export function isPlannedEvent<T extends { status?: EventStatus | string }>(event: T): boolean {
+	return event.status === 'Planned';
+}
+
 export function getEventEndDate<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
 	event: T
 ): Date {
@@ -118,10 +122,12 @@ export function getEventEndDate<T extends Pick<Event, 'date'> & { durationMinute
 	return event.date;
 }
 
-export function isEventOnDate<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
-	event: T,
-	date: Date
-): boolean {
+export function isEventOnDate<
+	T extends Pick<Event, 'date'> & { durationMinutes?: number; status?: EventStatus | string }
+>(event: T, date: Date): boolean {
+	if (isPlannedEvent(event)) {
+		return false;
+	}
 	const dayStart = new Date(
 		date.getFullYear(),
 		date.getMonth(),
@@ -176,11 +182,19 @@ export function initialCalendarSelection<
 	return { year, month: currentMonth };
 }
 
-export function eventsForSelection<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
-	events: T[],
-	selection: CalendarSelection
-): T[] {
+export function eventsForSelection<
+	T extends Pick<Event, 'date'> & { durationMinutes?: number; status?: EventStatus | string }
+>(events: T[], selection: CalendarSelection): T[] {
 	return events.filter((event) => {
+		if (isPlannedEvent(event)) {
+			if (selection.day !== undefined) {
+				return false;
+			}
+			return (
+				event.date.getFullYear() === selection.year && event.date.getMonth() === selection.month
+			);
+		}
+
 		const start = event.date;
 		const end = getEventEndDate(event);
 
@@ -229,19 +243,32 @@ export function isEventBeforeDate<T extends Pick<Event, 'date'> & { durationMinu
 	return eventEndDay < todayStart;
 }
 
-export function partitionEventsByDate<T extends Pick<Event, 'date'> & { durationMinutes?: number }>(
+export function partitionEventsByDate<
+	T extends Pick<Event, 'date'> & { durationMinutes?: number; status?: EventStatus | string }
+>(
 	events: T[],
 	selection: CalendarSelection,
 	today: Date = new Date()
-): { previousEvents: T[]; upcomingEvents: T[] } {
+): { previousEvents: T[]; upcomingEvents: T[]; plannedEvents: T[] } {
+	const plannedEvents: T[] = [];
+	const otherEvents: T[] = [];
+
+	for (const event of events) {
+		if (isPlannedEvent(event)) {
+			plannedEvents.push(event);
+		} else {
+			otherEvents.push(event);
+		}
+	}
+
 	if (!isCurrentMonthSelection(selection, today)) {
-		return { previousEvents: [], upcomingEvents: events };
+		return { previousEvents: [], upcomingEvents: otherEvents, plannedEvents };
 	}
 
 	const previousEvents: T[] = [];
 	const upcomingEvents: T[] = [];
 
-	for (const event of events) {
+	for (const event of otherEvents) {
 		if (isEventBeforeDate(event, today)) {
 			previousEvents.push(event);
 		} else {
@@ -249,5 +276,5 @@ export function partitionEventsByDate<T extends Pick<Event, 'date'> & { duration
 		}
 	}
 
-	return { previousEvents, upcomingEvents };
+	return { previousEvents, upcomingEvents, plannedEvents };
 }

@@ -4,7 +4,7 @@
 	import LinkButton from '$lib/components/ui/LinkButton.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import type { Event } from '$lib/types/event';
-	import { formatDateTime } from '$lib/util/dateTime';
+	import { formatDateTime, formatMonthName } from '$lib/util/dateTime';
 	import { EVENT_COLOR_CLASSES, EVENT_TEXT_COLOR_CLASSES } from '$lib/util/event';
 
 	interface Props {
@@ -23,7 +23,9 @@
 
 	let colorClasses = $derived(EVENT_COLOR_CLASSES[event.color]);
 	let textColorClasses = $derived(EVENT_TEXT_COLOR_CLASSES[event.color]);
-	let formattedDate = $derived(formatDateTime(event.date));
+	let formattedDate = $derived(
+		event.status === 'Planned' ? formatMonthName(event.date) : formatDateTime(event.date)
+	);
 	let formattedPlace = $derived(formatPlace(event));
 	let formattedUrl = $derived(`/events/${event.id}`);
 </script>

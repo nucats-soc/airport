@@ -23,6 +23,14 @@
 			color: EVENT_COLOR_CLASSES[event.color],
 			value: event.type
 		});
+		if (event.status === 'Planned') {
+			attributes.push({
+				name: 'Status',
+				icon: 'icon-[material-symbols--event-upcoming-outline]',
+				color: 'bg-zinc-700',
+				value: 'Planned'
+			});
+		}
 		if (event.durationMinutes) {
 			attributes.push({
 				name: 'Duration',

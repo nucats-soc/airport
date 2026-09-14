@@ -9,6 +9,7 @@
 	import DiscordEventInfo from './_components/DiscordEventInfo.svelte';
 	import EndOfResultsCard from './_components/EndOfResultsCard.svelte';
 	import PreviousEventsDropdown from './_components/PreviousEventsDropdown.svelte';
+	import PlannedEventsDropdown from './_components/PlannedEventsDropdown.svelte';
 	import {
 		clampCalendarSelection,
 		eventsForSelection,
@@ -47,6 +48,7 @@
 	let partitionedEvents = $derived(partitionEventsByDate(visibleEvents, selection));
 	let previousEvents = $derived(partitionedEvents.previousEvents);
 	let upcomingEvents = $derived(partitionedEvents.upcomingEvents);
+	let plannedEvents = $derived(partitionedEvents.plannedEvents);
 
 	$effect(() => {
 		if (initialSelectionApplied || !eventsQuery || eventsQuery.loading || eventsQuery.error) {
@@ -121,7 +123,13 @@
 					>
 						<div class="grid gap-4">
 							{#if previousEvents.length > 0}
-								<PreviousEventsDropdown events={previousEvents} extraClass="mb-6 sm:mb-8" />
+								<PreviousEventsDropdown
+									events={previousEvents}
+									extraClass={plannedEvents.length > 0 ? '' : 'mb-6 sm:mb-8'}
+								/>
+							{/if}
+							{#if plannedEvents.length > 0}
+								<PlannedEventsDropdown events={plannedEvents} extraClass="mb-6 sm:mb-8" />
 							{/if}
 							{#each upcomingEvents as event (event.id)}
 								<EventCard {event} />

@@ -95,18 +95,25 @@ function parseEventColor(color: string): EventColor {
 }
 
 async function getEvents(filters: EventFilter[], pageSize?: number): Promise<Event[]> {
+	const hasStatusFilter = filters.some(
+		(filter) => 'property' in filter && filter.property === 'Status'
+	);
 	return queryDataSource(
 		{
 			data_source_id: env.NOTION_EVENT_DATASOURCE ?? '',
 			filter: {
 				and: [
-					{
-						property: 'Status',
-						type: 'status',
-						status: {
-							equals: LISTED_EVENT_STATUSES
-						}
-					},
+					...(hasStatusFilter
+						? []
+						: [
+								{
+									property: 'Status' as const,
+									type: 'status' as const,
+									status: {
+										equals: LISTED_EVENT_STATUSES
+									}
+								}
+						  ]),
 					...filters
 				]
 			},
@@ -149,9 +156,16 @@ export async function getEventById(id: string): Promise<Event | null> {
 	);
 }
 
-function getUpcomingEventsWithLimit(now: Date, pageSize?: number): Promise<Event[]> {
-	return getEvents(
+async function getUpcomingEventsWithLimit(now: Date, pageSize?: number): Promise<Event[]> {
+	const events = await getEvents(
 		[
+			{
+				property: 'Status',
+				type: 'status',
+				status: {
+					equals: 'Confirmed'
+				}
+			},
 			{
 				property: 'Date',
 				type: 'date',
@@ -162,6 +176,8 @@ function getUpcomingEventsWithLimit(now: Date, pageSize?: number): Promise<Event
 		],
 		pageSize
 	);
+
+	return events.filter((event) => event.status === 'Confirmed');
 }
 
 export function getUpcomingEvents(now: Date = new Date()): Promise<Event[]> {

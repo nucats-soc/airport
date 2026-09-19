@@ -2,7 +2,7 @@ import type { Place } from './place';
 
 export type EventStatus = 'Confirmed' | 'Planned' | 'Draft' | 'Completed' | 'Cancelled';
 
-export interface Event {
+interface EventDetails {
 	id: string;
 	createdAt: Date;
 	lastEditedAt: Date;
@@ -11,13 +11,27 @@ export interface Event {
 	status: EventStatus;
 	iconSvg: string;
 	color: EventColor;
-	date: Date;
-	durationMinutes?: number;
 	location?: Place;
 	room?: string;
 	description?: string;
 	url?: string;
 }
+
+export type EventTiming =
+	| {
+			allDay: true;
+			date: Date;
+			durationDays: number;
+			durationMinutes?: never;
+	  }
+	| {
+			allDay: false;
+			date: Date;
+			durationDays?: never;
+			durationMinutes?: number;
+	  };
+
+export type Event = EventDetails & EventTiming;
 
 export type EventColor =
 	| 'gray'

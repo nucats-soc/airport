@@ -3,20 +3,20 @@ import type { PageObjectResponse } from '@notionhq/client';
 type PageProperties = PageObjectResponse['properties'];
 type PageProperty = PageProperties[string] | undefined;
 
-export function startDateOf(property: PageProperty): Date | null {
+export type NotionDateRange =
+	| { allDay: true; start: Date; end: Date | null }
+	| { allDay: false; start: Date; end: Date | null };
+
+export function dateRangeOf(property: PageProperty): NotionDateRange | null {
 	if (!property || property.type !== 'date' || !property.date) {
 		return null;
 	}
 
-	return new Date(property.date.start);
-}
-
-export function endDateOf(property: PageProperty): Date | null {
-	if (!property || property.type !== 'date' || !property.date || !property.date.end) {
-		return null;
-	}
-
-	return new Date(property.date.end);
+	return {
+		allDay: !property.date.start.includes('T'),
+		start: new Date(property.date.start),
+		end: property.date.end ? new Date(property.date.end) : null
+	};
 }
 
 export function urlOf(property: PageProperty): string | null {

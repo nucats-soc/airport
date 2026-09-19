@@ -4,7 +4,7 @@
 	import LinkButton from '$lib/components/ui/LinkButton.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import type { Event } from '$lib/types/event';
-	import { formatDateTime, formatMonthName } from '$lib/util/dateTime';
+	import { formatDate, formatDateTime, formatIsoDate, formatMonthName } from '$lib/util/dateTime';
 	import { EVENT_COLOR_CLASSES, EVENT_TEXT_COLOR_CLASSES } from '$lib/util/event';
 
 	interface Props {
@@ -24,8 +24,13 @@
 	let colorClasses = $derived(EVENT_COLOR_CLASSES[event.color]);
 	let textColorClasses = $derived(EVENT_TEXT_COLOR_CLASSES[event.color]);
 	let formattedDate = $derived(
-		event.status === 'Planned' ? formatMonthName(event.date) : formatDateTime(event.date)
+		event.status === 'Planned'
+			? formatMonthName(event.date)
+			: event.allDay
+				? formatDate(event.date)
+				: formatDateTime(event.date)
 	);
+	let machineDate = $derived(event.allDay ? formatIsoDate(event.date) : event.date.toISOString());
 	let formattedPlace = $derived(formatPlace(event));
 	let formattedUrl = $derived(`/events/${event.id}`);
 </script>
@@ -64,7 +69,7 @@
 			>
 				<Cluster gap="none" extraClass="shrink-0 gap-2">
 					<Icon icon="icon-[material-symbols--calendar-today]" size="sm" />
-					<time class="tx-body" datetime={event.date.toISOString()}>{formattedDate}</time>
+					<time class="tx-body" datetime={machineDate}>{formattedDate}</time>
 				</Cluster>
 
 				<Cluster gap="none" extraClass="min-w-0 gap-2">

@@ -12,6 +12,10 @@ export function formatDate(date: Date): string {
 	});
 }
 
+export function formatIsoDate(date: Date): string {
+	return toZonedDateTime(date, 'UTC').toPlainDate().toString();
+}
+
 export function formatMonth(date: Date): string {
 	return toZonedDateTime(date, 'UTC').toLocaleString('en-GB', {
 		month: 'long',

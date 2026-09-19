@@ -3,17 +3,16 @@ import { renderMaterialSymbol } from '$lib/server/material-symbols';
 import { queryDataSource, retrievePage } from './content';
 import { getPlace } from './places';
 import {
-	endDateOf,
+	dateRangeOf,
 	relationIdOf,
 	selectColorOf,
 	selectNameOf,
-	startDateOf,
 	statusOf,
 	textOf,
 	urlOf
 } from './properties';
 
-import { type Event, type EventColor, type EventStatus } from '../../types/event';
+import { type Event, type EventColor, type EventStatus, type EventTiming } from '../../types/event';
 import type { PageObjectResponse } from '@notionhq/client';
 import type {
 	PropertyFilter,
@@ -27,6 +26,7 @@ type EventFilter = PropertyFilter | TimestampFilter;
 const LISTED_EVENT_STATUSES = ['Confirmed', 'Planned', 'Completed', 'Cancelled'];
 const UPCOMING_EVENT_PREVIEW_SIZE = 3;
 const HISTORICAL_EVENT_CACHE_TTL = 2 * HOURS;
+const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
 const EVENT_COLORS: readonly EventColor[] = [
 	'gray',
 	'brown',
@@ -50,15 +50,26 @@ function parseEventStatus(status: string | null): EventStatus {
 async function parseEvent(page: PageObjectResponse): Promise<Event> {
 	const dateProperty = page.properties['Date'];
 	const eventTypeProperty = page.properties['Event Type'];
-	const date = startDateOf(dateProperty);
-	const endDate = endDateOf(dateProperty);
+	const dateRange = dateRangeOf(dateProperty);
 	const placeId = relationIdOf(page.properties['Venue (Optional)']);
 	const rawStatus = statusOf(page.properties['Status']);
 	const status = parseEventStatus(rawStatus);
 
-	if (!date) {
+	if (!dateRange) {
 		throw new Error(`Event ${page.id} does not have a start date`);
 	}
+
+	const timing: EventTiming = dateRange.allDay
+		? {
+				allDay: true,
+				date: dateRange.start,
+				durationDays: durationDaysBetween(dateRange.start, dateRange.end)
+			}
+		: {
+				allDay: false,
+				date: dateRange.start,
+				durationMinutes: durationMinutesBetween(dateRange.start, dateRange.end)
+			};
 
 	return {
 		id: page.id,
@@ -69,13 +80,20 @@ async function parseEvent(page: PageObjectResponse): Promise<Event> {
 		name: textOf(page.properties['Name']) || 'Unnamed',
 		type: selectNameOf(eventTypeProperty) ?? 'Event',
 		status,
-		date,
-		durationMinutes: durationMinutesBetween(date, endDate),
+		...timing,
 		description: textOf(page.properties['Description']) || undefined,
 		location: placeId ? ((await getPlace(placeId)) ?? undefined) : undefined,
 		room: textOf(page.properties['Room (Optional)']) || undefined,
 		url: urlOf(page.properties['URL (Optional)']) ?? undefined
 	};
+}
+
+function durationDaysBetween(start: Date, end: Date | null): number {
+	if (!end) {
+		return 1;
+	}
+
+	return Math.max(1, Math.round((end.getTime() - start.getTime()) / MILLISECONDS_PER_DAY) + 1);
 }
 
 function durationMinutesBetween(start: Date, end: Date | null): number | undefined {
@@ -113,7 +131,7 @@ async function getEvents(filters: EventFilter[], pageSize?: number): Promise<Eve
 										equals: LISTED_EVENT_STATUSES
 									}
 								}
-						  ]),
+							]),
 					...filters
 				]
 			},

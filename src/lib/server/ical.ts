@@ -6,6 +6,7 @@ import { Temporal } from '@js-temporal/polyfill';
 
 const EVENT_FEED_CACHE = 30 * MINUTES;
 const EVENT_TIME_ZONE = 'Europe/London';
+const DEFAULT_EVENT_DURATION_MINUTES = 120;
 
 export function getCalendarFeed(): Promise<string> {
 	return cache.wrap('events:calendar', generateCalendarFeed, EVENT_FEED_CACHE);
@@ -15,7 +16,10 @@ async function generateCalendarFeed(): Promise<string> {
 	const currentYear = new Date().getFullYear();
 
 	const events = await getEventsByYearRange(currentYear - 1, currentYear + 1);
+	return encodeCalendar(events);
+}
 
+export function encodeCalendar(events: Event[], now: Date = new Date()): string {
 	const result = [
 		'BEGIN:VCALENDAR',
 		'NAME:NUCATS Events',
@@ -28,7 +32,11 @@ async function generateCalendarFeed(): Promise<string> {
 	];
 
 	for (const event of events) {
-		result.push(...encodeEvent(event));
+		if (event.status === 'Planned') {
+			continue;
+		}
+
+		result.push(...encodeEvent(event, now));
 	}
 
 	result.push('END:VCALENDAR');
@@ -44,7 +52,7 @@ function encodeDate(date: Date): string {
 	].join('');
 }
 
-function encodeEvent(event: Event): string[] {
+function encodeEvent(event: Event, now: Date): string[] {
 	const result: string[] = [
 		'BEGIN:VEVENT',
 		`UID:${event.id}@nucats.org`,
@@ -52,7 +60,7 @@ function encodeEvent(event: Event): string[] {
 		`URL:https://nucats.org/events/${event.id}`,
 		`CREATED:${encodeDateTime(event.createdAt)}`,
 		`LAST-MODIFIED:${encodeDateTime(event.lastEditedAt)}`,
-		`DTSTAMP:${encodeDateTime(new Date())}`
+		`DTSTAMP:${encodeDateTime(now)}`
 	];
 
 	if (event.description) {
@@ -75,13 +83,15 @@ function encodeEvent(event: Event): string[] {
 		result.push(`LOCATION:${sanitize(event.room)}`);
 	}
 
-	if (event.durationMinutes) {
+	if (event.allDay) {
+		result.push(`DTSTART;VALUE=DATE:${encodeDate(event.date)}`, `DURATION:P${event.durationDays}D`);
+	} else {
+		const durationMinutes = event.durationMinutes ?? DEFAULT_EVENT_DURATION_MINUTES;
+
 		result.push(
 			`DTSTART;TZID=${EVENT_TIME_ZONE}:${encodeDateTimeInTimeZone(event.date, EVENT_TIME_ZONE)}`,
-			`DURATION:PT${event.durationMinutes}M`
+			`DURATION:PT${durationMinutes}M`
 		);
-	} else {
-		result.push(`DTSTART;VALUE=DATE:${encodeDate(event.date)}`, 'DURATION:P1D');
 	}
 
 	result.push('END:VEVENT');

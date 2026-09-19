@@ -30,8 +30,14 @@
 				color: 'bg-zinc-700',
 				value: 'Planned'
 			});
-		}
-		if (event.durationMinutes) {
+		} else if (event.allDay) {
+			attributes.push({
+				name: 'Duration',
+				icon: 'icon-[material-symbols--schedule-outline]',
+				color: 'bg-zinc-700',
+				value: event.durationDays === 1 ? 'All day' : `All day for ${event.durationDays} days`
+			});
+		} else if (event.durationMinutes) {
 			attributes.push({
 				name: 'Duration',
 				icon: 'icon-[material-symbols--schedule-outline]',

@@ -56,7 +56,7 @@
 								href={social.href}
 								target="noopener noreferrer"
 								rel="_self"
-								class="group flex items-center gap-4 py-6 transition-colors duration-200 first:pt-0 last:pb-0 hover:text-indigo-200"
+								class="group flex items-center gap-4 py-6 transition-colors duration-200 first:pt-0 last:pb-0 hover:text-brand-light"
 							>
 								<Cluster justify="between" extraClass="w-full">
 									<Cluster>

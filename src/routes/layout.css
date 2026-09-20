@@ -12,6 +12,9 @@
 
 @theme {
 	--font-sans: 'Outfit';
+	--color-brand-light: #b2deea;
+	--color-brand: #1769b3;
+	--color-brand-dark: #081a3f;
 	--animate-drift: drift 20s linear infinite;
 }
 
@@ -45,12 +48,12 @@
 	}
 
 	:focus-visible {
-		outline: 2px solid #a5b4fc;
+		outline: 2px solid var(--color-brand-light);
 		outline-offset: 4px;
 	}
 
 	::selection {
-		background: color-mix(in oklab, #a5b4fc 35%, transparent);
+		background: color-mix(in oklab, var(--color-brand-light) 35%, transparent);
 		color: white;
 	}
 }

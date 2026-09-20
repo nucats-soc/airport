@@ -42,12 +42,12 @@
 					<a
 						href={item.href}
 						aria-current={isActive(item.href) ? 'page' : undefined}
-						class="tx-nav-link group flex items-center gap-4 whitespace-nowrap text-white transition-colors duration-200 hover:text-indigo-300"
-						class:text-indigo-300={isActive(item.href)}
+						class="tx-nav-link group flex items-center gap-4 whitespace-nowrap text-white transition-colors duration-200 hover:text-brand-light"
+						class:text-brand-light={isActive(item.href)}
 					>
 						<Icon
 							icon={item.icon}
-							extraClass={`text-white transition-colors duration-200 group-hover:text-indigo-300 ${isActive(item.href) ? 'text-indigo-300' : ''}`}
+							extraClass={`text-white transition-colors duration-200 group-hover:text-brand-light ${isActive(item.href) ? 'text-brand-light' : ''}`}
 						/>
 						<span>{item.label}</span>
 					</a>
@@ -56,7 +56,7 @@
 
 			<button
 				type="button"
-				class="flex size-12 items-center justify-center rounded-lg text-white transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300 md:hidden"
+				class="flex size-12 items-center justify-center rounded-lg text-white transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-light md:hidden"
 				aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
 				aria-controls="mobile-navigation"
 				aria-expanded={isMenuOpen}
@@ -78,7 +78,7 @@
 							<a
 								href={item.href}
 								aria-current={isActive(item.href) ? 'page' : undefined}
-								class={`tx-nav-link flex min-h-12 items-center gap-4 rounded-lg px-4 text-white transition-colors duration-200 hover:bg-white/10 hover:text-indigo-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-300 ${isActive(item.href) ? 'bg-white/10 text-indigo-300' : ''}`}
+								class={`tx-nav-link flex min-h-12 items-center gap-4 rounded-lg px-4 text-white transition-colors duration-200 hover:bg-white/10 hover:text-brand-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-light ${isActive(item.href) ? 'bg-white/10 text-brand-light' : ''}`}
 								onclick={closeMenu}
 							>
 								<Icon icon={item.icon} />

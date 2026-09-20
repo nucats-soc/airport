@@ -13,6 +13,8 @@
 		showArrow?: boolean;
 		ariaLabel?: string;
 		align?: 'center' | 'right';
+		icon?: string;
+		isSelected?: boolean;
 	}
 
 	let {
@@ -21,6 +23,7 @@
 		showArrow = true,
 		ariaLabel,
 		align = 'center',
+		icon,
 		...buttonProps
 	}: Props = $props();
 	let dropdownElement: HTMLDivElement;
@@ -55,7 +58,7 @@
 	);
 	let dropdownContentClass = $derived(
 		classNames(
-			'absolute top-0 mt-4 w-max max-w-[calc(100vw-2rem)] min-w-full rounded-md bg-zinc-700 p-4',
+			'absolute top-0 mt-4 w-max max-w-[calc(100vw-2rem)] min-w-full rounded-md bg-zinc-700 p-6',
 			align === 'right' ? 'right-0' : 'left-1/2 -translate-x-1/2'
 		)
 	);
@@ -69,6 +72,9 @@
 		{ariaLabel}
 		{...buttonProps}
 	>
+		{#if icon}
+			<Icon {icon} size="sm" />
+		{/if}
 		{label}
 		{#if showArrow}
 			<span class="size-6 shrink-0">

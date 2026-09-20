@@ -22,7 +22,7 @@
 <Container extraClass="py-8">
 	<ActionCard
 		icon="icon-[material-symbols--groups]"
-		iconClass="text-indigo-300"
+		iconClass="text-brand-light"
 		title="What are you waiting for?"
 		description="Join NUCATS today! Hang out with similar minded people, attend socials, build projects, and most of all, have fun!"
 		buttonIcon="icon-[material-symbols--person-add-outline]"

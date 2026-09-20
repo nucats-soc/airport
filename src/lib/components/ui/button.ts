@@ -17,7 +17,7 @@ export function getButtonStyle(
 			'min-w-16 px-3 py-2': type === 'compact',
 
 			// Variant styling
-			'bg-green-700 hover:bg-green-600 active:bg-green-600': type === 'primary' && !isDisabled,
+			'bg-brand hover:brightness-125 active:brightness-75': type === 'primary' && !isDisabled,
 			'bg-zinc-700 hover:bg-zinc-600 active:bg-zinc-700':
 				(type === 'secondary' || type === 'icon') && !isDisabled,
 			'text-zinc-400 hover:bg-zinc-700 hover:text-white active:bg-zinc-700':

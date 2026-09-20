@@ -54,7 +54,7 @@
 			<Box background="card">
 				<Inset>
 					<Cluster>
-						<Icon icon="icon-[material-symbols--info]" extraClass="text-indigo-200" />
+						<Icon icon="icon-[material-symbols--info]" extraClass="text-brand-light" />
 						<p class="tx-body">
 							This process varies based on which devices or calendar services you use. Select the
 							calendar application that you use to continue.

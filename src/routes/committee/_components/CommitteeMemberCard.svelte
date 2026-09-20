@@ -123,7 +123,7 @@
 					{#each profileLinks as link}
 						<a
 							href={link.href}
-							class="flex items-center gap-1 text-xl text-zinc-300 hover:text-indigo-300"
+							class="flex items-center gap-1 text-xl text-zinc-300 hover:text-brand-light"
 							target="_blank"
 							rel="noopener noreferrer"
 							aria-label={link.label}

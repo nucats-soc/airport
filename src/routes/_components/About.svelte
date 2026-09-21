@@ -66,7 +66,7 @@
 	</p>
 	<div class="grid grid-cols-1 gap-4 py-4 sm:grid-cols-2 md:grid-cols-3">
 		{#each thingsWeDo as thingWeDo}
-			<Box background="card" extraClass="flex-1 cursor-pointer transition-colors hover:bg-zinc-700">
+			<Box background="card" extraClass="flex-1 transition-colors hover:bg-zinc-700">
 				<Inset space="md">
 					<Stack align="center" gap="sm">
 						<Icon icon={thingWeDo.icon} size="lg" extraClass={thingWeDo.color} />

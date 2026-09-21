@@ -49,14 +49,14 @@
 			attributes.push({
 				name: 'Room',
 				icon: 'icon-[material-symbols--meeting-room-outline]',
-				value: `Room ${event.room}`
+				value: event.room
 			});
 		}
-		if (event.location.longitude && event.location.latitude) {
+		if (event.location.what3words) {
 			attributes.push({
-				name: 'Coordinates',
-				icon: 'icon-[material-symbols--my-location]',
-				value: `${event.location.latitude}, ${event.location.longitude}`
+				name: 'what3words',
+				icon: 'icon-[simple-icons--what3words]',
+				value: event.location.what3words
 			});
 		}
 		return attributes;
@@ -90,7 +90,7 @@
 			<dl class="tx-body flex flex-col gap-4">
 				{#each attributes as attribute}
 					<div class="flex gap-3">
-						<div class="mt-0.5 flex shrink-0">
+						<div class="mt-1 flex shrink-0">
 							<Icon icon={attribute.icon} size="sm" />
 							<dt class="sr-only">{attribute.name}</dt>
 						</div>

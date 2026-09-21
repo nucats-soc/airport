@@ -90,7 +90,7 @@
 					href={link.href}
 					target={link.external ? '_blank' : undefined}
 					rel={link.external ? 'noopener noreferrer' : undefined}
-					class="group inline-flex items-center gap-2 text-zinc-300 transition-colors hover:text-indigo-200"
+					class="group inline-flex items-center gap-2 text-zinc-300 transition-colors hover:text-brand-light"
 				>
 					<Icon icon={link.icon} size="sm" />
 					<span>{link.label}</span>
@@ -142,22 +142,22 @@
 				<Icon
 					icon="icon-[material-symbols--design-services]"
 					size="sm"
-					extraClass="text-indigo-400"
+					extraClass="text-brand-light"
 				/>
 				<p class="tx-body text-zinc-400">
 					Crafted in the North East by
 					<a
 						href="https://amnexya.com"
-						class="text-indigo-400 hover:text-indigo-300 hover:underline">Jack</a
+						class="text-brand-light hover:text-brand-light hover:underline">Jack</a
 					>
 					and
 					<a
 						href="https://www.linkedin.com/in/tyler-walker-502960430"
-						class="text-indigo-400 hover:text-indigo-300 hover:underline">Tyler</a
+						class="text-brand-light hover:text-brand-light hover:underline">Tyler</a
 					>. AGPL licensed source code available on
 					<a
 						href="https://github.com/nucats-soc/airport"
-						class="text-indigo-400 hover:text-indigo-300 hover:underline">GitHub</a
+						class="text-brand-light hover:text-brand-light hover:underline">GitHub</a
 					>.
 				</p>
 			</Cluster>

@@ -4,4 +4,5 @@ export interface Place {
 	address?: string;
 	latitude?: number;
 	longitude?: number;
+	what3words?: string;
 }

@@ -69,7 +69,7 @@ function encodeEvent(event: Event, now: Date): string[] {
 
 	if (event.location) {
 		if (event.room) {
-			result.push(`LOCATION:${sanitize(event.location.name)}\\, Room ${sanitize(event.room)}`);
+			result.push(`LOCATION:${sanitize(event.location.name)}\\, ${sanitize(event.room)}`);
 		} else {
 			result.push(`LOCATION:${sanitize(event.location.name)}`);
 		}

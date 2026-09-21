@@ -45,6 +45,14 @@
 				value: 'Lasts ' + formatDuration(event.durationMinutes)
 			});
 		}
+		for (const tag of event.tags) {
+			attributes.push({
+				name: 'Tag',
+				icon: 'icon-[material-symbols--sell-outline]',
+				color: 'bg-zinc-700',
+				value: tag
+			});
+		}
 		return attributes;
 	}
 

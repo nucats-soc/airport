@@ -8,6 +8,7 @@ interface EventDetails {
 	lastEditedAt: Date;
 	name: string;
 	type: string;
+	tags: string[];
 	status: EventStatus;
 	iconSvg: string;
 	color: EventColor;

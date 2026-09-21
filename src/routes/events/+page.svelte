@@ -8,6 +8,7 @@
 	import CalendarSubscriptionCard from './_components/CalendarSubscriptionCard.svelte';
 	import DiscordEventInfo from './_components/DiscordEventInfo.svelte';
 	import EndOfResultsCard from './_components/EndOfResultsCard.svelte';
+	import EventFilters from './_components/EventFilters.svelte';
 	import PreviousEventsDropdown from './_components/PreviousEventsDropdown.svelte';
 	import PlannedEventsDropdown from './_components/PlannedEventsDropdown.svelte';
 	import {
@@ -32,6 +33,8 @@
 	});
 	let selection = $state<CalendarSelection>(initialSelection);
 	let initialSelectionApplied = $state(false);
+	let eventTypeFilters = $state<string[]>([]);
+	let tagFilters = $state<string[]>([]);
 	const requestedAcademicYear = debounced(
 		() => academicYearOfMonth(selection.year, selection.month),
 		1000
@@ -44,7 +47,14 @@
 	);
 	let eventsDisplayState = $derived(isYearPending ? { loading: true } : eventsQuery);
 	let events = $derived(eventsQuery?.current ?? []);
-	let visibleEvents = $derived(eventsForSelection(events, selection));
+	let eventsInSelection = $derived(eventsForSelection(events, selection));
+	let visibleEvents = $derived(
+		eventsInSelection.filter(
+			(event) =>
+				(eventTypeFilters.length === 0 || eventTypeFilters.includes(event.type)) &&
+				(tagFilters.length === 0 || event.tags.some((tag) => tagFilters.includes(tag)))
+		)
+	);
 	let partitionedEvents = $derived(partitionEventsByDate(visibleEvents, selection));
 	let previousEvents = $derived(partitionedEvents.previousEvents);
 	let upcomingEvents = $derived(partitionedEvents.upcomingEvents);
@@ -73,6 +83,11 @@
 			});
 		}
 	}
+
+	function clearFilters() {
+		eventTypeFilters = [];
+		tagFilters = [];
+	}
 </script>
 
 <PageMetadata
@@ -98,15 +113,21 @@
 			</aside>
 
 			<section class="order-2 min-w-0 lg:order-1" aria-labelledby="events-list-title">
-				<div class="mb-4 flex items-baseline justify-between gap-4 px-1">
+				<div class="mb-4 flex items-center justify-between gap-4 px-1">
 					<h2 id="events-list-title" class="tx-section-title">
 						{formatSelectionHeading(selection)}
 					</h2>
 					{#if !isYearPending && eventsQuery && !eventsQuery.loading && !eventsQuery.error}
-						<p class="tx-body shrink-0 text-zinc-400">
-							{visibleEvents.length}
-							{visibleEvents.length === 1 ? 'event' : 'events'}
-						</p>
+						<div class="shrink-0">
+							<EventFilters
+								events={eventsInSelection}
+								{eventTypeFilters}
+								{tagFilters}
+								onEventTypeFiltersChange={(filters) => (eventTypeFilters = filters)}
+								onTagFiltersChange={(filters) => (tagFilters = filters)}
+								onClear={clearFilters}
+							/>
+						</div>
 					{/if}
 				</div>
 				<Loadable

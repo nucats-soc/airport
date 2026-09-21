@@ -59,6 +59,14 @@ export function selectNameOf(property: PageProperty): string | null {
 	return property.select.name;
 }
 
+export function multiSelectNamesOf(property: PageProperty): string[] {
+	if (!property || property.type !== 'multi_select') {
+		return [];
+	}
+
+	return property.multi_select.map((option) => option.name);
+}
+
 export function numberOf(property: PageProperty): number | null {
 	if (!property || property.type !== 'number') {
 		return null;

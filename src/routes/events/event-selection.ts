@@ -92,9 +92,7 @@ export function clampCalendarSelection(
 
 export function formatSelectionHeading(selection: CalendarSelection): string {
 	const date = selectionToDate(selection);
-	return selection.day === undefined
-		? `Events in ${formatMonth(date)}`
-		: `Events on ${formatLongDate(date)}`;
+	return selection.day === undefined ? formatMonth(date) : formatLongDate(date);
 }
 
 export function isSelectionInPast(selection: CalendarSelection, now: Date = new Date()): boolean {

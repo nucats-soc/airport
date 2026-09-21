@@ -4,6 +4,7 @@ import { queryDataSource, retrievePage } from './content';
 import { getPlace } from './places';
 import {
 	dateRangeOf,
+	multiSelectNamesOf,
 	relationIdOf,
 	selectColorOf,
 	selectNameOf,
@@ -79,6 +80,7 @@ async function parseEvent(page: PageObjectResponse): Promise<Event> {
 		color: parseEventColor(selectColorOf(eventTypeProperty) ?? 'default'),
 		name: textOf(page.properties['Name']) || 'Unnamed',
 		type: selectNameOf(eventTypeProperty) ?? 'Event',
+		tags: multiSelectNamesOf(page.properties['Tags']),
 		status,
 		...timing,
 		description: textOf(page.properties['Description']) || undefined,

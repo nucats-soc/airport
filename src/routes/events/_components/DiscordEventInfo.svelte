@@ -6,7 +6,7 @@
 
 <ActionCard
 	icon="icon-[material-symbols--link]"
-	iconClass="text-indigo-300"
+	iconClass="text-brand-light"
 	title="Stay Connected"
 	description="Join our Discord to suggest event ideas and get updates as soon as new events are added to the calendar."
 	buttonIcon="icon-[simple-icons--discord]"

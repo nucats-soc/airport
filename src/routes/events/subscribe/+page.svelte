@@ -82,7 +82,7 @@
 				<ol>
 					<li>Press "Add to Calendar"</li>
 					<li>Your calendar app should open with the Calendar URL.</li>
-					<li>Press <strong>Find</strong> to subscribe to the Calendar.</li>
+					<li>Configure the feed, ensuring frequency is set to 1 hour for the most up to date updates.</li>
 					<li>You're done, new events should now appear in your calendar app!</li>
 				</ol>
 			</div>

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Button from '$lib/components/ui/ActionButton.svelte';
-	import carouselData from '$lib/assets/carousel/AltText.json';
+	import Button from '#lib/components/ui/ActionButton.svelte';
+	import carouselData from '#lib/assets/carousel/AltText.json';
 	import type { Picture } from '@sveltejs/enhanced-img';
 
 	// Load and optimize images from assets at build time. Keep the variants close to the

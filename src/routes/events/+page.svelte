@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import EventCard from '$lib/components/domain/EventCard.svelte';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Loadable from '$lib/components/ui/Loadable.svelte';
+	import { browser } from '$app/env';
+	import EventCard from '#lib/components/domain/EventCard.svelte';
+	import Container from '#lib/components/layout/Container.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import Loadable from '#lib/components/ui/Loadable.svelte';
 	import CalendarCard from './_components/CalendarCard.svelte';
 	import CalendarSubscriptionCard from './_components/CalendarSubscriptionCard.svelte';
 	import DiscordEventInfo from './_components/DiscordEventInfo.svelte';
@@ -21,11 +21,11 @@
 	} from './event-selection';
 	import { getEventsByAcademicYear } from './events.remote';
 	import type { CalendarSelection } from './types';
-	import PageHeader from '$lib/components/ui/PageHeader.svelte';
-	import headerImage from '$lib/assets/headers/events.jpg?enhanced';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
-	import { academicYearOfMonth } from '$lib/util/academicYear';
-	import { debounced } from '$lib/util/debounced.svelte';
+	import PageHeader from '#lib/components/ui/PageHeader.svelte';
+	import headerImage from '#lib/assets/headers/events.jpg?enhanced';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import { academicYearOfMonth } from '#lib/util/academicYear.js';
+	import { debounced } from '#lib/util/debounced.svelte.js';
 
 	const initialSelection = clampCalendarSelection({
 		year: new Date().getFullYear(),

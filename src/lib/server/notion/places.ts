@@ -1,11 +1,11 @@
-import { env } from '$env/dynamic/private';
+import { NOTION_PLACE_DATASOURCE } from '$app/env/private';
 import { queryDataSource } from './content';
 import { numberOf, textOf } from './properties';
 
 import type { Place } from '../../types/place';
 import type { PageObjectResponse } from '@notionhq/client';
-import { cache } from '$lib/server/cache';
-import { MINUTES } from '$lib/util/timeUnits';
+import { cache } from '#lib/server/cache.js';
+import { MINUTES } from '#lib/util/timeUnits.js';
 
 const PLACE_PAGE_SIZE = 100;
 const PLACE_TTL = 5 * MINUTES;
@@ -27,13 +27,8 @@ export function getPlaces(): Promise<Place[]> {
 		() => {
 			return queryDataSource(
 				{
-					data_source_id: env.NOTION_PLACE_DATASOURCE ?? '',
-					sorts: [
-						{
-							property: 'Name',
-							direction: 'ascending'
-						}
-					],
+					data_source_id: NOTION_PLACE_DATASOURCE ?? '',
+					sorts: [{ property: 'Name', direction: 'ascending' }],
 					page_size: PLACE_PAGE_SIZE
 				},
 				parsePlace,

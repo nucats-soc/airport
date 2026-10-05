@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Container from '$lib/components/layout/Container.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
+	import Container from '#lib/components/layout/Container.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import Cluster from '#lib/components/layout/Cluster.svelte';
 
 	interface FooterLink {
 		label: string;

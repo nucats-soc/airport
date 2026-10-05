@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import Container from '$lib/components/layout/Container.svelte';
-	import EventCard from '$lib/components/domain/EventCard.svelte';
-	import LinkButton from '$lib/components/ui/LinkButton.svelte';
-	import Loadable from '$lib/components/ui/Loadable.svelte';
+	import { browser } from '$app/env';
+	import Container from '#lib/components/layout/Container.svelte';
+	import EventCard from '#lib/components/domain/EventCard.svelte';
+	import LinkButton from '#lib/components/ui/LinkButton.svelte';
+	import Loadable from '#lib/components/ui/Loadable.svelte';
 	import { getUpcomingEventsPreview } from '../home.remote';
 
 	let eventsQuery = $derived(browser ? getUpcomingEventsPreview() : undefined);

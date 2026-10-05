@@ -1,9 +1,9 @@
 <script lang="ts">
-	import DropdownButton from '$lib/components/ui/DropdownButton.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import ActionButton from '$lib/components/ui/ActionButton.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-	import { formatAcademicYear } from '$lib/util/academicYear';
+	import DropdownButton from '#lib/components/ui/DropdownButton.svelte';
+	import Cluster from '#lib/components/layout/Cluster.svelte';
+	import ActionButton from '#lib/components/ui/ActionButton.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
+	import { formatAcademicYear } from '#lib/util/academicYear.js';
 
 	interface Props {
 		years: number[];

@@ -1,6 +1,6 @@
 import type { RequestHandler } from './$types';
-import { getCalendarFeed } from '$lib/server/ical';
-import { rateLimit } from '$lib/server/rateLimit';
+import { getCalendarFeed } from '#lib/server/ical.js';
+import { rateLimit } from '#lib/server/rateLimit.js';
 
 export const GET: RequestHandler = async () => {
 	await rateLimit('events-ical-feed', 5_000);

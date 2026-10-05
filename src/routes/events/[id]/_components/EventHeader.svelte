@@ -1,10 +1,15 @@
 <script lang="ts">
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import type { Event } from '$lib/types/event';
-	import { formatDate, formatDateTime, formatIsoDate, formatMonthName } from '$lib/util/dateTime';
-	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
-	import Icon from '$lib/components/ui/Icon.svelte';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
+	import type { Event } from '#lib/types/event.js';
+	import {
+		formatDate,
+		formatDateTime,
+		formatIsoDate,
+		formatMonthName
+	} from '#lib/util/dateTime.js';
+	import { EVENT_COLOR_CLASSES } from '#lib/util/event.js';
+	import Icon from '#lib/components/ui/Icon.svelte';
 
 	interface Props {
 		event: Event;

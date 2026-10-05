@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Box from '$lib/components/layout/Box.svelte';
+	import Box from '#lib/components/layout/Box.svelte';
 	import classNames from 'classnames';
 	import type { Picture } from '@sveltejs/enhanced-img';
 

@@ -1,18 +1,18 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import Container from '$lib/components/layout/Container.svelte';
-	import SplitLayout from '$lib/components/layout/SplitLayout.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Loadable from '$lib/components/ui/Loadable.svelte';
+	import { browser } from '$app/env';
+	import Container from '#lib/components/layout/Container.svelte';
+	import SplitLayout from '#lib/components/layout/SplitLayout.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import Loadable from '#lib/components/ui/Loadable.svelte';
 	import type { PageProps } from './$types';
 	import EventHeader from './_components/EventHeader.svelte';
 	import EventVenue from './_components/EventVenue.svelte';
 	import EventInformation from './_components/EventInformation.svelte';
-	import LinkButton from '$lib/components/ui/LinkButton.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
+	import LinkButton from '#lib/components/ui/LinkButton.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
 	import { getEventDescription } from './event.remote';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
-	import { EVENT_HEX_COLORS } from '$lib/util/event';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import { EVENT_HEX_COLORS } from '#lib/util/event.js';
 
 	let { data, params }: PageProps = $props();
 	let eventDescriptionQuery = $derived(browser ? getEventDescription(params.id) : undefined);

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import DropdownButton from '$lib/components/ui/DropdownButton.svelte';
-	import ActionButton from '$lib/components/ui/ActionButton.svelte';
-	import Checkbox from '$lib/components/ui/Checkbox.svelte';
-	import Pill from '$lib/components/ui/Pill.svelte';
-	import type { Event, EventColor } from '$lib/types/event';
-	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
+	import DropdownButton from '#lib/components/ui/DropdownButton.svelte';
+	import ActionButton from '#lib/components/ui/ActionButton.svelte';
+	import Checkbox from '#lib/components/ui/Checkbox.svelte';
+	import Pill from '#lib/components/ui/Pill.svelte';
+	import type { Event, EventColor } from '#lib/types/event.js';
+	import { EVENT_COLOR_CLASSES } from '#lib/util/event.js';
 
 	interface Props {
 		events: Event[];

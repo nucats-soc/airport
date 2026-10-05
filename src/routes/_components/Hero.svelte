@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Container from '$lib/components/layout/Container.svelte';
-	import SplitLayout from '$lib/components/layout/SplitLayout.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import LinkButton from '$lib/components/ui/LinkButton.svelte';
+	import Container from '#lib/components/layout/Container.svelte';
+	import SplitLayout from '#lib/components/layout/SplitLayout.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import LinkButton from '#lib/components/ui/LinkButton.svelte';
 	import AnimatedCatBackground from './AnimatedCatBackground.svelte';
 </script>
 

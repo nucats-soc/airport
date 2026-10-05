@@ -1,11 +1,11 @@
 <script lang="ts">
-	import LinkButton from '$lib/components/ui/LinkButton.svelte';
-	import type { Event } from '$lib/types/event';
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import type { Place } from '$lib/types/place';
-	import Icon from '$lib/components/ui/Icon.svelte';
+	import LinkButton from '#lib/components/ui/LinkButton.svelte';
+	import type { Event } from '#lib/types/event.js';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import type { Place } from '#lib/types/place.js';
+	import Icon from '#lib/components/ui/Icon.svelte';
 
 	type EventNonNullLocation = Event & { location: Place };
 

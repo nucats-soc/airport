@@ -1,20 +1,20 @@
 <script lang="ts">
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import PageHeader from '$lib/components/ui/PageHeader.svelte';
-	import Selector from '$lib/components/ui/Selector.svelte';
-	import LinkButton from '$lib/components/ui/LinkButton.svelte';
-	import CopyButton from '$lib/components/ui/CopyButton.svelte';
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
+	import Container from '#lib/components/layout/Container.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import PageHeader from '#lib/components/ui/PageHeader.svelte';
+	import Selector from '#lib/components/ui/Selector.svelte';
+	import LinkButton from '#lib/components/ui/LinkButton.svelte';
+	import CopyButton from '#lib/components/ui/CopyButton.svelte';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
+	import Cluster from '#lib/components/layout/Cluster.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
 
-	import headerImage from '$lib/assets/headers/events.jpg?enhanced';
-	import manage from '$lib/assets/subscribe/manage.png?enhanced';
-	import add from '$lib/assets/subscribe/add.png?enhanced';
-	import setUrl from '$lib/assets/subscribe/set-url.png?enhanced';
+	import headerImage from '#lib/assets/headers/events.jpg?enhanced';
+	import manage from '#lib/assets/subscribe/manage.png?enhanced';
+	import add from '#lib/assets/subscribe/add.png?enhanced';
+	import setUrl from '#lib/assets/subscribe/set-url.png?enhanced';
 
 	const calendarOptions = [
 		{
@@ -82,7 +82,9 @@
 				<ol>
 					<li>Press "Add to Calendar"</li>
 					<li>Your calendar app should open with the Calendar URL.</li>
-					<li>Configure the feed, ensuring frequency is set to 1 hour for the most up to date updates.</li>
+					<li>
+						Configure the feed, ensuring frequency is set to 1 hour for the most up to date updates.
+					</li>
 					<li>You're done, new events should now appear in your calendar app!</li>
 				</ol>
 			</div>

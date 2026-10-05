@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Container from '$lib/components/layout/Container.svelte';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
+	import Container from '#lib/components/layout/Container.svelte';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
 </script>
 
 <PageMetadata

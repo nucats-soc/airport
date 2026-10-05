@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
+	import Container from '#lib/components/layout/Container.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
 	import MenuToggleIcon from './MenuToggleIcon.svelte';
 
 	const navItems = [

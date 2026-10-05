@@ -1,11 +1,16 @@
 <script lang="ts">
-	import Box from '$lib/components/layout/Box.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import LinkButton from '$lib/components/ui/LinkButton.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-	import type { Event } from '$lib/types/event';
-	import { formatDate, formatDateTime, formatIsoDate, formatMonthName } from '$lib/util/dateTime';
-	import { EVENT_COLOR_CLASSES, EVENT_TEXT_COLOR_CLASSES } from '$lib/util/event';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Cluster from '#lib/components/layout/Cluster.svelte';
+	import LinkButton from '#lib/components/ui/LinkButton.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
+	import type { Event } from '#lib/types/event.js';
+	import {
+		formatDate,
+		formatDateTime,
+		formatIsoDate,
+		formatMonthName
+	} from '#lib/util/dateTime.js';
+	import { EVENT_COLOR_CLASSES, EVENT_TEXT_COLOR_CLASSES } from '#lib/util/event.js';
 
 	interface Props {
 		event: Event;

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Box from '$lib/components/layout/Box.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-	import LinkButton from '$lib/components/ui/LinkButton.svelte';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Cluster from '#lib/components/layout/Cluster.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
+	import LinkButton from '#lib/components/ui/LinkButton.svelte';
 
 	interface Props {
 		icon: string;

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import ActionButton from '$lib/components/ui/ActionButton.svelte';
-	import type { ButtonVariant } from '$lib/components/ui/button';
+	import ActionButton from '#lib/components/ui/ActionButton.svelte';
+	import type { ButtonVariant } from '#lib/components/ui/button.js';
 	import classNames from 'classnames';
 	import { onMount, type Snippet } from 'svelte';
 	import Icon from './Icon.svelte';

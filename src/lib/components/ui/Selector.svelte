@@ -1,8 +1,8 @@
 <script lang="ts">
 	import classNames from 'classnames';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
+	import Cluster from '#lib/components/layout/Cluster.svelte';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
 	import Icon from './Icon.svelte';
 
 	export interface SelectorOption {

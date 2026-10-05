@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { CalendarSelection } from '../types';
-	import ActionButton from '$lib/components/ui/ActionButton.svelte';
-	import DropdownButton from '$lib/components/ui/DropdownButton.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
+	import ActionButton from '#lib/components/ui/ActionButton.svelte';
+	import DropdownButton from '#lib/components/ui/DropdownButton.svelte';
+	import Cluster from '#lib/components/layout/Cluster.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
 	import {
 		EARLIEST_ACADEMIC_YEAR,
 		academicYearMonths,
@@ -11,8 +11,8 @@
 		academicYearSelection,
 		availableAcademicYears,
 		formatAcademicYear
-	} from '$lib/util/academicYear';
-	import { formatMonth, formatShortMonth } from '$lib/util/dateTime';
+	} from '#lib/util/academicYear.js';
+	import { formatMonth, formatShortMonth } from '#lib/util/dateTime.js';
 	import {
 		EARLIEST_EVENT_SELECTION,
 		isCalendarMonthAfter,

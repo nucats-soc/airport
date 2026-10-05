@@ -1,4 +1,4 @@
-import type { EventColor } from '$lib/types/event';
+import type { EventColor } from '#lib/types/event.js';
 
 const EVENT_ICON_SIZE = 256;
 const EVENT_ICON_PADDING = 48;

@@ -1,7 +1,7 @@
-import { cache } from '$lib/server/cache';
-import { getEventsByYearRange } from '$lib/server/notion/events';
-import type { Event } from '$lib/types/event';
-import { MINUTES } from '$lib/util/timeUnits';
+import { cache } from '#lib/server/cache.js';
+import { getEventsByYearRange } from '#lib/server/notion/events.js';
+import type { Event } from '#lib/types/event.js';
+import { MINUTES } from '#lib/util/timeUnits.js';
 import { Temporal } from '@js-temporal/polyfill';
 
 const EVENT_FEED_CACHE = 30 * MINUTES;

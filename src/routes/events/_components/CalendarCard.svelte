@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
 	import CalendarDay from './CalendarDay.svelte';
 	import CalendarMonth from './CalendarMonth.svelte';
-	import type { Event } from '$lib/types/event';
+	import type { Event } from '#lib/types/event.js';
 	import type { CalendarSelection } from '../types';
 	import { isEventOnDate } from '../event-selection';
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Box from '$lib/components/layout/Box.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import type { CommitteeMember } from '$lib/types/committeeMember';
-	import Icon from '$lib/components/ui/Icon.svelte';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Cluster from '#lib/components/layout/Cluster.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import type { CommitteeMember } from '#lib/types/committeeMember.js';
+	import Icon from '#lib/components/ui/Icon.svelte';
 
 	interface ProfileLink {
 		label: string;

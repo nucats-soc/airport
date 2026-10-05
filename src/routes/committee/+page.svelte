@@ -1,16 +1,16 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import Container from '$lib/components/layout/Container.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Loadable from '$lib/components/ui/Loadable.svelte';
+	import { browser } from '$app/env';
+	import Container from '#lib/components/layout/Container.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import Loadable from '#lib/components/ui/Loadable.svelte';
 	import CommitteeMemberCard from './_components/CommitteeMemberCard.svelte';
-	import PageHeader from '$lib/components/ui/PageHeader.svelte';
-	import headerImage from '$lib/assets/headers/committee.jpg?enhanced';
-	import { formatAcademicYear, getAcademicYear } from '$lib/util/academicYear';
+	import PageHeader from '#lib/components/ui/PageHeader.svelte';
+	import headerImage from '#lib/assets/headers/committee.jpg?enhanced';
+	import { formatAcademicYear, getAcademicYear } from '#lib/util/academicYear.js';
 	import { getAllCommitteeMembers, getCommitteeYears } from './committee.remote';
 	import CommitteeYearSelector from './_components/CommitteeYearSelector.svelte';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
-	import { debounced } from '$lib/util/debounced.svelte';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import { debounced } from '#lib/util/debounced.svelte.js';
 
 	const initialYear = getAcademicYear();
 	let year = $state<number>(initialYear);

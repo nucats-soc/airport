@@ -1,5 +1,5 @@
-import { env } from '$env/dynamic/private';
-import { renderMaterialSymbol } from '$lib/server/material-symbols';
+import { NOTION_EVENT_DATASOURCE } from '$app/env/private';
+import { renderMaterialSymbol } from '#lib/server/material-symbols.js';
 import { queryDataSource, retrievePage } from './content';
 import { getPlace } from './places';
 import {
@@ -19,9 +19,9 @@ import type {
 	PropertyFilter,
 	TimestampFilter
 } from '@notionhq/client/build/src/api-endpoints/common';
-import { cache, EVENT_CACHE_TTL } from '$lib/server/cache';
-import { HOURS } from '$lib/util/timeUnits';
-import { ACADEMIC_YEAR_START_MONTH, getAcademicYear } from '$lib/util/academicYear';
+import { cache, EVENT_CACHE_TTL } from '#lib/server/cache.js';
+import { HOURS } from '#lib/util/timeUnits.js';
+import { ACADEMIC_YEAR_START_MONTH, getAcademicYear } from '#lib/util/academicYear.js';
 
 type EventFilter = PropertyFilter | TimestampFilter;
 const LISTED_EVENT_STATUSES = ['Confirmed', 'Planned', 'Completed', 'Cancelled'];
@@ -120,7 +120,7 @@ async function getEvents(filters: EventFilter[], pageSize?: number): Promise<Eve
 	);
 	return queryDataSource(
 		{
-			data_source_id: env.NOTION_EVENT_DATASOURCE ?? '',
+			data_source_id: NOTION_EVENT_DATASOURCE ?? '',
 			filter: {
 				and: [
 					...(hasStatusFilter
@@ -129,9 +129,7 @@ async function getEvents(filters: EventFilter[], pageSize?: number): Promise<Eve
 								{
 									property: 'Status' as const,
 									type: 'status' as const,
-									status: {
-										equals: LISTED_EVENT_STATUSES
-									}
+									status: { equals: LISTED_EVENT_STATUSES }
 								}
 							]),
 					...filters

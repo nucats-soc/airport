@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Event } from '$lib/types/event';
-	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
+	import type { Event } from '#lib/types/event.js';
+	import { EVENT_COLOR_CLASSES } from '#lib/util/event.js';
 	import classNames from 'classnames';
 	import type { CalendarSelection } from '../types';
 	import {

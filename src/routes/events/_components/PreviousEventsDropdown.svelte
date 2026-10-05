@@ -1,7 +1,7 @@
 <script lang="ts">
-	import EventCard from '$lib/components/domain/EventCard.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-	import type { Event } from '$lib/types/event';
+	import EventCard from '#lib/components/domain/EventCard.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
+	import type { Event } from '#lib/types/event.js';
 	import classNames from 'classnames';
 
 	interface Props {

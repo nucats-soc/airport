@@ -4,9 +4,9 @@
 	import Socials from './_components/Socials.svelte';
 	import About from './_components/About.svelte';
 	import EventsOverview from './_components/EventsOverview.svelte';
-	import Container from '$lib/components/layout/Container.svelte';
-	import ActionCard from '$lib/components/ui/ActionCard.svelte';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
+	import Container from '#lib/components/layout/Container.svelte';
+	import ActionCard from '#lib/components/ui/ActionCard.svelte';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
 </script>
 
 <PageMetadata

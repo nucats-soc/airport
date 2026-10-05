@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { Picture } from '@sveltejs/enhanced-img';
-	import spinner from '$lib/assets/spinner.gif';
-	import staticSpinner from '$lib/assets/spinner-static.png?enhanced';
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
+	import spinner from '#lib/assets/spinner.gif';
+	import staticSpinner from '#lib/assets/spinner-static.png?enhanced';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
 
 	interface Props {
 		label?: string;

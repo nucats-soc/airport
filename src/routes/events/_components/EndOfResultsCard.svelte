@@ -1,11 +1,11 @@
 <script lang="ts">
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
+	import Box from '#lib/components/layout/Box.svelte';
+	import Inset from '#lib/components/layout/Inset.svelte';
+	import Stack from '#lib/components/layout/Stack.svelte';
+	import Icon from '#lib/components/ui/Icon.svelte';
 	import type { CalendarSelection } from '../types';
-	import type { Event } from '$lib/types/event';
-	import { formatDate, formatMonth } from '$lib/util/dateTime';
+	import type { Event } from '#lib/types/event.js';
+	import { formatDate, formatMonth } from '#lib/util/dateTime.js';
 	import {
 		isCalendarMonthBefore,
 		isSelectionInPast,

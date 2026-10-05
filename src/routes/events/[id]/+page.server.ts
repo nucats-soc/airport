@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { getEventById } from '$lib/server/notion/events';
+import { getEventById } from '#lib/server/notion/events.js';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {

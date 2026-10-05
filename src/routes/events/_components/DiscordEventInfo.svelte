@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ActionCard from '$lib/components/ui/ActionCard.svelte';
+	import ActionCard from '#lib/components/ui/ActionCard.svelte';
 
 	const discordInvite = 'https://discord.gg/N4dJQdafrd';
 </script>

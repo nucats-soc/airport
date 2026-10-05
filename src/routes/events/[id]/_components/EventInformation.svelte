@@ -60,7 +60,7 @@
 	let informationPills: InformationPill[] = $derived(getInformationPills(event));
 </script>
 
-<dl class="tx-body flex flex-wrap gap-2">
+<dl class="tx-base flex flex-wrap gap-2">
 	{#each informationPills as informationPill}
 		<Pill icon={informationPill.icon} extraClass={informationPill.color}>
 			<dt class="sr-only">{informationPill.name}</dt>

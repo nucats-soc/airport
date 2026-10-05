@@ -7,6 +7,7 @@
 	import Container from '#lib/components/layout/Container.svelte';
 	import ActionCard from '#lib/components/ui/ActionCard.svelte';
 	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import { getHref } from '#lib/links.js';
 </script>
 
 <PageMetadata
@@ -27,7 +28,7 @@
 		description="Join NUCATS today! Hang out with similar minded people, attend socials, build projects, and most of all, have fun!"
 		buttonIcon="icon-[material-symbols--person-add-outline]"
 		buttonLabel="Join Today!"
-		buttonHref="https://nusu.co.uk/activities/view-society/131"
+		buttonHref={getHref('join')}
 		buttonExternal
 	/>
 </Container>

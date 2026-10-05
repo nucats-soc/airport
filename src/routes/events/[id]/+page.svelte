@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getHref } from '#lib/links.js';
 	import { browser } from '$app/env';
 	import Container from '#lib/components/layout/Container.svelte';
 	import SplitLayout from '#lib/components/layout/SplitLayout.svelte';
@@ -45,7 +46,7 @@
 
 <Container>
 	<Stack gap="lg">
-		<LinkButton type="subtle" href="/events" extraClass="self-start">
+		<LinkButton type="subtle" href={getHref('events')} extraClass="self-start">
 			<Icon icon="icon-[material-symbols--arrow-back]" size="sm" />
 			Back to events
 		</LinkButton>

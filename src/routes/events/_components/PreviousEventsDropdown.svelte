@@ -34,7 +34,7 @@
 				size="md"
 				extraClass="text-zinc-400 transition-colors group-hover:text-zinc-200"
 			/>
-			<span class="tx-item-title text-zinc-100">
+			<span class="tx-header-3 text-zinc-100">
 				{label}
 			</span>
 		</div>

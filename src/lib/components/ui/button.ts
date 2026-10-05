@@ -31,7 +31,7 @@ export function getButtonStyle(
 			'cursor-not-allowed opacity-60': isDisabled,
 			'cursor-pointer': !isDisabled
 		},
-		'tx-button-label',
+		'tx-base leading-5',
 		type === 'compact' ? 'rounded-lg' : 'rounded-full',
 		type !== 'subtle' && type !== 'compact' && 'text-white',
 		'transition-colors duration-200',

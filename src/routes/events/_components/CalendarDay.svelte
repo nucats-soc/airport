@@ -31,7 +31,7 @@
 	let isSelected = $derived(isDateSelected(selection, date));
 	let classes = $derived(
 		classNames(
-			'tx-button-label flex size-7 touch-manipulation items-center justify-center rounded-full transition sm:size-8',
+			'tx-base leading-5 flex size-7 touch-manipulation items-center justify-center rounded-full transition sm:size-8',
 			firstEvent && !isDisabled && (selection.day === undefined || isSelected)
 				? EVENT_COLOR_CLASSES[firstEvent.color]
 				: undefined,

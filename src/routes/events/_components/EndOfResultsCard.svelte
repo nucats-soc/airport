@@ -68,8 +68,8 @@
 			<Stack gap="sm" align="center" extraClass="text-center">
 				<Icon icon={card.icon} size="lg" extraClass={card.color} />
 				<div>
-					<p class="tx-item-title">{card.title}</p>
-					<p class="tx-body text-zinc-300">{card.action}</p>
+					<p class="tx-header-3">{card.title}</p>
+					<p class="tx-base text-zinc-300">{card.action}</p>
 				</div>
 			</Stack>
 		</Inset>

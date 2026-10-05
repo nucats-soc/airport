@@ -38,7 +38,7 @@
 						disabled={option.disabled}
 						onclick={() => (value = option.value)}
 						class={classNames(
-							'tx-item-title flex w-full items-center justify-center gap-4 rounded-lg p-4 transition-colors duration-200',
+							'tx-header-3 flex w-full items-center justify-center gap-4 rounded-lg p-4 transition-colors duration-200',
 							value === option.value && 'bg-zinc-700 text-brand-light',
 							option.disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-zinc-700'
 						)}

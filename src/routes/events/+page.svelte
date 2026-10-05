@@ -36,24 +36,24 @@
 	let eventTypeFilters = $state<string[]>([]);
 	let tagFilters = $state<string[]>([]);
 	const requestedAcademicYear = debounced(
-		() => academicYearOfMonth(selection.year, selection.month),
-		1000
+			() => academicYearOfMonth(selection.year, selection.month),
+			1000
 	);
 	let eventsQuery = $derived(
-		browser ? getEventsByAcademicYear(requestedAcademicYear()) : undefined
+			browser ? getEventsByAcademicYear(requestedAcademicYear()) : undefined
 	);
 	let isYearPending = $derived(
-		requestedAcademicYear() !== academicYearOfMonth(selection.year, selection.month)
+			requestedAcademicYear() !== academicYearOfMonth(selection.year, selection.month)
 	);
 	let eventsDisplayState = $derived(isYearPending ? { loading: true } : eventsQuery);
 	let events = $derived(eventsQuery?.current ?? []);
 	let eventsInSelection = $derived(eventsForSelection(events, selection));
 	let visibleEvents = $derived(
-		eventsInSelection.filter(
-			(event) =>
-				(eventTypeFilters.length === 0 || eventTypeFilters.includes(event.type)) &&
-				(tagFilters.length === 0 || event.tags.some((tag) => tagFilters.includes(tag)))
-		)
+			eventsInSelection.filter(
+					(event) =>
+							(eventTypeFilters.length === 0 || eventTypeFilters.includes(event.type)) &&
+							(tagFilters.length === 0 || event.tags.some((tag) => tagFilters.includes(tag)))
+			)
 	);
 	let partitionedEvents = $derived(partitionEventsByDate(visibleEvents, selection));
 	let previousEvents = $derived(partitionedEvents.previousEvents);
@@ -91,16 +91,16 @@
 </script>
 
 <PageMetadata
-	title="Events"
-	description="See upcoming events from Newcastle University's Computing and Technology Society."
+		title="Events"
+		description="See upcoming events from Newcastle University's Computing and Technology Society."
 />
 
 <Container>
 	<Stack gap="md">
 		<PageHeader
-			image={headerImage}
-			title="Event Schedule"
-			description="See what we're doing and come along."
+				image={headerImage}
+				title="Event Schedule"
+				description="See what we're doing and come along."
 		/>
 		<div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-6">
 			<aside class="contents lg:order-2 lg:grid lg:gap-4">
@@ -114,30 +114,30 @@
 
 			<section class="order-2 min-w-0 lg:order-1" aria-labelledby="events-list-title">
 				<div class="mb-4 flex items-center justify-between gap-4 px-1">
-					<h2 id="events-list-title" class="tx-section-title">
+					<h2 id="events-list-title" class="tx-header-2">
 						{formatSelectionHeading(selection)}
 					</h2>
 					{#if !isYearPending && eventsQuery && !eventsQuery.loading && !eventsQuery.error}
 						<div class="shrink-0">
 							<EventFilters
-								events={eventsInSelection}
-								{eventTypeFilters}
-								{tagFilters}
-								onEventTypeFiltersChange={(filters) => (eventTypeFilters = filters)}
-								onTagFiltersChange={(filters) => (tagFilters = filters)}
-								onClear={clearFilters}
+									events={eventsInSelection}
+									{eventTypeFilters}
+									{tagFilters}
+									onEventTypeFiltersChange={(filters) => (eventTypeFilters = filters)}
+									onTagFiltersChange={(filters) => (tagFilters = filters)}
+									onClear={clearFilters}
 							/>
 						</div>
 					{/if}
 				</div>
 				<Loadable
-					state={eventsDisplayState}
-					loadingLabel="Loading events"
-					errorMessage="Events could not be loaded."
-					extraClass="w-full py-8"
+						state={eventsDisplayState}
+						loadingLabel="Loading events"
+						errorMessage="Events could not be loaded."
+						extraClass="w-full py-8"
 				>
 					<div
-						class={[
+							class={[
 							'w-full',
 							visibleEvents.length === 0 ? 'flex items-center justify-center' : 'self-start'
 						]}
@@ -145,8 +145,8 @@
 						<div class="grid gap-4">
 							{#if previousEvents.length > 0}
 								<PreviousEventsDropdown
-									events={previousEvents}
-									extraClass={plannedEvents.length > 0 ? '' : 'mb-6 sm:mb-8'}
+										events={previousEvents}
+										extraClass={plannedEvents.length > 0 ? '' : 'mb-6 sm:mb-8'}
 								/>
 							{/if}
 							{#if plannedEvents.length > 0}
@@ -156,9 +156,9 @@
 								<EventCard {event} />
 							{/each}
 							<EndOfResultsCard
-								events={visibleEvents}
-								{selection}
-								onUpdateSelection={updateSelection}
+									events={visibleEvents}
+									{selection}
+									onUpdateSelection={updateSelection}
 							/>
 						</div>
 					</div>

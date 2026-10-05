@@ -53,12 +53,12 @@
 		class="grid max-h-[min(32rem,calc(100vh-8rem))] min-w-48 gap-6 overflow-x-hidden overflow-y-auto"
 	>
 		{#if eventTypes.length === 0 && tags.length === 0}
-			<p class="tx-body text-zinc-300">No filters available for this selection.</p>
+			<p class="tx-base text-zinc-300">No filters available for this selection.</p>
 		{/if}
 
 		{#if eventTypes.length > 0}
 			<fieldset class="grid gap-1">
-				<legend class="tx-item-title mb-2">Event Types</legend>
+				<legend class="tx-header-3 mb-2">Event Types</legend>
 				{#each eventTypes as eventType}
 					<Checkbox
 						checked={eventTypeFilters.includes(eventType)}
@@ -72,7 +72,7 @@
 
 		{#if tags.length > 0}
 			<fieldset class="grid gap-1">
-				<legend class="tx-item-title mb-2">Event Tags</legend>
+				<legend class="tx-header-3 mb-2">Event Tags</legend>
 				{#each tags as tag}
 					<Checkbox
 						checked={tagFilters.includes(tag)}

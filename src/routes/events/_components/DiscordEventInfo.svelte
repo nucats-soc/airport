@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ActionCard from '#lib/components/ui/ActionCard.svelte';
-
-	const discordInvite = 'https://discord.gg/N4dJQdafrd';
+	import { getHref } from '#lib/links.js';
 </script>
 
 <ActionCard
@@ -11,7 +10,7 @@
 	description="Join our Discord to suggest event ideas and get updates as soon as new events are added to the calendar."
 	buttonIcon="icon-[simple-icons--discord]"
 	buttonLabel="Join Discord"
-	buttonHref={discordInvite}
+	buttonHref={getHref('discord')}
 	buttonExternal
 	stacked
 />

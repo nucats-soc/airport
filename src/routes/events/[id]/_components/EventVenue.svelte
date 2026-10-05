@@ -87,7 +87,7 @@
 	</div>
 	<Inset space="md" extraClass="flex flex-1">
 		<Stack gap="md" extraClass="min-w-0 flex-1">
-			<dl class="tx-body flex flex-col gap-4">
+			<dl class="tx-base flex flex-col gap-4">
 				{#each attributes as attribute}
 					<div class="flex gap-3">
 						<div class="mt-1 flex shrink-0">

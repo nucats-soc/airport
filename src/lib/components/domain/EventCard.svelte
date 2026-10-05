@@ -3,13 +3,8 @@
 	import Cluster from '#lib/components/layout/Cluster.svelte';
 	import LinkButton from '#lib/components/ui/LinkButton.svelte';
 	import Icon from '#lib/components/ui/Icon.svelte';
+	import TimeDisplay from '#lib/components/TimeDisplay.svelte';
 	import type { Event } from '#lib/types/event.js';
-	import {
-		formatDate,
-		formatDateTime,
-		formatIsoDate,
-		formatMonthName
-	} from '#lib/util/dateTime.js';
 	import { EVENT_COLOR_CLASSES, EVENT_TEXT_COLOR_CLASSES } from '#lib/util/event.js';
 
 	interface Props {
@@ -28,14 +23,6 @@
 
 	let colorClasses = $derived(EVENT_COLOR_CLASSES[event.color]);
 	let textColorClasses = $derived(EVENT_TEXT_COLOR_CLASSES[event.color]);
-	let formattedDate = $derived(
-		event.status === 'Planned'
-			? formatMonthName(event.date)
-			: event.allDay
-				? formatDate(event.date)
-				: formatDateTime(event.date)
-	);
-	let machineDate = $derived(event.allDay ? formatIsoDate(event.date) : event.date.toISOString());
 	let formattedPlace = $derived(formatPlace(event));
 	let formattedUrl = $derived(`/events/${event.id}`);
 </script>
@@ -58,13 +45,13 @@
 				</Cluster>
 
 				<div class="min-w-0">
-					<h3 class="tx-card-title">{event.name}</h3>
-					<p class={['tx-item-title mt-0.5', textColorClasses]}>{event.type}</p>
+					<h3 class="tx-header-3 text-xl font-semibold">{event.name}</h3>
+					<p class={['tx-header-3 mt-0.5', textColorClasses]}>{event.type}</p>
 				</div>
 			</Cluster>
 
 			{#if event.description}
-				<p class="tx-body md:col-span-2">{event.description}</p>
+				<p class="tx-base md:col-span-2">{event.description}</p>
 			{/if}
 
 			<Cluster
@@ -74,12 +61,16 @@
 			>
 				<Cluster gap="none" extraClass="shrink-0 gap-2">
 					<Icon icon="icon-[material-symbols--calendar-today]" size="sm" />
-					<time class="tx-body" datetime={machineDate}>{formattedDate}</time>
+					<TimeDisplay
+						date={event.date}
+						format={event.status === 'Planned' ? 'monthName' : event.allDay ? 'date' : 'dateTime'}
+						extraClass="tx-base"
+					/>
 				</Cluster>
 
 				<Cluster gap="none" extraClass="min-w-0 gap-2">
 					<Icon icon="icon-[material-symbols--location-on]" size="sm" />
-					<span class="tx-body min-w-0 break-words">{formattedPlace}</span>
+					<span class="tx-base min-w-0 break-words">{formattedPlace}</span>
 				</Cluster>
 			</Cluster>
 

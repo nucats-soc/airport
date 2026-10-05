@@ -27,7 +27,7 @@
 {#if !state || state.loading}
 	<Spinner label={loadingLabel} {extraClass} />
 {:else if state.error}
-	<p class="tx-body">{errorMessage}</p>
+	<p class="tx-base">{errorMessage}</p>
 {:else}
 	{@render children()}
 {/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getHref } from '#lib/links.js';
 	import { browser } from '$app/env';
 	import Container from '#lib/components/layout/Container.svelte';
 	import EventCard from '#lib/components/domain/EventCard.svelte';
@@ -21,13 +22,13 @@
 	<section aria-labelledby="upcoming-events-title">
 		<div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
 			<div>
-				<h2 id="upcoming-events-title" class="tx-section-title">Upcoming Events</h2>
+				<h2 id="upcoming-events-title" class="tx-header-2">Upcoming Events</h2>
 				{#if eventsQuery && !eventsQuery.loading && !eventsQuery.error}
-					<p class="tx-body">{eventSummary}</p>
+					<p class="tx-base">{eventSummary}</p>
 				{/if}
 			</div>
 
-			<LinkButton type="secondary" href="/events">View All</LinkButton>
+			<LinkButton type="secondary" href={getHref('events')}>View All</LinkButton>
 		</div>
 
 		<Loadable

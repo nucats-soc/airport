@@ -1,0 +1,19 @@
+@font-face {
+	font-family: 'Outfit';
+	src: url('/Outfit-VariableFont_wght.ttf') format('truetype');
+	font-display: swap;
+	font-weight: 100 900;
+}
+
+@theme {
+	--font-sans: 'Outfit';
+	--color-brand-light: #b2deea;
+	--color-brand: #1769b3;
+	--color-brand-dark: #081a3f;
+	--animate-drift: drift 20s linear infinite;
+
+	--spacing-xs: 0.5rem;
+	--spacing-sm: 1rem;
+	--spacing-md: 1.5rem;
+	--spacing-lg: 2rem;
+}

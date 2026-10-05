@@ -1,0 +1,67 @@
+.scrollbar-none {
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+	display: none;
+}
+
+@layer components {
+	.page-container {
+		@apply w-full px-4 sm:px-8;
+	}
+
+	.page-content {
+		@apply mx-auto w-full max-w-225;
+	}
+
+	.box {
+		@apply relative overflow-hidden rounded-2xl bg-zinc-800 p-md;
+	}
+
+	.row {
+		@apply flex items-center justify-start gap-md;
+	}
+
+	.row-collapse {
+		@apply flex-col lg:flex-row;
+	}
+
+	.split-layout {
+		@apply grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8;
+	}
+
+	.split-layout > * {
+		@apply flex min-w-0;
+	}
+
+	.split-layout-left-wide,
+	.split-layout-right-wide {
+		@apply lg:grid-cols-3;
+	}
+
+	.split-layout-left-wide > :first-child,
+	.split-layout-right-wide > :nth-child(2) {
+		@apply lg:col-span-2;
+	}
+
+	.split-layout-reverse > :first-child {
+		@apply order-2 lg:order-1;
+	}
+
+	.split-layout-reverse > :nth-child(2) {
+		@apply order-1 lg:order-2;
+	}
+}
+
+@utility box-rail-* {
+	&::before {
+		content: '';
+		position: absolute;
+		inset-block: 0;
+		left: 0;
+		width: 0.375rem;
+		background-color: --value(--color-*);
+	}
+}

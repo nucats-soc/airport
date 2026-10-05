@@ -114,8 +114,8 @@
 	<Inset space="sm" extraClass="flex flex-1 min-w-0">
 		<Stack gap="sm" extraClass="min-w-0 flex-1">
 			<div class="min-w-0">
-				<p class="tx-item-title truncate">{member.name}</p>
-				<p class="tx-body text-zinc-300">{member.position}</p>
+				<p class="tx-header-3 truncate">{member.name}</p>
+				<p class="tx-base text-zinc-300">{member.position}</p>
 			</div>
 
 			{#if profileLinks.length > 0}

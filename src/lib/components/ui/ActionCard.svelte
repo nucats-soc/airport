@@ -42,9 +42,9 @@
 			<Stack gap="sm" extraClass="min-w-0 w-full flex-1">
 				<Cluster gap="sm">
 					<Icon {icon} extraClass={iconClass} />
-					<p class="tx-card-title">{title}</p>
+					<p class="tx-header-3 text-xl font-semibold">{title}</p>
 				</Cluster>
-				<p class="tx-body text-zinc-300">{description}</p>
+				<p class="tx-base text-zinc-300">{description}</p>
 			</Stack>
 			<LinkButton
 				type="primary"

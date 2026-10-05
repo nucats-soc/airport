@@ -1,13 +1,8 @@
 <script lang="ts">
 	import Box from '#lib/components/layout/Box.svelte';
 	import Inset from '#lib/components/layout/Inset.svelte';
+	import TimeDisplay from '#lib/components/TimeDisplay.svelte';
 	import type { Event } from '#lib/types/event.js';
-	import {
-		formatDate,
-		formatDateTime,
-		formatIsoDate,
-		formatMonthName
-	} from '#lib/util/dateTime.js';
 	import { EVENT_COLOR_CLASSES } from '#lib/util/event.js';
 	import Icon from '#lib/components/ui/Icon.svelte';
 
@@ -17,14 +12,6 @@
 
 	let { event }: Props = $props();
 	let colorClasses = $derived(EVENT_COLOR_CLASSES[event.color]);
-	let formattedDate = $derived(
-		event.status === 'Planned'
-			? formatMonthName(event.date)
-			: event.allDay
-				? formatDate(event.date)
-				: formatDateTime(event.date)
-	);
-	let machineDate = $derived(event.allDay ? formatIsoDate(event.date) : event.date.toISOString());
 </script>
 
 <Box background="card" extraClass="flex min-w-0 flex-1 flex-row">
@@ -38,10 +25,14 @@
 			</div>
 
 			<div class="min-w-0">
-				<h1 class="tx-card-title">{event.name}</h1>
+				<h1 class="tx-header-3 text-xl font-semibold">{event.name}</h1>
 				<div class="mt-2 flex items-center gap-2">
 					<Icon icon="icon-[material-symbols--calendar-today]" size="sm" />
-					<time class="tx-body" datetime={machineDate}>{formattedDate}</time>
+					<TimeDisplay
+						date={event.date}
+						format={event.status === 'Planned' ? 'monthName' : event.allDay ? 'date' : 'dateTime'}
+						extraClass="tx-base"
+					/>
 				</div>
 			</div>
 		</div>

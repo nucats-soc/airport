@@ -1,0 +1,39 @@
+@layer base {
+	html {
+		color-scheme: dark;
+		background: #18181b;
+		font-family: var(--font-sans), sans-serif;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	body {
+		min-width: 320px;
+		min-height: 100vh;
+		margin: 0;
+		background: #18181b;
+		color: white;
+	}
+
+	button,
+	input,
+	textarea,
+	select {
+		font: inherit;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-brand-light);
+		outline-offset: 4px;
+	}
+
+	::selection {
+		background: color-mix(in oklab, var(--color-brand-light) 35%, transparent);
+		color: white;
+	}
+}

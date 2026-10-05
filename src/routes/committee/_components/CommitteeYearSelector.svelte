@@ -31,7 +31,7 @@
 		>
 			<Icon icon="icon-[material-symbols--chevron-left]" size="sm" />
 		</ActionButton>
-		<p class="tx-body">{formatAcademicYear(year)}</p>
+		<p class="tx-base">{formatAcademicYear(year)}</p>
 		<ActionButton
 			type="icon"
 			ariaLabel="Next academic year"

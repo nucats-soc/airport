@@ -72,7 +72,7 @@
 			>
 				<Stack gap="sm">
 					{#if members.length === 0}
-						<p class="tx-body text-zinc-300">Committee members will be listed here soon.</p>
+						<p class="tx-base text-zinc-300">Committee members will be listed here soon.</p>
 					{:else}
 						<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 							{#each members as member (member.id)}

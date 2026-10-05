@@ -95,7 +95,7 @@
 					>
 						<Icon icon="icon-[material-symbols--chevron-left]" size="sm" />
 					</ActionButton>
-					<p class="tx-item-title">{formatAcademicYear(selectionAcademicYear)}</p>
+					<p class="tx-header-3">{formatAcademicYear(selectionAcademicYear)}</p>
 					<ActionButton
 						type="icon"
 						ariaLabel="Next academic year"

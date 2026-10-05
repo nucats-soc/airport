@@ -12,7 +12,7 @@
 </script>
 
 <div
-	class={['tx-body inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1', extraClass]}
+	class={['tx-base inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1', extraClass]}
 >
 	{#if icon}
 		<Icon {icon} size="sm" />

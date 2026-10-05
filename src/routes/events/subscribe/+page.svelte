@@ -10,6 +10,7 @@
 	import Cluster from '#lib/components/layout/Cluster.svelte';
 	import Icon from '#lib/components/ui/Icon.svelte';
 	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import { getHref } from '#lib/links.js';
 
 	import headerImage from '#lib/assets/headers/events.jpg?enhanced';
 	import manage from '#lib/assets/subscribe/manage.png?enhanced';
@@ -55,7 +56,7 @@
 				<Inset>
 					<Cluster>
 						<Icon icon="icon-[material-symbols--info]" extraClass="text-brand-light" />
-						<p class="tx-body">
+						<p class="tx-base">
 							This process varies based on which devices or calendar services you use. Select the
 							calendar application that you use to continue.
 						</p>
@@ -70,10 +71,10 @@
 				<div class="not-prose">
 					<LinkButton
 						type="primary"
-						href="webcal://nucats.org/events.ics"
-						extraClass="lg:w-fit"
+						href={getHref('calendar-apple')}
 						isExternal
 						openInNewTab={false}
+						extraClass="lg:w-fit"
 					>
 						Add to Calendar
 					</LinkButton>
@@ -96,9 +97,9 @@
 				<div class="not-prose">
 					<LinkButton
 						type="primary"
-						href="https://www.google.com/calendar/r?cid=webcal%3A%2F%2Fnucats.org%2Fevents.ics"
-						extraClass="lg:w-fit"
+						href={getHref('calendar-google')}
 						isExternal
+						extraClass="lg:w-fit"
 					>
 						Add to Calendar
 					</LinkButton>
@@ -121,7 +122,7 @@
 					events calendar.
 				</p>
 				<div class="not-prose">
-					<CopyButton type="primary" value="https://nucats.org/events.ics" extraClass="lg:w-fit">
+					<CopyButton type="primary" value={getHref('calendar-feed')} extraClass="lg:w-fit">
 						Copy Calendar URL
 					</CopyButton>
 				</div>

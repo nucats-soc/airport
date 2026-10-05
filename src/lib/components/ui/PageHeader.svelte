@@ -32,8 +32,8 @@
 		class="absolute inset-0 flex items-end bg-linear-to-t from-black/80 via-black/40 to-transparent p-4 sm:p-8"
 	>
 		<div class="flex flex-col">
-			<h1 class="tx-page-title">{title}</h1>
-			<p class="tx-tagline">{description}</p>
+			<h1 class="tx-header">{title}</h1>
+			<p class="tx-base-muted text-xl leading-snug">{description}</p>
 		</div>
 	</div>
 </Box>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getHref } from '#lib/links.js';
 	import Container from '#lib/components/layout/Container.svelte';
 	import SplitLayout from '#lib/components/layout/SplitLayout.svelte';
 	import Stack from '#lib/components/layout/Stack.svelte';
@@ -14,23 +15,19 @@
 					<Stack gap="sm" extraClass="flex-1 justify-center">
 						<div>
 							<div class="flex items-baseline gap-4">
-								<h1 class="tx-page-title">We are NUCATS!</h1>
-								<p class="tx-tagline">meow!</p>
+								<h1 class="tx-header">We are NUCATS!</h1>
+								<p class="tx-base-muted text-xl leading-snug">meow!</p>
 							</div>
-							<p class="tx-body">
+							<p class="tx-base">
 								NUCATS (Newcastle University Computing and Technology Society) is a student-run
 								society for computing students, or for anyone with an interest in tech!
 							</p>
 						</div>
 						<div class="flex flex-col gap-4 sm:flex-row">
-							<LinkButton
-								isExternal
-								type="primary"
-								href="https://nusu.co.uk/activities/view-society/131"
-							>
+							<LinkButton isExternal type="primary" href={getHref('join')}>
 								Get Involved!
 							</LinkButton>
-							<LinkButton isExternal type="secondary" href="https://discord.gg/N4dJQdafrd">
+							<LinkButton isExternal type="secondary" href={getHref('discord')}>
 								Join our Discord!
 							</LinkButton>
 						</div>

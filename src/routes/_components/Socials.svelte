@@ -7,32 +7,12 @@
 	import Cluster from '#lib/components/layout/Cluster.svelte';
 	import Icon from '#lib/components/ui/Icon.svelte';
 
-	interface Social {
-		name: string;
-		description: string;
-		icon: string;
-		href: string;
-	}
+	import { getHref, getLink, type LinkId } from '#lib/links.js';
 
-	const socials: Social[] = [
-		{
-			name: 'Discord',
-			description: 'Join our community',
-			icon: 'icon-[simple-icons--discord]',
-			href: 'https://discord.gg/N4dJQdafrd'
-		},
-		{
-			name: 'GitHub',
-			description: 'Society projects & code',
-			icon: 'icon-[simple-icons--github]',
-			href: 'https://github.com/NUCats-soc'
-		},
-		{
-			name: 'Instagram',
-			description: 'Follow us',
-			icon: 'icon-[simple-icons--instagram]',
-			href: 'https://instagram.com/nucats_'
-		}
+	const socials: { id: LinkId; description: string }[] = [
+		{ id: 'discord', description: 'Join our community' },
+		{ id: 'github', description: 'Society projects & code' },
+		{ id: 'instagram', description: 'Follow us' }
 	];
 </script>
 
@@ -40,8 +20,8 @@
 	<SplitLayout>
 		{#snippet left()}
 			<div class="flex flex-col">
-				<h2 class="tx-section-title">Our Socials</h2>
-				<p class="tx-body">
+				<h2 class="tx-header-2">Our Socials</h2>
+				<p class="tx-base">
 					Find us on these socials! We announce events on our social media channels, and we're even
 					planning to host online events over on Discord!
 				</p>
@@ -52,18 +32,21 @@
 				<Inset space="lg">
 					<div class="divide-y divide-zinc-700">
 						{#each socials as social}
+							{@const link = getLink(social.id)}
 							<a
-								href={social.href}
-								target="noopener noreferrer"
-								rel="_self"
+								href={getHref(social.id)}
+								target="_blank"
+								rel="noopener noreferrer"
 								class="group flex items-center gap-4 py-6 transition-colors duration-200 first:pt-0 last:pb-0 hover:text-brand-light"
 							>
 								<Cluster justify="between" extraClass="w-full">
 									<Cluster>
-										<Icon icon={social.icon} size="lg" />
+										{#if link.icon}
+											<Icon icon={link.icon} size="lg" />
+										{/if}
 										<div class="min-w-0 flex-1">
-											<p class="tx-item-title">{social.name}</p>
-											<p class="tx-body">{social.description}</p>
+											<p class="tx-header-3">{link.label}</p>
+											<p class="tx-base">{social.description}</p>
 										</div>
 									</Cluster>
 									<Icon

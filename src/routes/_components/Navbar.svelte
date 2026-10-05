@@ -3,13 +3,9 @@
 	import Container from '#lib/components/layout/Container.svelte';
 	import Icon from '#lib/components/ui/Icon.svelte';
 	import MenuToggleIcon from './MenuToggleIcon.svelte';
+	import { getHref, getLinks } from '#lib/links.js';
 
-	const navItems = [
-		{ label: 'Home', href: '/', icon: 'icon-[material-symbols--home-outline]' },
-		{ label: 'Events', href: '/events', icon: 'icon-[material-symbols--calendar-month-outline]' },
-		{ label: 'Committee', href: '/committee', icon: 'icon-[material-symbols--groups]' }
-		// { label: 'Sponsors', href: '/sponsors', icon: 'icon-[material-symbols--apartment]' }
-	];
+	const navItems = getLinks('home', 'events', 'committee');
 	let isMenuOpen = $state(false);
 
 	function isActive(href: string): boolean {
@@ -32,9 +28,9 @@
 <header class="sticky top-0 z-50 w-full bg-[#18181b] px-2 pt-8">
 	<Container extraClass="pb-8">
 		<div class="flex items-center justify-between gap-4 md:gap-8">
-			<a href="/" class="flex shrink-0 items-center gap-4" aria-label="NUCATS home">
+			<a href={getHref('home')} class="flex shrink-0 items-center gap-4" aria-label="NUCATS home">
 				<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
-				<span class="tx-brand text-white">NUCATS</span>
+				<span class="text-2xl leading-none font-extrabold tracking-normal text-white">NUCATS</span>
 			</a>
 
 			<nav class="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
@@ -42,13 +38,15 @@
 					<a
 						href={item.href}
 						aria-current={isActive(item.href) ? 'page' : undefined}
-						class="tx-nav-link group flex items-center gap-4 whitespace-nowrap text-white transition-colors duration-200 hover:text-brand-light"
+						class="tx-base group flex items-center gap-4 leading-5 whitespace-nowrap text-white transition-colors duration-200 hover:text-brand-light"
 						class:text-brand-light={isActive(item.href)}
 					>
-						<Icon
-							icon={item.icon}
-							extraClass={`text-white transition-colors duration-200 group-hover:text-brand-light ${isActive(item.href) ? 'text-brand-light' : ''}`}
-						/>
+						{#if item.icon}
+							<Icon
+								icon={item.icon}
+								extraClass={`text-white transition-colors duration-200 group-hover:text-brand-light ${isActive(item.href) ? 'text-brand-light' : ''}`}
+							/>
+						{/if}
 						<span>{item.label}</span>
 					</a>
 				{/each}
@@ -78,10 +76,12 @@
 							<a
 								href={item.href}
 								aria-current={isActive(item.href) ? 'page' : undefined}
-								class={`tx-nav-link flex min-h-12 items-center gap-4 rounded-lg px-4 text-white transition-colors duration-200 hover:bg-white/10 hover:text-brand-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-light ${isActive(item.href) ? 'bg-white/10 text-brand-light' : ''}`}
+								class={`tx-base flex min-h-12 items-center gap-4 rounded-lg px-4 leading-5 text-white transition-colors duration-200 hover:bg-white/10 hover:text-brand-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-light ${isActive(item.href) ? 'bg-white/10 text-brand-light' : ''}`}
 								onclick={closeMenu}
 							>
-								<Icon icon={item.icon} />
+								{#if item.icon}
+									<Icon icon={item.icon} />
+								{/if}
 								<span>{item.label}</span>
 							</a>
 						</li>

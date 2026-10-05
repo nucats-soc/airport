@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Container from '#lib/components/layout/Container.svelte';
 	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import { getHref, getLink } from '#lib/links.js';
 </script>
 
 <PageMetadata
@@ -10,15 +11,15 @@
 
 <Container>
 	<div class="prose prose-invert">
-		<h1 class="tx-page-title">Privacy Policy</h1>
-		<p class="tx-page-subtitle">Last updated: 2026-09-04</p>
+		<h1 class="tx-header">Privacy Policy</h1>
+		<p class="tx-base-muted">Last updated: 2026-09-04</p>
 		<p>This is "nucats.org" ("we", "us", "our").</p>
 		<p>As a society, we are committed to protecting the privacy of our members and users.</p>
 		<p>
 			Any additional questions about this privacy policy should be directed to
 			soc-computingtechnology@ncl.ac.uk.
 		</p>
-		<h2 class="tx-section-title">Information we collect</h2>
+		<h2 class="tx-header-2">Information we collect</h2>
 		<p>When visiting our site, we will collect the following information:</p>
 		<ul class="list-inside list-disc">
 			<li>IP address</li>
@@ -40,18 +41,18 @@
 		<ul class="list-inside list-disc">
 			<li>
 				<a
+					href={getHref('google-privacy')}
 					class="text-blue-500 hover:underline"
-					href="https://policies.google.com/privacy?hl=en-US"
 					target="_blank"
-					rel="noopener noreferrer">Google for Google Maps</a
+					rel="noopener noreferrer">{getLink('google-privacy').label}</a
 				>
 			</li>
 			<li>
 				<a
+					href={getHref('notion-privacy')}
 					class="text-blue-500 hover:underline"
-					href="https://privacycenter.notion.so/policies"
 					target="_blank"
-					rel="noopener noreferrer">Notion for Events Fetching and Committee Information</a
+					rel="noopener noreferrer">{getLink('notion-privacy').label}</a
 				>
 			</li>
 		</ul>
@@ -59,15 +60,15 @@
 			All data held by these third parties is removable by us, however your data is subject to the
 			providers own policies.
 		</p>
-		<h2 class="tx-section-title">Cookies</h2>
+		<h2 class="tx-header-2">Cookies</h2>
 		<p>We do not collect cookies. This section will be updated if this situation changes.</p>
-		<h2 class="tx-section-title">Changes to this Privacy Policy</h2>
+		<h2 class="tx-header-2">Changes to this Privacy Policy</h2>
 		<p>
 			We may update this privacy policy from time to time. We will notify you of any changes by
 			posting an announcement in our Discord server.
 		</p>
 		<p>There will be a 48 hour notice period before we change the page.</p>
-		<h2 class="tx-section-title">Your rights to your data</h2>
+		<h2 class="tx-header-2">Your rights to your data</h2>
 		<p>
 			You have the right to request a copy of, or delete your personal data at any time, no
 			questions asked.

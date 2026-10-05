@@ -44,7 +44,7 @@
 			<CalendarMonth {selection} {onUpdateSelection} />
 			<div class="grid grid-cols-7 place-items-center">
 				{#each weekdays as weekday}
-					<p class="tx-button-label text-xs text-zinc-400 sm:text-base">{weekday}</p>
+					<p class="tx-base text-xs leading-5 text-zinc-400 sm:text-base">{weekday}</p>
 				{/each}
 				{#each days as day}
 					<CalendarDay date={day.date} events={day.events} {selection} {onUpdateSelection} />

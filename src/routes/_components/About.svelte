@@ -54,13 +54,13 @@
 	];
 
 	function getTitleClasses(thingWeDo: ThingWeDo): string {
-		return classNames(thingWeDo.color, 'tx-item-title');
+		return classNames(thingWeDo.color, 'tx-header-3');
 	}
 </script>
 
 <Container extraClass="py-8">
-	<p class="tx-section-title">What do we do?</p>
-	<p class="tx-body">
+	<p class="tx-header-2">What do we do?</p>
+	<p class="tx-base">
 		We have something for everyone, whether it be game nights and tournaments, coding workshops, or
 		networking events.
 	</p>
@@ -72,7 +72,7 @@
 						<Icon icon={thingWeDo.icon} size="lg" extraClass={thingWeDo.color} />
 						<div class="text-center">
 							<p class={getTitleClasses(thingWeDo)}>{thingWeDo.name}</p>
-							<p class="tx-body">{thingWeDo.description}</p>
+							<p class="tx-base">{thingWeDo.description}</p>
 						</div>
 					</Stack>
 				</Inset>

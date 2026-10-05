@@ -1,0 +1,46 @@
+@keyframes drift {
+	from {
+		background-position: 0 0;
+	}
+
+	to {
+		background-position: 310px 236px;
+	}
+}
+
+@keyframes infinite-scroll {
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(-100%);
+	}
+}
+
+/***********************************************
+If scrolling goes too fast with added images,
+increase the scroll time, formula below.
+
+imgNum * 6 = scroll time in seconds
+e.g. 10 img * 6 = 60s
+************************************************/
+
+.infinite-scroll {
+	animation: infinite-scroll 60s linear infinite;
+}
+
+.carousel-button {
+	display: none;
+}
+
+/* reduced motion compatibility */
+@media (prefers-reduced-motion: reduce) {
+	.infinite-scroll {
+		animation: none;
+	}
+
+	.carousel-button {
+		display: block;
+	}
+}

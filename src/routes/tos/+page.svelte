@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Container from '#lib/components/layout/Container.svelte';
 	import PageMetadata from '#lib/components/PageMetadata.svelte';
 </script>
 
@@ -8,7 +7,7 @@
 	description="The terms that apply when using the NUCATS website and its services."
 />
 
-<Container>
+<div class="page-container">
 	<div class="prose prose-invert">
 		<h1 class="tx-header">Terms of Service</h1>
 		<p class="tx-base-muted">Last updated: 2026-09-04</p>
@@ -54,4 +53,4 @@
 			our website.
 		</p>
 	</div>
-</Container>
+</div>

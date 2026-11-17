@@ -1,8 +1,6 @@
 <script lang="ts">
-	import DropdownButton from '#lib/components/ui/DropdownButton.svelte';
-	import ActionButton from '#lib/components/ui/ActionButton.svelte';
-	import Checkbox from '#lib/components/ui/Checkbox.svelte';
-	import Pill from '#lib/components/ui/Pill.svelte';
+	import ActionButton from '#lib/components/button/ActionButton.svelte';
+	import DropdownButton from '#lib/components/button/DropdownButton.svelte';
 	import type { Event, EventColor } from '#lib/types/event.js';
 	import { EVENT_COLOR_CLASSES } from '#lib/util/event.js';
 
@@ -10,19 +8,9 @@
 		events: Event[];
 		eventTypeFilters: string[];
 		tagFilters: string[];
-		onEventTypeFiltersChange: (filters: string[]) => void;
-		onTagFiltersChange: (filters: string[]) => void;
-		onClear: () => void;
 	}
 
-	let {
-		events,
-		eventTypeFilters,
-		tagFilters,
-		onEventTypeFiltersChange,
-		onTagFiltersChange,
-		onClear
-	}: Props = $props();
+	let { events, eventTypeFilters = $bindable(), tagFilters = $bindable() }: Props = $props();
 
 	let eventTypes = $derived(
 		[...new Set([...events.map((event) => event.type), ...eventTypeFilters])].sort()
@@ -30,27 +18,43 @@
 	let tags = $derived(
 		[...new Set([...events.flatMap((event) => event.tags), ...tagFilters])].sort()
 	);
-	let hasCustomFilters = $derived(eventTypeFilters.length > 0 || tagFilters.length > 0);
-
-	function toggled<T>(values: T[], value: T): T[] {
-		return values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
-	}
+	let hasFilters = $derived(eventTypeFilters.length > 0 || tagFilters.length > 0);
 
 	function eventTypeColor(eventType: string): EventColor {
 		return events.find((event) => event.type === eventType)?.color ?? 'gray';
 	}
+
+	const labelClasses =
+		'tx-base flex cursor-pointer items-center gap-xs rounded-lg px-2 py-1.5 transition-colors hover:bg-zinc-600';
+
+	function clearFilters() {
+		eventTypeFilters = [];
+		tagFilters = [];
+	}
 </script>
 
-<DropdownButton
-	type="icon"
-	label=""
-	icon="icon-[material-symbols--filter-list]"
-	showArrow={false}
-	ariaLabel="Filter events"
-	align="right"
->
+{#snippet checkmark(checked: boolean)}
+	<span
+		class={[
+			'flex size-5 shrink-0 items-center justify-center rounded-lg text-white transition-colors',
+			'peer-focus-visible:ring-2 peer-focus-visible:ring-brand-light peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-zinc-700',
+			checked ? 'bg-brand' : 'bg-zinc-900'
+		]}
+		aria-hidden="true"
+	>
+		{#if checked}
+			<span class="icon-[material-symbols--check] size-4"></span>
+		{/if}
+	</span>
+{/snippet}
+
+<DropdownButton type="secondary" shape="square" noArrow align="end" aria-label="Filter events">
+	{#snippet buttonLabel()}
+		<span class="icon-[material-symbols--filter-list] size-4" aria-hidden="true"></span>
+	{/snippet}
+
 	<div
-		class="grid max-h-[min(32rem,calc(100vh-8rem))] min-w-48 gap-6 overflow-x-hidden overflow-y-auto"
+		class="grid max-h-[min(32rem,calc(100vh-8rem))] min-w-48 gap-md overflow-x-hidden overflow-y-auto"
 	>
 		{#if eventTypes.length === 0 && tags.length === 0}
 			<p class="tx-base text-zinc-300">No filters available for this selection.</p>
@@ -60,12 +64,17 @@
 			<fieldset class="grid gap-1">
 				<legend class="tx-header-3 mb-2">Event Types</legend>
 				{#each eventTypes as eventType}
-					<Checkbox
-						checked={eventTypeFilters.includes(eventType)}
-						onChange={() => onEventTypeFiltersChange(toggled(eventTypeFilters, eventType))}
-					>
-						<Pill extraClass={EVENT_COLOR_CLASSES[eventTypeColor(eventType)]}>{eventType}</Pill>
-					</Checkbox>
+					<label class={labelClasses}>
+						<input
+							type="checkbox"
+							class="peer sr-only"
+							value={eventType}
+							bind:group={eventTypeFilters}
+						/>
+						{@render checkmark(eventTypeFilters.includes(eventType))}
+						<span class={['pill', EVENT_COLOR_CLASSES[eventTypeColor(eventType)]]}>{eventType}</span
+						>
+					</label>
 				{/each}
 			</fieldset>
 		{/if}
@@ -74,22 +83,17 @@
 			<fieldset class="grid gap-1">
 				<legend class="tx-header-3 mb-2">Event Tags</legend>
 				{#each tags as tag}
-					<Checkbox
-						checked={tagFilters.includes(tag)}
-						onChange={() => onTagFiltersChange(toggled(tagFilters, tag))}
-					>
+					<label class={labelClasses}>
+						<input type="checkbox" class="peer sr-only" value={tag} bind:group={tagFilters} />
+						{@render checkmark(tagFilters.includes(tag))}
 						{tag}
-					</Checkbox>
+					</label>
 				{/each}
 			</fieldset>
 		{/if}
 
-		{#if hasCustomFilters}
-			<ActionButton
-				type="secondary"
-				onClick={onClear}
-				extraClass="w-fit !text-brand-light hover:!text-brand-light"
-			>
+		{#if hasFilters}
+			<ActionButton type="secondary" class="text-brand-light!" onclick={clearFilters}>
 				Reset filters
 			</ActionButton>
 		{/if}

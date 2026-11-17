@@ -10,20 +10,22 @@
 		formatTime
 	} from '#lib/util/dateTime.js';
 
-    type TimeFormat =
-        | 'date'
-        | 'time'
-        | 'dateTime'
-        | 'longDate'
-        | 'month'
-        | 'monthName'
-        | 'shortMonth';
+	import type { ClassValue } from 'svelte/elements';
+
+	type TimeFormat =
+		| 'date'
+		| 'time'
+		| 'dateTime'
+		| 'longDate'
+		| 'month'
+		| 'monthName'
+		| 'shortMonth';
 
 	type Props = {
 		date: Date;
 		format?: TimeFormat | ((date: Date) => string);
-		extraClass?: string;
-	}
+		class?: ClassValue;
+	};
 
 	const formatters: Record<TimeFormat, (date: Date) => string> = {
 		date: formatDate,
@@ -35,7 +37,7 @@
 		shortMonth: formatShortMonth
 	};
 
-	let { date, format = 'dateTime', extraClass }: Props = $props();
+	let { date, format = 'dateTime', class: className }: Props = $props();
 
 	let formattedDate = $derived(
 		typeof format === 'function' ? format(date) : formatters[format](date)
@@ -49,4 +51,4 @@
 	});
 </script>
 
-<time class={extraClass} datetime={machineDate}>{formattedDate}</time>
+<time class={className} datetime={machineDate}>{formattedDate}</time>

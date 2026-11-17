@@ -1,75 +1,62 @@
 <script lang="ts">
 	import { getHref } from '#lib/links.js';
-	import { browser } from '$app/env';
-	import Container from '#lib/components/layout/Container.svelte';
-	import SplitLayout from '#lib/components/layout/SplitLayout.svelte';
-	import Stack from '#lib/components/layout/Stack.svelte';
-	import Loadable from '#lib/components/ui/Loadable.svelte';
+	import LinkButton from '#lib/components/button/LinkButton.svelte';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import Spinner from '#lib/components/Spinner.svelte';
+	import { EVENT_HEX_COLORS } from '#lib/util/event.js';
 	import type { PageProps } from './$types';
 	import EventHeader from './_components/EventHeader.svelte';
-	import EventVenue from './_components/EventVenue.svelte';
 	import EventInformation from './_components/EventInformation.svelte';
-	import LinkButton from '#lib/components/ui/LinkButton.svelte';
-	import Icon from '#lib/components/ui/Icon.svelte';
+	import EventVenue from './_components/EventVenue.svelte';
 	import { getEventDescription } from './event.remote';
-	import PageMetadata from '#lib/components/PageMetadata.svelte';
-	import { EVENT_HEX_COLORS } from '#lib/util/event.js';
 
 	let { data, params }: PageProps = $props();
-	let eventDescriptionQuery = $derived(browser ? getEventDescription(params.id) : undefined);
-	let eventDescription = $derived(eventDescriptionQuery?.current?.contentHtml);
+
+	let event = $derived(data.eventMetadata);
 </script>
 
 <PageMetadata
-	title={data.eventMetadata.name}
-	description={data.eventMetadata.description ?? `Event details for ${data.eventMetadata.name}.`}
-	image={`/events/${params.id}/icon.png?v=${data.eventMetadata.lastEditedAt.getTime()}`}
-	color={EVENT_HEX_COLORS[data.eventMetadata.color]}
-	updatedAt={data.eventMetadata.lastEditedAt}
+	title={event.name}
+	description={event.description ?? `Event details for ${event.name}.`}
+	image={`/events/${params.id}/icon.png?v=${event.lastEditedAt.getTime()}`}
+	color={EVENT_HEX_COLORS[event.color]}
+	updatedAt={event.lastEditedAt}
 	index={false}
 />
 
-{#snippet description()}
-	<Loadable
-		state={eventDescriptionQuery}
-		loadingLabel="Loading event description"
-		errorMessage="Event description could not be loaded."
-		extraClass="w-full py-8"
-	>
-		{#if eventDescription}
+{#snippet details()}
+	<div class="flex flex-col gap-lg">
+		<EventInformation {event} />
+		<svelte:boundary>
 			<article class="prose w-full max-w-none prose-invert">
-				{@html eventDescription}
+				{@html (await getEventDescription(params.id)).contentHtml}
 			</article>
-		{/if}
-	</Loadable>
+
+			{#snippet pending()}
+				<Spinner label="Loading event description" class="w-full py-8" />
+			{/snippet}
+
+			{#snippet failed()}
+				<p class="tx-base py-8">Event description could not be loaded.</p>
+			{/snippet}
+		</svelte:boundary>
+	</div>
 {/snippet}
 
-<Container>
-	<Stack gap="lg">
-		<LinkButton type="subtle" href={getHref('events')} extraClass="self-start">
-			<Icon icon="icon-[material-symbols--arrow-back]" size="sm" />
-			Back to events
-		</LinkButton>
-		<EventHeader event={data.eventMetadata} />
-		{#if data.eventMetadata.location}
-			<SplitLayout ratio="left-wide" extraClass="items-start">
-				{#snippet left()}
-					<Stack gap="lg">
-						<EventInformation event={data.eventMetadata} />
-						{@render description()}
-					</Stack>
-				{/snippet}
-				{#snippet right()}
-					{#if data.eventMetadata.location}
-						<EventVenue event={{ ...data.eventMetadata, location: data.eventMetadata.location }} />
-					{/if}
-				{/snippet}
-			</SplitLayout>
-		{:else}
-			<Stack gap="lg">
-				<EventInformation event={data.eventMetadata} />
-				{@render description()}
-			</Stack>
-		{/if}
-	</Stack>
-</Container>
+<div class="page-container flex flex-col gap-lg">
+	<LinkButton type="ghost" href={getHref('events')}>
+		<span class="icon-[material-symbols--arrow-back] size-4" aria-hidden="true"></span>
+		Back to events
+	</LinkButton>
+	<EventHeader {event} />
+	{#if event.location}
+		<div class="split-layout split-layout-left-wide items-start">
+			{@render details()}
+			<div>
+				<EventVenue event={{ ...event, location: event.location }} />
+			</div>
+		</div>
+	{:else}
+		{@render details()}
+	{/if}
+</div>

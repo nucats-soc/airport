@@ -39,7 +39,6 @@
 		"@js-temporal/polyfill": "^0.5.1",
 		"@notionhq/client": "^5.25.2",
 		"cache-manager": "^7.2.9",
-		"classnames": "^2.5.1",
 		"rate-limiter-flexible": "^11.2.0",
 		"rehype-sanitize": "^6.0.0",
 		"rehype-stringify": "^10.0.1",

@@ -1,170 +1,48 @@
 <script lang="ts">
-	import { browser } from '$app/env';
-	import EventCard from '#lib/components/domain/EventCard.svelte';
-	import Container from '#lib/components/layout/Container.svelte';
-	import Stack from '#lib/components/layout/Stack.svelte';
-	import Loadable from '#lib/components/ui/Loadable.svelte';
-	import CalendarCard from './_components/CalendarCard.svelte';
-	import CalendarSubscriptionCard from './_components/CalendarSubscriptionCard.svelte';
-	import DiscordEventInfo from './_components/DiscordEventInfo.svelte';
-	import EndOfResultsCard from './_components/EndOfResultsCard.svelte';
-	import EventFilters from './_components/EventFilters.svelte';
-	import PreviousEventsDropdown from './_components/PreviousEventsDropdown.svelte';
-	import PlannedEventsDropdown from './_components/PlannedEventsDropdown.svelte';
-	import {
-		clampCalendarSelection,
-		eventsForSelection,
-		formatSelectionHeading,
-		initialCalendarSelection,
-		isSameCalendarMonth,
-		partitionEventsByDate
-	} from './event-selection';
-	import { getEventsByAcademicYear } from './events.remote';
-	import type { CalendarSelection } from './types';
-	import PageHeader from '#lib/components/ui/PageHeader.svelte';
 	import headerImage from '#lib/assets/headers/events.jpg?enhanced';
+	import PageHeader from '#lib/components/PageHeader.svelte';
 	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import Spinner from '#lib/components/Spinner.svelte';
 	import { academicYearOfMonth } from '#lib/util/academicYear.js';
 	import { debounced } from '#lib/util/debounced.svelte.js';
+	import CalendarSubscriptionCard from './_components/CalendarSubscriptionCard.svelte';
+	import EventsBrowser from './_components/EventsBrowser.svelte';
+	import { clampCalendarSelection } from './event-selection';
+	import type { CalendarSelection } from './types';
 
-	const initialSelection = clampCalendarSelection({
-		year: new Date().getFullYear(),
-		month: new Date().getMonth()
-	});
-	let selection = $state<CalendarSelection>(initialSelection);
-	let initialSelectionApplied = $state(false);
-	let eventTypeFilters = $state<string[]>([]);
-	let tagFilters = $state<string[]>([]);
-	const requestedAcademicYear = debounced(
-			() => academicYearOfMonth(selection.year, selection.month),
-			1000
+	const today = new Date();
+	let selection = $state<CalendarSelection>(
+		clampCalendarSelection({ year: today.getFullYear(), month: today.getMonth() })
 	);
-	let eventsQuery = $derived(
-			browser ? getEventsByAcademicYear(requestedAcademicYear()) : undefined
-	);
-	let isYearPending = $derived(
-			requestedAcademicYear() !== academicYearOfMonth(selection.year, selection.month)
-	);
-	let eventsDisplayState = $derived(isYearPending ? { loading: true } : eventsQuery);
-	let events = $derived(eventsQuery?.current ?? []);
-	let eventsInSelection = $derived(eventsForSelection(events, selection));
-	let visibleEvents = $derived(
-			eventsInSelection.filter(
-					(event) =>
-							(eventTypeFilters.length === 0 || eventTypeFilters.includes(event.type)) &&
-							(tagFilters.length === 0 || event.tags.some((tag) => tagFilters.includes(tag)))
-			)
-	);
-	let partitionedEvents = $derived(partitionEventsByDate(visibleEvents, selection));
-	let previousEvents = $derived(partitionedEvents.previousEvents);
-	let upcomingEvents = $derived(partitionedEvents.upcomingEvents);
-	let plannedEvents = $derived(partitionedEvents.plannedEvents);
 
-	$effect(() => {
-		if (initialSelectionApplied || !eventsQuery || eventsQuery.loading || eventsQuery.error) {
-			return;
-		}
-
-		selection = initialCalendarSelection(eventsQuery.current ?? []);
-		initialSelectionApplied = true;
-	});
-
-	function updateSelection(nextSelection: CalendarSelection) {
-		const clampedSelection = clampCalendarSelection(nextSelection);
-		const monthChanged = !isSameCalendarMonth(selection, clampedSelection);
-
-		initialSelectionApplied = true;
-		selection = clampedSelection;
-
-		if (browser && monthChanged) {
-			window.scrollTo({
-				top: 0,
-				behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
-			});
-		}
-	}
-
-	function clearFilters() {
-		eventTypeFilters = [];
-		tagFilters = [];
-	}
+	// Wait for the selection to settle before fetching another academic year, so clicking
+	// quickly through months doesn't fire a request for every year passed on the way.
+	const academicYear = debounced(() => academicYearOfMonth(selection.year, selection.month), 1000);
 </script>
 
 <PageMetadata
-		title="Events"
-		description="See upcoming events from Newcastle University's Computing and Technology Society."
+	title="Events"
+	description="See upcoming events from Newcastle University's Computing and Technology Society."
 />
 
-<Container>
-	<Stack gap="md">
-		<PageHeader
-				image={headerImage}
-				title="Event Schedule"
-				description="See what we're doing and come along."
-		/>
-		<div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start lg:gap-6">
-			<aside class="contents lg:order-2 lg:grid lg:gap-4">
-				<div class="order-1 lg:order-0">
-					<CalendarCard {events} {selection} onUpdateSelection={updateSelection} />
-				</div>
-				<div class="order-3 lg:order-0">
-					<DiscordEventInfo />
-				</div>
-			</aside>
+<div class="page-container flex flex-col gap-md">
+	<PageHeader
+		image={headerImage}
+		title="Event Schedule"
+		description="See what we're doing and come along."
+	/>
 
-			<section class="order-2 min-w-0 lg:order-1" aria-labelledby="events-list-title">
-				<div class="mb-4 flex items-center justify-between gap-4 px-1">
-					<h2 id="events-list-title" class="tx-header-2">
-						{formatSelectionHeading(selection)}
-					</h2>
-					{#if !isYearPending && eventsQuery && !eventsQuery.loading && !eventsQuery.error}
-						<div class="shrink-0">
-							<EventFilters
-									events={eventsInSelection}
-									{eventTypeFilters}
-									{tagFilters}
-									onEventTypeFiltersChange={(filters) => (eventTypeFilters = filters)}
-									onTagFiltersChange={(filters) => (tagFilters = filters)}
-									onClear={clearFilters}
-							/>
-						</div>
-					{/if}
-				</div>
-				<Loadable
-						state={eventsDisplayState}
-						loadingLabel="Loading events"
-						errorMessage="Events could not be loaded."
-						extraClass="w-full py-8"
-				>
-					<div
-							class={[
-							'w-full',
-							visibleEvents.length === 0 ? 'flex items-center justify-center' : 'self-start'
-						]}
-					>
-						<div class="grid gap-4">
-							{#if previousEvents.length > 0}
-								<PreviousEventsDropdown
-										events={previousEvents}
-										extraClass={plannedEvents.length > 0 ? '' : 'mb-6 sm:mb-8'}
-								/>
-							{/if}
-							{#if plannedEvents.length > 0}
-								<PlannedEventsDropdown events={plannedEvents} extraClass="mb-6 sm:mb-8" />
-							{/if}
-							{#each upcomingEvents as event (event.id)}
-								<EventCard {event} />
-							{/each}
-							<EndOfResultsCard
-									events={visibleEvents}
-									{selection}
-									onUpdateSelection={updateSelection}
-							/>
-						</div>
-					</div>
-				</Loadable>
-			</section>
-		</div>
-		<CalendarSubscriptionCard />
-	</Stack>
-</Container>
+	<svelte:boundary>
+		<EventsBrowser academicYear={academicYear()} bind:selection />
+
+		{#snippet pending()}
+			<Spinner label="Loading events" class="w-full py-8" />
+		{/snippet}
+
+		{#snippet failed()}
+			<p class="tx-base py-8">Events could not be loaded.</p>
+		{/snippet}
+	</svelte:boundary>
+
+	<CalendarSubscriptionCard />
+</div>

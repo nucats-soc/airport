@@ -30,17 +30,8 @@ e.g. 10 img * 6 = 60s
 	animation: infinite-scroll 60s linear infinite;
 }
 
-.carousel-button {
-	display: none;
-}
-
-/* reduced motion compatibility */
 @media (prefers-reduced-motion: reduce) {
 	.infinite-scroll {
 		animation: none;
-	}
-
-	.carousel-button {
-		display: block;
 	}
 }

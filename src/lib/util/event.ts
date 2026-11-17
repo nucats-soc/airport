@@ -51,6 +51,19 @@ export const EVENT_COLOR_CLASSES = {
 	red: 'bg-red-200 text-black'
 } satisfies Record<EventColor, string>;
 
+/** Coloured left rail for `.box` cards. */
+export const EVENT_RAIL_CLASSES = {
+	gray: 'box-rail-gray-200',
+	brown: 'box-rail-amber-200',
+	orange: 'box-rail-orange-200',
+	yellow: 'box-rail-yellow-200',
+	green: 'box-rail-green-200',
+	blue: 'box-rail-blue-200',
+	purple: 'box-rail-purple-200',
+	pink: 'box-rail-pink-200',
+	red: 'box-rail-red-200'
+} satisfies Record<EventColor, string>;
+
 export const EVENT_TEXT_COLOR_CLASSES = {
 	gray: 'text-gray-200',
 	brown: 'text-amber-200',

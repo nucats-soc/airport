@@ -1,8 +1,4 @@
 <script lang="ts">
-	import Box from '#lib/components/layout/Box.svelte';
-	import Inset from '#lib/components/layout/Inset.svelte';
-	import Stack from '#lib/components/layout/Stack.svelte';
-	import Icon from '#lib/components/ui/Icon.svelte';
 	import type { CalendarSelection } from '../types';
 	import type { Event } from '#lib/types/event.js';
 	import { formatDate, formatMonth } from '#lib/util/dateTime.js';
@@ -57,21 +53,15 @@
 <button
 	type="button"
 	class={[
-		'mx-auto block w-fit max-w-full rounded-[1.25rem] text-left',
-		card.canAdvance ? 'cursor-pointer' : 'cursor-default'
+		'mx-auto flex w-fit max-w-full flex-col items-center gap-sm rounded-2xl p-md text-center transition-colors',
+		card.canAdvance ? 'cursor-pointer hover:bg-zinc-800/50' : 'cursor-default'
 	]}
 	onclick={() => onUpdateSelection(card.nextSelection)}
 	disabled={!card.canAdvance}
 >
-	<Box extraClass="flex-1 transition-colors hover:bg-zinc-800/50">
-		<Inset space="md">
-			<Stack gap="sm" align="center" extraClass="text-center">
-				<Icon icon={card.icon} size="lg" extraClass={card.color} />
-				<div>
-					<p class="tx-header-3">{card.title}</p>
-					<p class="tx-base text-zinc-300">{card.action}</p>
-				</div>
-			</Stack>
-		</Inset>
-	</Box>
+	<span class={[card.icon, card.color, 'size-8 shrink-0']} aria-hidden="true"></span>
+	<span>
+		<span class="tx-header-3 block">{card.title}</span>
+		<span class="tx-base block text-zinc-300">{card.action}</span>
+	</span>
 </button>

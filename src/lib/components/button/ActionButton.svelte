@@ -1,15 +1,16 @@
 <script lang="ts">
+	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { type ButtonProps, getButtonClasses } from './button.ts';
 
-	type Props = ButtonProps & {
-		onclick: () => void;
-	};
+	type Props = ButtonProps & Omit<HTMLButtonAttributes, keyof ButtonProps>;
 
-	let { onclick, ...buttonProps }: Props = $props();
-
-	let classes = $derived(getButtonClasses(buttonProps));
+	let { type, shape, fill, between, class: className, children, ...rest }: Props = $props();
 </script>
 
-<button {onclick} class={classes}>
-	{@render buttonProps.children?.()}
+<button
+	type="button"
+	class={[getButtonClasses({ type, shape, fill, between }), className]}
+	{...rest}
+>
+	{@render children?.()}
 </button>

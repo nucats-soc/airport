@@ -8,12 +8,9 @@
 }
 
 @layer components {
+	/* Horizontally padded, centred column with a 900px content width. */
 	.page-container {
-		@apply w-full px-4 sm:px-8;
-	}
-
-	.page-content {
-		@apply mx-auto w-full max-w-225;
+		@apply mx-auto w-full max-w-241 px-4 sm:px-8;
 	}
 
 	.box {
@@ -26,6 +23,10 @@
 
 	.row-collapse {
 		@apply flex-col lg:flex-row;
+	}
+
+	.pill {
+		@apply inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-base leading-6;
 	}
 
 	.split-layout {

@@ -1,7 +1,4 @@
 <script lang="ts">
-	import Box from '#lib/components/layout/Box.svelte';
-	import Inset from '#lib/components/layout/Inset.svelte';
-	import Stack from '#lib/components/layout/Stack.svelte';
 	import CalendarDay from './CalendarDay.svelte';
 	import CalendarMonth from './CalendarMonth.svelte';
 	import type { Event } from '#lib/types/event.js';
@@ -38,18 +35,14 @@
 	);
 </script>
 
-<Box background="card" allowOverflow>
-	<Inset>
-		<Stack gap="sm">
-			<CalendarMonth {selection} {onUpdateSelection} />
-			<div class="grid grid-cols-7 place-items-center">
-				{#each weekdays as weekday}
-					<p class="tx-base text-xs leading-5 text-zinc-400 sm:text-base">{weekday}</p>
-				{/each}
-				{#each days as day}
-					<CalendarDay date={day.date} events={day.events} {selection} {onUpdateSelection} />
-				{/each}
-			</div>
-		</Stack>
-	</Inset>
-</Box>
+<div class="box flex flex-col gap-sm overflow-visible">
+	<CalendarMonth {selection} {onUpdateSelection} />
+	<div class="grid grid-cols-7 place-items-center">
+		{#each weekdays as weekday}
+			<p class="tx-base text-xs leading-5 text-zinc-400 sm:text-base">{weekday}</p>
+		{/each}
+		{#each days as day}
+			<CalendarDay date={day.date} events={day.events} {selection} {onUpdateSelection} />
+		{/each}
+	</div>
+</div>

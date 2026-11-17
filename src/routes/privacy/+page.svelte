@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Container from '#lib/components/layout/Container.svelte';
 	import PageMetadata from '#lib/components/PageMetadata.svelte';
 	import { getHref, getLink } from '#lib/links.js';
 </script>
@@ -9,7 +8,7 @@
 	description="How NUCATS collects, uses, and protects information when you use nucats.org."
 />
 
-<Container>
+<div class="page-container">
 	<div class="prose prose-invert">
 		<h1 class="tx-header">Privacy Policy</h1>
 		<p class="tx-base-muted">Last updated: 2026-09-04</p>
@@ -75,4 +74,4 @@
 		</p>
 		<p>To do this, please contact us at soc-computingtechnology@ncl.ac.uk.</p>
 	</div>
-</Container>
+</div>

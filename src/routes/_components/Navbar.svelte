@@ -1,93 +1,79 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import Container from '#lib/components/layout/Container.svelte';
-	import Icon from '#lib/components/ui/Icon.svelte';
-	import MenuToggleIcon from './MenuToggleIcon.svelte';
+	import DropdownButton from '#lib/components/button/DropdownButton.svelte';
 	import { getHref, getLinks } from '#lib/links.js';
 
 	const navItems = getLinks('home', 'events', 'committee');
-	let isMenuOpen = $state(false);
 
 	function isActive(href: string): boolean {
 		return page.url.pathname === href || (href !== '/' && page.url.pathname.startsWith(`${href}/`));
 	}
-
-	function closeMenu(): void {
-		isMenuOpen = false;
-	}
-
-	function handleKeydown(event: KeyboardEvent): void {
-		if (event.key === 'Escape' && isMenuOpen) {
-			closeMenu();
-		}
-	}
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<header class="sticky top-0 z-50 w-full bg-zinc-900 pt-8">
+	<div class="page-container row relative justify-between pb-8">
+		<a href={getHref('home')} class="row shrink-0 gap-sm" aria-label="NUCATS home">
+			<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
+			<span class="text-2xl leading-none font-extrabold tracking-normal text-white">NUCATS</span>
+		</a>
 
-<header class="sticky top-0 z-50 w-full bg-[#18181b] px-2 pt-8">
-	<Container extraClass="pb-8">
-		<div class="flex items-center justify-between gap-4 md:gap-8">
-			<a href={getHref('home')} class="flex shrink-0 items-center gap-4" aria-label="NUCATS home">
-				<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
-				<span class="text-2xl leading-none font-extrabold tracking-normal text-white">NUCATS</span>
-			</a>
-
-			<nav class="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
+		<nav class="hidden md:block" aria-label="Primary navigation">
+			<ul class="row gap-lg">
 				{#each navItems as item}
-					<a
-						href={item.href}
-						aria-current={isActive(item.href) ? 'page' : undefined}
-						class="tx-base group flex items-center gap-4 leading-5 whitespace-nowrap text-white transition-colors duration-200 hover:text-brand-light"
-						class:text-brand-light={isActive(item.href)}
-					>
-						{#if item.icon}
-							<Icon
-								icon={item.icon}
-								extraClass={`text-white transition-colors duration-200 group-hover:text-brand-light ${isActive(item.href) ? 'text-brand-light' : ''}`}
-							/>
-						{/if}
-						<span>{item.label}</span>
-					</a>
+					<li>
+						<a
+							href={item.href}
+							aria-current={isActive(item.href) ? 'page' : undefined}
+							class={[
+								'tx-base row gap-sm leading-5 whitespace-nowrap transition-colors duration-200 hover:text-brand-light',
+								isActive(item.href) ? 'text-brand-light' : 'text-white'
+							]}
+						>
+							<span class={[item.icon, 'size-6 shrink-0']} aria-hidden="true"></span>
+							{item.label}
+						</a>
+					</li>
 				{/each}
-			</nav>
+			</ul>
+		</nav>
 
-			<button
-				type="button"
-				class="flex size-12 items-center justify-center rounded-lg text-white transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-light md:hidden"
-				aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-				aria-controls="mobile-navigation"
-				aria-expanded={isMenuOpen}
-				onclick={() => (isMenuOpen = !isMenuOpen)}
-			>
-				<MenuToggleIcon isOpen={isMenuOpen} />
-			</button>
+		<div class="md:hidden">
+			<DropdownButton type="tertiary" shape="square" noArrow fullWidth aria-label="Navigation menu">
+				{#snippet buttonLabel(open)}
+					<span
+						class={[
+							open
+								? 'icon-[material-symbols--close-rounded]'
+								: 'icon-[material-symbols--menu-rounded]',
+							'size-8'
+						]}
+						aria-hidden="true"
+					></span>
+				{/snippet}
+
+				{#snippet children(close)}
+					<nav aria-label="Mobile navigation">
+						<ul class="flex flex-col gap-1">
+							{#each navItems as item}
+								<li>
+									<a
+										href={item.href}
+										aria-current={isActive(item.href) ? 'page' : undefined}
+										class={[
+											'tx-base row min-h-12 gap-sm rounded-lg px-sm leading-5 transition-colors duration-200 hover:bg-white/10 hover:text-brand-light',
+											isActive(item.href) ? 'bg-white/10 text-brand-light' : 'text-white'
+										]}
+										onclick={close}
+									>
+										<span class={[item.icon, 'size-6 shrink-0']} aria-hidden="true"></span>
+										{item.label}
+									</a>
+								</li>
+							{/each}
+						</ul>
+					</nav>
+				{/snippet}
+			</DropdownButton>
 		</div>
-
-		{#if isMenuOpen}
-			<nav
-				id="mobile-navigation"
-				class="mt-6 border-t border-white/15 pt-4 md:hidden"
-				aria-label="Mobile navigation"
-			>
-				<ul class="flex flex-col gap-1">
-					{#each navItems as item}
-						<li>
-							<a
-								href={item.href}
-								aria-current={isActive(item.href) ? 'page' : undefined}
-								class={`tx-base flex min-h-12 items-center gap-4 rounded-lg px-4 leading-5 text-white transition-colors duration-200 hover:bg-white/10 hover:text-brand-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-light ${isActive(item.href) ? 'bg-white/10 text-brand-light' : ''}`}
-								onclick={closeMenu}
-							>
-								{#if item.icon}
-									<Icon icon={item.icon} />
-								{/if}
-								<span>{item.label}</span>
-							</a>
-						</li>
-					{/each}
-				</ul>
-			</nav>
-		{/if}
-	</Container>
+	</div>
 </header>

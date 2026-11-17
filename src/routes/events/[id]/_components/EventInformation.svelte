@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Event } from '#lib/types/event.js';
-	import Pill from '#lib/components/ui/Pill.svelte';
 	import { EVENT_COLOR_CLASSES } from '#lib/util/event.js';
 	import { formatDuration } from '#lib/util/dateTime.js';
 
@@ -60,11 +59,12 @@
 	let informationPills: InformationPill[] = $derived(getInformationPills(event));
 </script>
 
-<dl class="tx-base flex flex-wrap gap-2">
+<dl class="flex flex-wrap gap-xs">
 	{#each informationPills as informationPill}
-		<Pill icon={informationPill.icon} extraClass={informationPill.color}>
+		<div class={['pill', informationPill.color]}>
+			<span class={[informationPill.icon, 'size-4 shrink-0']} aria-hidden="true"></span>
 			<dt class="sr-only">{informationPill.name}</dt>
 			<dd>{informationPill.value}</dd>
-		</Pill>
+		</div>
 	{/each}
 </dl>

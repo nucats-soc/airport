@@ -1,10 +1,5 @@
 <script lang="ts">
-	import Box from '#lib/components/layout/Box.svelte';
-	import Cluster from '#lib/components/layout/Cluster.svelte';
-	import Inset from '#lib/components/layout/Inset.svelte';
-	import Stack from '#lib/components/layout/Stack.svelte';
 	import type { CommitteeMember } from '#lib/types/committeeMember.js';
-	import Icon from '#lib/components/ui/Icon.svelte';
 
 	interface ProfileLink {
 		label: string;
@@ -82,12 +77,16 @@
 	let profileLinks = $derived(profileLinksOf(member));
 </script>
 
-<Box background="card" extraClass="flex h-full flex-1 flex-col">
+{#snippet placeholder()}
+	<span class="icon-[material-symbols--person] size-8 text-zinc-300" aria-hidden="true"></span>
+{/snippet}
+
+<article class="box flex flex-1 flex-col p-0">
 	{#if member.imageUrl && portraitState !== 'failed'}
 		<div class="relative aspect-4/3 w-full bg-zinc-700">
 			{#if portraitState === 'loading'}
 				<div class="absolute inset-0 flex items-center justify-center">
-					<Icon icon="icon-[material-symbols--person]" size="lg" extraClass="text-zinc-300" />
+					{@render placeholder()}
 				</div>
 			{/if}
 			<img
@@ -107,32 +106,32 @@
 		</div>
 	{:else}
 		<div class="flex aspect-4/3 w-full items-center justify-center bg-zinc-700">
-			<Icon icon="icon-[material-symbols--person]" size="lg" extraClass="text-zinc-300" />
+			{@render placeholder()}
 		</div>
 	{/if}
 
-	<Inset space="sm" extraClass="flex flex-1 min-w-0">
-		<Stack gap="sm" extraClass="min-w-0 flex-1">
-			<div class="min-w-0">
-				<p class="tx-header-3 truncate">{member.name}</p>
-				<p class="tx-base text-zinc-300">{member.position}</p>
-			</div>
+	<div class="flex min-w-0 flex-1 flex-col gap-sm p-sm">
+		<div class="min-w-0">
+			<h3 class="tx-header-3 truncate">{member.name}</h3>
+			<p class="tx-base text-zinc-300">{member.position}</p>
+		</div>
 
-			{#if profileLinks.length > 0}
-				<Cluster gap="sm" extraClass="mt-auto w-full">
-					{#each profileLinks as link}
+		{#if profileLinks.length > 0}
+			<ul class="row mt-auto w-full gap-sm">
+				{#each profileLinks as link}
+					<li>
 						<a
 							href={link.href}
-							class="flex items-center gap-1 text-xl text-zinc-300 hover:text-brand-light"
+							class="flex text-zinc-300 hover:text-brand-light"
 							target="_blank"
 							rel="noopener noreferrer"
 							aria-label={link.label}
 						>
-							<Icon icon={link.icon} size="sm" />
+							<span class={[link.icon, 'size-4']} aria-hidden="true"></span>
 						</a>
-					{/each}
-				</Cluster>
-			{/if}
-		</Stack>
-	</Inset>
-</Box>
+					</li>
+				{/each}
+			</ul>
+		{/if}
+	</div>
+</article>

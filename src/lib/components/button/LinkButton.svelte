@@ -1,23 +1,35 @@
 <script lang="ts">
+	import type { HTMLAnchorAttributes } from 'svelte/elements';
 	import { type ButtonProps, getButtonClasses } from './button.ts';
 	import ExternalArrow from '#lib/components/icon/ExternalArrow.svelte';
 
-	type Props = ButtonProps & {
-		href: string;
-		external?: boolean;
-		openInNewTab?: boolean;
-	};
+	type Props = ButtonProps &
+		Omit<HTMLAnchorAttributes, keyof ButtonProps> & {
+			href: string;
+			external?: boolean;
+			openInNewTab?: boolean;
+		};
 
-	let { href, external = false, openInNewTab = false, ...buttonProps }: Props = $props();
-
-	let shouldOpenInNewTab = $derived(openInNewTab ?? external ?? false);
-	let target = $derived(shouldOpenInNewTab ? '_blank' : '_self');
-	let rel = $derived(shouldOpenInNewTab ? 'noopener noreferrer' : undefined);
-	let classes = $derived(getButtonClasses(buttonProps));
+	let {
+		type,
+		shape,
+		fill,
+		between,
+		class: className,
+		children,
+		external = false,
+		openInNewTab = external,
+		...rest
+	}: Props = $props();
 </script>
 
-<a class={classes} {href} {target} {rel}>
-	{@render buttonProps.children?.()}
+<a
+	class={[getButtonClasses({ type, shape, fill, between }), className]}
+	target={openInNewTab ? '_blank' : undefined}
+	rel={openInNewTab ? 'noopener noreferrer' : undefined}
+	{...rest}
+>
+	{@render children?.()}
 	{#if external}
 		<ExternalArrow />
 	{/if}

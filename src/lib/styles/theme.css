@@ -12,6 +12,8 @@
 	--color-brand-dark: #081a3f;
 	--animate-drift: drift 20s linear infinite;
 
+	/* These also override max-w-*, w-*, min-w-* etc. with the same names (e.g. max-w-sm
+	   becomes 1rem). Use numeric sizes (max-w-96) or container sizes (max-w-(--container-sm)). */
 	--spacing-xs: 0.5rem;
 	--spacing-sm: 1rem;
 	--spacing-md: 1.5rem;

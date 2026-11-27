@@ -40,7 +40,7 @@
 					<span class="text-2xl leading-none font-extrabold tracking-normal text-white">NUCATS</span
 					>
 				</a>
-				<p class="tx-base mt-3 max-w-sm text-zinc-400">
+				<p class="tx-base mt-3 max-w-96 text-zinc-400">
 					Newcastle University Computing and Technology Society
 				</p>
 			</div>

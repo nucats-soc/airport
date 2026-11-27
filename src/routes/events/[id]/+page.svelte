@@ -44,7 +44,7 @@
 {/snippet}
 
 <div class="page-container flex flex-col gap-lg">
-	<LinkButton type="ghost" href={getHref('events')}>
+	<LinkButton variant="ghost" href={getHref('events')}>
 		<span class="icon-[material-symbols--arrow-back] size-4" aria-hidden="true"></span>
 		Back to events
 	</LinkButton>

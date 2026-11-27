@@ -67,7 +67,7 @@
 </script>
 
 {#snippet arrow(label: string, direction: 'left' | 'right', disabled: boolean, onclick: () => void)}
-	<ActionButton type="secondary" shape="square" aria-label={label} {disabled} {onclick}>
+	<ActionButton variant="secondary" shape="square" aria-label={label} {disabled} {onclick}>
 		<span class={[`icon-[material-symbols--chevron-${direction}]`, 'size-4']} aria-hidden="true"
 		></span>
 	</ActionButton>
@@ -81,7 +81,7 @@
 		() => moveMonth(-1)
 	)}
 	<DropdownButton
-		type="ghost"
+		variant="ghost"
 		noArrow
 		class="min-w-0"
 		aria-label={`Choose month and academic year, currently ${selectionLabel}`}

@@ -67,7 +67,7 @@
 
 	<LinkButton
 		href={`/events/${event.id}`}
-		type="secondary"
+		variant="secondary"
 		class="w-full md:col-start-2 md:row-start-1 md:w-auto md:justify-self-end"
 	>
 		View Details

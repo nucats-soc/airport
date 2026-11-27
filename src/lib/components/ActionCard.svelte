@@ -40,7 +40,7 @@
 		<p class="tx-base text-zinc-300">{description}</p>
 	</div>
 	<LinkButton
-		type="primary"
+		variant="primary"
 		href={buttonHref}
 		external={buttonExternal}
 		class={['w-full', !stacked && 'lg:w-auto lg:shrink-0']}

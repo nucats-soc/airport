@@ -20,7 +20,7 @@
 				<p class="tx-base">{summary}</p>
 			{/if}
 		</div>
-		<LinkButton type="secondary" href={getHref('events')}>View All</LinkButton>
+		<LinkButton variant="secondary" href={getHref('events')}>View All</LinkButton>
 	</div>
 {/snippet}
 

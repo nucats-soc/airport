@@ -91,7 +91,7 @@
 				</div>
 			{/each}
 		</dl>
-		<LinkButton type="secondary" href={googleMapsUrl} external fill class="mt-auto">
+		<LinkButton variant="secondary" href={googleMapsUrl} external fill class="mt-auto">
 			Open Google Maps
 		</LinkButton>
 	</div>

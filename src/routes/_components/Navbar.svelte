@@ -38,7 +38,13 @@
 		</nav>
 
 		<div class="md:hidden">
-			<DropdownButton type="tertiary" shape="square" noArrow fullWidth aria-label="Navigation menu">
+			<DropdownButton
+				variant="tertiary"
+				shape="square"
+				noArrow
+				fullWidth
+				aria-label="Navigation menu"
+			>
 				{#snippet buttonLabel(open)}
 					<span
 						class={[

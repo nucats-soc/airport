@@ -75,7 +75,12 @@
 			<h2>Apple Devices</h2>
 			<p>Subscribe to the events calendar from your Apple device.</p>
 			<div class="not-prose">
-				<LinkButton type="primary" href={getHref('calendar-apple')} external openInNewTab={false}>
+				<LinkButton
+					variant="primary"
+					href={getHref('calendar-apple')}
+					external
+					openInNewTab={false}
+				>
 					Add to Calendar
 				</LinkButton>
 			</div>
@@ -95,7 +100,7 @@
 			<h2>Google Calendar</h2>
 			<p>Subscribe to the events calendar using Google Calendar.</p>
 			<div class="not-prose">
-				<LinkButton type="primary" href={getHref('calendar-google')} external>
+				<LinkButton variant="primary" href={getHref('calendar-google')} external>
 					Add to Calendar
 				</LinkButton>
 			</div>
@@ -117,7 +122,8 @@
 				events calendar.
 			</p>
 			<div class="not-prose">
-				<CopyButton type="primary" value={getHref('calendar-feed')}>Copy Calendar URL</CopyButton>
+				<CopyButton variant="primary" value={getHref('calendar-feed')}>Copy Calendar URL</CopyButton
+				>
 			</div>
 			<h3>Steps</h3>
 			<ol>

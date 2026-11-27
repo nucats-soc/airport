@@ -48,7 +48,7 @@
 	</span>
 {/snippet}
 
-<DropdownButton type="secondary" shape="square" noArrow align="end" aria-label="Filter events">
+<DropdownButton variant="secondary" shape="square" noArrow align="end" aria-label="Filter events">
 	{#snippet buttonLabel()}
 		<span class="icon-[material-symbols--filter-list] size-4" aria-hidden="true"></span>
 	{/snippet}
@@ -93,7 +93,7 @@
 		{/if}
 
 		{#if hasFilters}
-			<ActionButton type="secondary" class="text-brand-light!" onclick={clearFilters}>
+			<ActionButton variant="secondary" class="text-brand-light!" onclick={clearFilters}>
 				Reset filters
 			</ActionButton>
 		{/if}

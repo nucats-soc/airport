@@ -18,14 +18,14 @@
 	}
 </script>
 
-<DropdownButton type="secondary" align="end" aria-label="Choose committee year">
+<DropdownButton variant="secondary" align="end" aria-label="Choose committee year">
 	{#snippet buttonLabel()}
 		{formatAcademicYear(year)}
 	{/snippet}
 
 	<div class="row">
 		<ActionButton
-			type="secondary"
+			variant="secondary"
 			shape="square"
 			aria-label="Previous academic year"
 			disabled={yearIndex <= 0}
@@ -35,7 +35,7 @@
 		</ActionButton>
 		<p class="tx-base">{formatAcademicYear(year)}</p>
 		<ActionButton
-			type="secondary"
+			variant="secondary"
 			shape="square"
 			aria-label="Next academic year"
 			disabled={yearIndex < 0 || yearIndex >= orderedYears.length - 1}

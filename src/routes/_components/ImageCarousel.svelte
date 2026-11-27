@@ -49,7 +49,7 @@
 <div class="relative">
 	<div class="absolute top-1/2 left-4 z-10 hidden -translate-y-1/2 motion-reduce:block">
 		<ActionButton
-			type="secondary"
+			variant="secondary"
 			shape="square"
 			aria-label="Scroll images left"
 			onclick={() => scrollCarousel(-1)}
@@ -60,7 +60,7 @@
 
 	<div class="absolute top-1/2 right-4 z-10 hidden -translate-y-1/2 motion-reduce:block">
 		<ActionButton
-			type="secondary"
+			variant="secondary"
 			shape="square"
 			aria-label="Scroll images right"
 			onclick={() => scrollCarousel(1)}

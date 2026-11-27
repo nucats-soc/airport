@@ -4,13 +4,18 @@
 
 	type Props = ButtonProps & Omit<HTMLButtonAttributes, keyof ButtonProps>;
 
-	let { type, shape, fill, between, class: className, children, ...rest }: Props = $props();
+	let {
+		variant,
+		shape,
+		fill,
+		between,
+		type = 'button',
+		class: className,
+		children,
+		...rest
+	}: Props = $props();
 </script>
 
-<button
-	type="button"
-	class={[getButtonClasses({ type, shape, fill, between }), className]}
-	{...rest}
->
+<button {type} class={[getButtonClasses({ variant, shape, fill, between }), className]} {...rest}>
 	{@render children?.()}
 </button>

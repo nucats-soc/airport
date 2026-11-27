@@ -18,8 +18,8 @@
 				</p>
 			</div>
 			<div class="flex flex-col gap-sm sm:flex-row">
-				<LinkButton external type="primary" href={getHref('join')}>Get Involved!</LinkButton>
-				<LinkButton external type="secondary" href={getHref('discord')}>
+				<LinkButton external variant="primary" href={getHref('join')}>Get Involved!</LinkButton>
+				<LinkButton external variant="secondary" href={getHref('discord')}>
 					Join our Discord!
 				</LinkButton>
 			</div>

@@ -11,7 +11,7 @@
 		};
 
 	let {
-		type,
+		variant,
 		shape,
 		fill,
 		between,
@@ -24,7 +24,7 @@
 </script>
 
 <a
-	class={[getButtonClasses({ type, shape, fill, between }), className]}
+	class={[getButtonClasses({ variant, shape, fill, between }), className]}
 	target={openInNewTab ? '_blank' : undefined}
 	rel={openInNewTab ? 'noopener noreferrer' : undefined}
 	{...rest}

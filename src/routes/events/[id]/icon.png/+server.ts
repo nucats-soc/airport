@@ -1,8 +1,8 @@
 import { error, type RequestHandler } from '@sveltejs/kit';
 import sharp from 'sharp';
-import { cache, EVENT_ICON_CACHE_TTL } from '$lib/server/cache';
-import { getEventById } from '$lib/server/notion/events';
-import { buildEventIconSvg, EVENT_HEX_COLORS } from '$lib/util/event';
+import { cache, EVENT_ICON_CACHE_TTL } from '#lib/server/cache.js';
+import { getEventById } from '#lib/server/notion/events.js';
+import { buildEventIconSvg, EVENT_HEX_COLORS } from '#lib/util/event.js';
 
 export const GET: RequestHandler = async ({ params }) => {
 	if (!params.id) {

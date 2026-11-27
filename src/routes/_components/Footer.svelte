@@ -1,107 +1,25 @@
 <script lang="ts">
-	import Container from '$lib/components/layout/Container.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-
-	interface FooterLink {
-		label: string;
-		href: string;
-		icon: string;
-		external?: boolean;
-	}
-
-	const pageLinks: FooterLink[] = [
-		{
-			label: 'Home',
-			href: '/',
-			icon: 'icon-[material-symbols--home-outline]'
-		},
-		{
-			label: 'Events',
-			href: '/events',
-			icon: 'icon-[material-symbols--calendar-month-outline]'
-		},
-		{
-			label: 'Committee',
-			href: '/committee',
-			icon: 'icon-[material-symbols--groups]'
-		},
-		{
-			label: 'Terms of Service',
-			href: '/tos',
-			icon: 'icon-[material-symbols--gavel]'
-		},
-		{
-			label: 'Privacy Policy',
-			href: '/privacy',
-			icon: 'icon-[material-symbols--shield-outline]'
-		}
-	];
-
-	const socialLinks: FooterLink[] = [
-		{
-			label: 'Discord',
-			href: 'https://discord.gg/N4dJQdafrd',
-			icon: 'icon-[simple-icons--discord]',
-			external: true
-		},
-		{
-			label: 'Instagram',
-			href: 'https://instagram.com/nucats_',
-			icon: 'icon-[simple-icons--instagram]',
-			external: true
-		},
-		{
-			label: 'GitHub',
-			href: 'https://github.com/NUCats-soc',
-			icon: 'icon-[simple-icons--github]',
-			external: true
-		},
-		{
-			label: 'Linktree',
-			href: 'https://linktr.ee/nucats',
-			icon: 'icon-[simple-icons--linktree]',
-			external: true
-		}
-	];
-
-	const studentsUnionLinks: FooterLink[] = [
-		{
-			label: 'Join NUCATS',
-			href: 'https://nusu.co.uk/activities/view-society/131',
-			icon: 'icon-[material-symbols--person-add-outline]',
-			external: true
-		},
-		{
-			label: "Students' Union",
-			href: 'https://nusu.co.uk/',
-			icon: 'icon-[material-symbols--school-outline]',
-			external: true
-		}
-	];
+	import ExternalArrow from '#lib/components/icon/ExternalArrow.svelte';
+	import { footerLinkIds, getHref, getLinks, type LinkId } from '#lib/links.js';
 </script>
 
-{#snippet linkList(links: FooterLink[])}
+{#snippet linkList(ids: readonly LinkId[])}
 	<ul class="flex flex-col gap-3">
-		{#each links as link}
+		{#each getLinks(...ids) as link}
+			{@const newTab = link.openInNewTab ?? link.external}
 			<li>
 				<a
 					href={link.href}
-					target={link.external ? '_blank' : undefined}
-					rel={link.external ? 'noopener noreferrer' : undefined}
-					class="group inline-flex items-center gap-2 text-zinc-300 transition-colors hover:text-brand-light"
+					target={newTab ? '_blank' : undefined}
+					rel={newTab ? 'noopener noreferrer' : undefined}
+					class="inline-flex items-center gap-xs text-zinc-300 transition-colors hover:text-brand-light"
 				>
-					<Icon icon={link.icon} size="sm" />
-					<span>{link.label}</span>
+					{#if link.icon}
+						<span class={[link.icon, 'size-4 shrink-0']} aria-hidden="true"></span>
+					{/if}
+					{link.label}
 					{#if link.external}
-						<span class="size-4 shrink-0 overflow-hidden">
-							<Icon
-								icon="icon-[material-symbols--arrow-outward]"
-								size="sm"
-								extraClass="external-arrow block"
-							/>
-						</span>
+						<ExternalArrow />
 					{/if}
 				</a>
 			</li>
@@ -109,85 +27,50 @@
 	</ul>
 {/snippet}
 
+{#snippet credit(id: LinkId, label: string)}
+	<a href={getHref(id)} class="text-brand-light hover:underline">{label}</a>
+{/snippet}
+
 <footer class="mt-20 w-full bg-zinc-950 py-10">
-	<Container>
-		<Stack>
-			<div class="grid gap-10 sm:grid-cols-2 md:grid-cols-4 lg:gap-8">
-				<div>
-					<a href="/" class="flex w-fit shrink-0 items-center gap-4" aria-label="NUCATS home">
-						<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
-						<span class="tx-brand text-white">NUCATS</span>
-					</a>
-					<p class="tx-body mt-3 max-w-sm text-zinc-400">
-						Newcastle University Computing and Technology Society
-					</p>
-				</div>
-
-				<nav aria-labelledby="footer-pages-heading">
-					<h2 id="footer-pages-heading" class="tx-item-title mb-4">Pages</h2>
-					{@render linkList(pageLinks)}
-				</nav>
-
-				<nav aria-labelledby="footer-socials-heading">
-					<h2 id="footer-socials-heading" class="tx-item-title mb-4">Find NUCATS</h2>
-					{@render linkList(socialLinks)}
-				</nav>
-
-				<nav aria-labelledby="footer-union-heading">
-					<h2 id="footer-union-heading" class="tx-item-title mb-4">Students' Union</h2>
-					{@render linkList(studentsUnionLinks)}
-				</nav>
-			</div>
-			<Cluster gap="xs">
-				<Icon
-					icon="icon-[material-symbols--design-services]"
-					size="sm"
-					extraClass="text-brand-light"
-				/>
-				<p class="tx-body text-zinc-400">
-					Crafted in the North East by
-					<a
-						href="https://amnexya.com"
-						class="text-brand-light hover:text-brand-light hover:underline">Jack</a
+	<div class="page-container flex flex-col gap-md">
+		<div class="grid gap-10 sm:grid-cols-2 md:grid-cols-4 lg:gap-8">
+			<div>
+				<a href={getHref('home')} class="row w-fit shrink-0 gap-sm" aria-label="NUCATS home">
+					<img class="h-12 w-auto" src="/nucats.svg" alt="" width="45" height="50" />
+					<span class="text-2xl leading-none font-extrabold tracking-normal text-white">NUCATS</span
 					>
-					and
-					<a
-						href="https://www.linkedin.com/in/tyler-walker-502960430"
-						class="text-brand-light hover:text-brand-light hover:underline">Tyler</a
-					>. AGPL licensed source code available on
-					<a
-						href="https://github.com/nucats-soc/airport"
-						class="text-brand-light hover:text-brand-light hover:underline">GitHub</a
-					>.
+				</a>
+				<p class="tx-base mt-3 max-w-96 text-zinc-400">
+					Newcastle University Computing and Technology Society
 				</p>
-			</Cluster>
-		</Stack>
-	</Container>
+			</div>
+
+			<nav aria-labelledby="footer-pages-heading">
+				<h2 id="footer-pages-heading" class="tx-header-3 mb-sm">Pages</h2>
+				{@render linkList(footerLinkIds.pages)}
+			</nav>
+
+			<nav aria-labelledby="footer-socials-heading">
+				<h2 id="footer-socials-heading" class="tx-header-3 mb-sm">Find NUCATS</h2>
+				{@render linkList(footerLinkIds.socials)}
+			</nav>
+
+			<nav aria-labelledby="footer-union-heading">
+				<h2 id="footer-union-heading" class="tx-header-3 mb-sm">Students' Union</h2>
+				{@render linkList(footerLinkIds.studentsUnion)}
+			</nav>
+		</div>
+		<div class="row gap-xs">
+			<span
+				class="icon-[material-symbols--design-services] size-4 shrink-0 text-brand-light"
+				aria-hidden="true"
+			></span>
+			<p class="tx-base text-zinc-400">
+				Crafted in the North East by {@render credit('jack', 'Jack')} and {@render credit(
+					'tyler',
+					'Tyler'
+				)}. AGPL licensed source code available on {@render credit('source-code', 'GitHub')}.
+			</p>
+		</div>
+	</div>
 </footer>
-
-<style>
-	@keyframes wrap-arrow {
-		0% {
-			transform: translate(0) scale(100%);
-		}
-		49% {
-			transform: translate(100%, -100%) scale(25%);
-		}
-		50% {
-			transform: translate(-100%, 100%) scale(25%);
-		}
-		100% {
-			transform: translate(0) scale(100%);
-		}
-	}
-
-	a:hover :global(.external-arrow) {
-		animation: wrap-arrow 300ms cubic-bezier(0.45, 0, 0.55, 1);
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		a:hover :global(.external-arrow) {
-			animation: none;
-		}
-	}
-</style>

@@ -1,7 +1,7 @@
 import { query } from '$app/server';
-import { getEventsByAcademicYear as getEventsByAcademicYearFromNotion } from '$lib/server/notion/events';
-import { rateLimit } from '$lib/server/rateLimit';
-import { EARLIEST_ACADEMIC_YEAR, getAcademicYear } from '$lib/util/academicYear';
+import { getEventsByAcademicYear as getEventsByAcademicYearFromNotion } from '#lib/server/notion/events.js';
+import { rateLimit } from '#lib/server/rateLimit.js';
+import { EARLIEST_ACADEMIC_YEAR, getAcademicYear } from '#lib/util/academicYear.js';
 import * as v from 'valibot';
 
 const academicYearSchema = v.pipe(

@@ -1,44 +1,47 @@
 <script lang="ts">
-	import DropdownButton from '$lib/components/ui/DropdownButton.svelte';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import ActionButton from '$lib/components/ui/ActionButton.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-	import { formatAcademicYear } from '$lib/util/academicYear';
+	import ActionButton from '#lib/components/button/ActionButton.svelte';
+	import DropdownButton from '#lib/components/button/DropdownButton.svelte';
+	import { formatAcademicYear } from '#lib/util/academicYear.js';
 
 	interface Props {
 		years: number[];
 		year: number;
-		setYear: (year: number) => void;
 	}
 
-	let { years, year, setYear }: Props = $props();
-	let orderedYears = $derived([...years].sort((a, b) => a - b));
+	let { years, year = $bindable() }: Props = $props();
+
+	let orderedYears = $derived(years.toSorted((a, b) => a - b));
 	let yearIndex = $derived(orderedYears.indexOf(year));
 
 	function moveYear(offset: number) {
-		const nextYear = orderedYears[yearIndex + offset];
-		if (nextYear !== undefined) setYear(nextYear);
+		year = orderedYears[yearIndex + offset] ?? year;
 	}
 </script>
 
-<DropdownButton type="secondary" label={formatAcademicYear(year)} align="right">
-	<Cluster>
+<DropdownButton variant="secondary" align="end" aria-label="Choose committee year">
+	{#snippet buttonLabel()}
+		{formatAcademicYear(year)}
+	{/snippet}
+
+	<div class="row">
 		<ActionButton
-			type="icon"
-			ariaLabel="Previous academic year"
-			onClick={() => moveYear(-1)}
-			isDisabled={yearIndex <= 0}
+			variant="secondary"
+			shape="square"
+			aria-label="Previous academic year"
+			disabled={yearIndex <= 0}
+			onclick={() => moveYear(-1)}
 		>
-			<Icon icon="icon-[material-symbols--chevron-left]" size="sm" />
+			<span class="icon-[material-symbols--chevron-left] size-4" aria-hidden="true"></span>
 		</ActionButton>
-		<p class="tx-body">{formatAcademicYear(year)}</p>
+		<p class="tx-base">{formatAcademicYear(year)}</p>
 		<ActionButton
-			type="icon"
-			ariaLabel="Next academic year"
-			onClick={() => moveYear(1)}
-			isDisabled={yearIndex < 0 || yearIndex >= orderedYears.length - 1}
+			variant="secondary"
+			shape="square"
+			aria-label="Next academic year"
+			disabled={yearIndex < 0 || yearIndex >= orderedYears.length - 1}
+			onclick={() => moveYear(1)}
 		>
-			<Icon icon="icon-[material-symbols--chevron-right]" size="sm" />
+			<span class="icon-[material-symbols--chevron-right] size-4" aria-hidden="true"></span>
 		</ActionButton>
-	</Cluster>
+	</div>
 </DropdownButton>

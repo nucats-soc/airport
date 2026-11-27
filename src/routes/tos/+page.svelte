@@ -1,6 +1,5 @@
 <script lang="ts">
-	import Container from '$lib/components/layout/Container.svelte';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
 </script>
 
 <PageMetadata
@@ -8,10 +7,10 @@
 	description="The terms that apply when using the NUCATS website and its services."
 />
 
-<Container>
+<div class="page-container">
 	<div class="prose prose-invert">
-		<h1 class="tx-page-title">Terms of Service</h1>
-		<p class="tx-page-subtitle">Last updated: 2026-09-04</p>
+		<h1 class="tx-header">Terms of Service</h1>
+		<p class="tx-base-muted">Last updated: 2026-09-04</p>
 		<p>This is "nucats.org" ("we", "us", "our").</p>
 		<p>
 			This is a plainly worded Terms of Service for our website. Using our website constitutes
@@ -21,7 +20,7 @@
 			Any additional questions about this Terms of Service should be directed to
 			soc-computingtechnology@ncl.ac.uk
 		</p>
-		<h2 class="tx-section-title">By using this website, you agree to the following:</h2>
+		<h2 class="tx-header-2">By using this website, you agree to the following:</h2>
 		<ul class="list-inside list-disc">
 			<li>You will gain unauthorised access to our website or any of its services.</li>
 			<li>You will not edit or modify any content on our website without permission.</li>
@@ -54,4 +53,4 @@
 			our website.
 		</p>
 	</div>
-</Container>
+</div>

@@ -1,6 +1,6 @@
-import type { Event, EventStatus } from '$lib/types/event';
-import { getAcademicYear } from '$lib/util/academicYear';
-import { formatLongDate, formatMonth } from '$lib/util/dateTime';
+import type { Event, EventStatus } from '#lib/types/event.js';
+import { getAcademicYear } from '#lib/util/academicYear.js';
+import { formatLongDate, formatMonth } from '#lib/util/dateTime.js';
 import type { CalendarSelection } from './types';
 
 const INITIAL_MONTH_WINDOW = 3;

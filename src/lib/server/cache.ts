@@ -1,5 +1,5 @@
 import { createCache } from 'cache-manager';
-import { DAYS, MINUTES } from '$lib/util/timeUnits';
+import { DAYS, MINUTES } from '#lib/util/timeUnits.js';
 
 export const cache = createCache();
 export const EVENT_CACHE_TTL = 10 * MINUTES;

@@ -1,12 +1,4 @@
 <script lang="ts">
-	import Container from '$lib/components/layout/Container.svelte';
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import classNames from 'classnames';
-	import Cluster from '$lib/components/layout/Cluster.svelte';
-	import Stack from '$lib/components/layout/Stack.svelte';
-	import Icon from '$lib/components/ui/Icon.svelte';
-
 	interface ThingWeDo {
 		name: string;
 		description: string;
@@ -52,31 +44,26 @@
 			color: 'text-red-200'
 		}
 	];
-
-	function getTitleClasses(thingWeDo: ThingWeDo): string {
-		return classNames(thingWeDo.color, 'tx-item-title');
-	}
 </script>
 
-<Container extraClass="py-8">
-	<p class="tx-section-title">What do we do?</p>
-	<p class="tx-body">
+<section class="page-container py-8">
+	<h2 class="tx-header-2">What do we do?</h2>
+	<p class="tx-base">
 		We have something for everyone, whether it be game nights and tournaments, coding workshops, or
 		networking events.
 	</p>
-	<div class="grid grid-cols-1 gap-4 py-4 sm:grid-cols-2 md:grid-cols-3">
+	<ul class="grid grid-cols-1 gap-sm py-sm sm:grid-cols-2 md:grid-cols-3">
 		{#each thingsWeDo as thingWeDo}
-			<Box background="card" extraClass="flex-1 transition-colors hover:bg-zinc-700">
-				<Inset space="md">
-					<Stack align="center" gap="sm">
-						<Icon icon={thingWeDo.icon} size="lg" extraClass={thingWeDo.color} />
-						<div class="text-center">
-							<p class={getTitleClasses(thingWeDo)}>{thingWeDo.name}</p>
-							<p class="tx-body">{thingWeDo.description}</p>
-						</div>
-					</Stack>
-				</Inset>
-			</Box>
+			<li
+				class="box flex flex-col items-center gap-sm text-center transition-colors hover:bg-zinc-700"
+			>
+				<span class={[thingWeDo.icon, thingWeDo.color, 'size-8 shrink-0']} aria-hidden="true"
+				></span>
+				<div>
+					<p class={[thingWeDo.color, 'tx-header-3']}>{thingWeDo.name}</p>
+					<p class="tx-base">{thingWeDo.description}</p>
+				</div>
+			</li>
 		{/each}
-	</div>
-</Container>
+	</ul>
+</section>

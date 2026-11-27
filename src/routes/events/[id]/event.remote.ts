@@ -1,8 +1,8 @@
 import { error } from '@sveltejs/kit';
 import { query } from '$app/server';
-import { renderMarkdown } from '$lib/server/markdown/renderer';
-import { retrievePageMarkdown } from '$lib/server/notion/content';
-import { getEventById } from '$lib/server/notion/events';
+import { renderMarkdown } from '#lib/server/markdown/renderer.js';
+import { retrievePageMarkdown } from '#lib/server/notion/content.js';
+import { getEventById } from '#lib/server/notion/events.js';
 import * as v from 'valibot';
 
 const eventIdSchema = v.pipe(v.string(), v.nonEmpty());

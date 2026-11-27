@@ -1,4 +1,4 @@
-import type { EventColor } from '$lib/types/event';
+import type { EventColor } from '#lib/types/event.js';
 
 const EVENT_ICON_SIZE = 256;
 const EVENT_ICON_PADDING = 48;
@@ -49,6 +49,19 @@ export const EVENT_COLOR_CLASSES = {
 	purple: 'bg-purple-200 text-black',
 	pink: 'bg-pink-200 text-black',
 	red: 'bg-red-200 text-black'
+} satisfies Record<EventColor, string>;
+
+/** Coloured left rail for `.box` cards. */
+export const EVENT_RAIL_CLASSES = {
+	gray: 'box-rail-gray-200',
+	brown: 'box-rail-amber-200',
+	orange: 'box-rail-orange-200',
+	yellow: 'box-rail-yellow-200',
+	green: 'box-rail-green-200',
+	blue: 'box-rail-blue-200',
+	purple: 'box-rail-purple-200',
+	pink: 'box-rail-pink-200',
+	red: 'box-rail-red-200'
 } satisfies Record<EventColor, string>;
 
 export const EVENT_TEXT_COLOR_CLASSES = {

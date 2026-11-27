@@ -1,5 +1,5 @@
 <script lang="ts">
-	import './layout.css';
+	import '#lib/styles/index.css';
 	import Navbar from './_components/Navbar.svelte';
 	import Footer from './_components/Footer.svelte';
 

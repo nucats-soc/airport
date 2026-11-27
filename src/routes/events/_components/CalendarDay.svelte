@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { Event } from '$lib/types/event';
-	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
-	import classNames from 'classnames';
+	import type { Event } from '#lib/types/event.js';
+	import { EVENT_COLOR_CLASSES } from '#lib/util/event.js';
 	import type { CalendarSelection } from '../types';
 	import {
 		EARLIEST_EVENT_SELECTION,
@@ -29,23 +28,6 @@
 	);
 	let firstEvent = $derived(events[0]);
 	let isSelected = $derived(isDateSelected(selection, date));
-	let classes = $derived(
-		classNames(
-			'tx-button-label flex size-7 touch-manipulation items-center justify-center rounded-full transition sm:size-8',
-			firstEvent && !isDisabled && (selection.day === undefined || isSelected)
-				? EVENT_COLOR_CLASSES[firstEvent.color]
-				: undefined,
-			{
-				'cursor-pointer': !isDisabled,
-				'cursor-not-allowed text-zinc-600': isDisabled,
-				'bg-zinc-100 text-black': isSelected && !firstEvent,
-				'bg-zinc-700 text-zinc-200': selection.day !== undefined && !isSelected && firstEvent,
-				'hover:bg-zinc-700': !firstEvent && !isSelected,
-				'text-zinc-500': !firstEvent && !isSameCalendarMonth(dateSelection, selection)
-			}
-		)
-	);
-
 	function selectDate() {
 		if (isDisabled) return;
 
@@ -57,7 +39,21 @@
 
 <button
 	type="button"
-	class={classes}
+	class={[
+		'tx-base flex size-7 touch-manipulation items-center justify-center rounded-full leading-5 transition sm:size-8',
+		firstEvent &&
+			!isDisabled &&
+			(selection.day === undefined || isSelected) &&
+			EVENT_COLOR_CLASSES[firstEvent.color],
+		{
+			'cursor-pointer': !isDisabled,
+			'cursor-not-allowed text-zinc-600': isDisabled,
+			'bg-zinc-100 text-black': isSelected && !firstEvent,
+			'bg-zinc-700 text-zinc-200': selection.day !== undefined && !isSelected && firstEvent,
+			'hover:bg-zinc-700': !firstEvent && !isSelected,
+			'text-zinc-500': !firstEvent && !isSameCalendarMonth(dateSelection, selection)
+		}
+	]}
 	aria-pressed={isSelected}
 	onclick={selectDate}
 	disabled={isDisabled}

@@ -1,9 +1,9 @@
 import { query } from '$app/server';
-import { rateLimit } from '$lib/server/rateLimit';
+import { rateLimit } from '#lib/server/rateLimit.js';
 import {
 	getAllCommitteeMembers as getAllCommitteeMembersFromNotion,
 	getCommitteeYears as getCommitteeYearsFromNotion
-} from '$lib/server/notion/committee';
+} from '#lib/server/notion/committee.js';
 
 export const getAllCommitteeMembers = query(async () => {
 	await rateLimit('committee-members');

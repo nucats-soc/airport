@@ -5,7 +5,7 @@ import {
 	type QueryDataSourceParameters,
 	type QueryDataSourceResponse
 } from '@notionhq/client';
-import { cache, EVENT_CACHE_TTL } from '$lib/server/cache';
+import { cache, EVENT_CACHE_TTL } from '#lib/server/cache.js';
 
 import { notion } from './client';
 

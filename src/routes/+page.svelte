@@ -4,9 +4,9 @@
 	import Socials from './_components/Socials.svelte';
 	import About from './_components/About.svelte';
 	import EventsOverview from './_components/EventsOverview.svelte';
-	import Container from '$lib/components/layout/Container.svelte';
-	import ActionCard from '$lib/components/ui/ActionCard.svelte';
-	import PageMetadata from '$lib/components/PageMetadata.svelte';
+	import ActionCard from '#lib/components/ActionCard.svelte';
+	import PageMetadata from '#lib/components/PageMetadata.svelte';
+	import { getHref } from '#lib/links.js';
 </script>
 
 <PageMetadata
@@ -19,7 +19,7 @@
 <About />
 <Socials />
 <EventsOverview />
-<Container extraClass="py-8">
+<section class="page-container py-8">
 	<ActionCard
 		icon="icon-[material-symbols--groups]"
 		iconClass="text-brand-light"
@@ -27,7 +27,7 @@
 		description="Join NUCATS today! Hang out with similar minded people, attend socials, build projects, and most of all, have fun!"
 		buttonIcon="icon-[material-symbols--person-add-outline]"
 		buttonLabel="Join Today!"
-		buttonHref="https://nusu.co.uk/activities/view-society/131"
+		buttonHref={getHref('join')}
 		buttonExternal
 	/>
-</Container>
+</section>

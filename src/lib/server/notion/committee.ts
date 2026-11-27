@@ -1,11 +1,11 @@
-import { env } from '$env/dynamic/private';
-import { cache } from '$lib/server/cache';
-import { MINUTES } from '$lib/util/timeUnits';
-import { getAcademicYear, yearOfLabel } from '$lib/util/academicYear';
+import { NOTION_COMMITTEE_DATASOURCE } from '$app/env/private';
+import { cache } from '#lib/server/cache.js';
+import { MINUTES } from '#lib/util/timeUnits.js';
+import { getAcademicYear, yearOfLabel } from '#lib/util/academicYear.js';
 import { queryDataSource, retrieveDataSource } from './content';
 import { emailOf, firstFileUrlOf, numberOf, selectNameOf, textOf, urlOf } from './properties';
 
-import type { CommitteeMember } from '$lib/types/committeeMember';
+import type { CommitteeMember } from '#lib/types/committeeMember.js';
 import type { PageObjectResponse } from '@notionhq/client';
 
 const COMMITTEE_PAGE_SIZE = 100;
@@ -14,13 +14,8 @@ const COMMITTEE_CACHE_TTL = 60 * MINUTES;
 async function fetchCommitteeMembers(): Promise<CommitteeMember[]> {
 	return queryDataSource(
 		{
-			data_source_id: env.NOTION_COMMITTEE_DATASOURCE ?? '',
-			sorts: [
-				{
-					timestamp: 'created_time',
-					direction: 'ascending'
-				}
-			],
+			data_source_id: NOTION_COMMITTEE_DATASOURCE ?? '',
+			sorts: [{ timestamp: 'created_time', direction: 'ascending' }],
 			page_size: COMMITTEE_PAGE_SIZE
 		},
 		parseCommitteeMember,
@@ -86,7 +81,7 @@ function sortCommitteeMembers(members: CommitteeMember[]): CommitteeMember[] {
 }
 
 async function getCommitteeYearsFromLabels(): Promise<number[] | null> {
-	const dataSource = await retrieveDataSource(env.NOTION_COMMITTEE_DATASOURCE ?? '');
+	const dataSource = await retrieveDataSource(NOTION_COMMITTEE_DATASOURCE ?? '');
 	const yearProperty = dataSource.properties['Year'];
 
 	if (!yearProperty || yearProperty.type !== 'select') {
@@ -102,13 +97,8 @@ async function getCommitteeYearsFromLabels(): Promise<number[] | null> {
 async function getCommitteeYearsFromMembers(): Promise<number[]> {
 	const years = await queryDataSource(
 		{
-			data_source_id: env.NOTION_COMMITTEE_DATASOURCE ?? '',
-			sorts: [
-				{
-					timestamp: 'created_time',
-					direction: 'ascending'
-				}
-			],
+			data_source_id: NOTION_COMMITTEE_DATASOURCE ?? '',
+			sorts: [{ timestamp: 'created_time', direction: 'ascending' }],
 			page_size: COMMITTEE_PAGE_SIZE
 		},
 		committeeYearOf,

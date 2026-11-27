@@ -1,44 +1,36 @@
 <script lang="ts">
-	import Box from '$lib/components/layout/Box.svelte';
-	import Inset from '$lib/components/layout/Inset.svelte';
-	import type { Event } from '$lib/types/event';
-	import { formatDate, formatDateTime, formatIsoDate, formatMonthName } from '$lib/util/dateTime';
-	import { EVENT_COLOR_CLASSES } from '$lib/util/event';
-	import Icon from '$lib/components/ui/Icon.svelte';
+	import TimeDisplay from '#lib/components/TimeDisplay.svelte';
+	import type { Event } from '#lib/types/event.js';
+	import { EVENT_COLOR_CLASSES, EVENT_RAIL_CLASSES } from '#lib/util/event.js';
 
 	interface Props {
 		event: Event;
 	}
 
 	let { event }: Props = $props();
-	let colorClasses = $derived(EVENT_COLOR_CLASSES[event.color]);
-	let formattedDate = $derived(
-		event.status === 'Planned'
-			? formatMonthName(event.date)
-			: event.allDay
-				? formatDate(event.date)
-				: formatDateTime(event.date)
-	);
-	let machineDate = $derived(event.allDay ? formatIsoDate(event.date) : event.date.toISOString());
 </script>
 
-<Box background="card" extraClass="flex min-w-0 flex-1 flex-row">
-	<div class={['w-2 shrink-0 self-stretch', colorClasses]} aria-hidden="true"></div>
-	<Inset space="md" extraClass="min-w-0 flex-1">
-		<div class="flex items-center gap-4">
-			<div class={['flex size-16 shrink-0 items-center justify-center rounded-lg', colorClasses]}>
-				<span class="inline-flex text-4xl" aria-hidden="true">
-					{@html event.iconSvg}
-				</span>
-			</div>
+<div class={['box row min-w-0 gap-sm pl-8', EVENT_RAIL_CLASSES[event.color]]}>
+	<span
+		class={[
+			'flex size-16 shrink-0 items-center justify-center rounded-lg text-4xl',
+			EVENT_COLOR_CLASSES[event.color]
+		]}
+		aria-hidden="true"
+	>
+		{@html event.iconSvg}
+	</span>
 
-			<div class="min-w-0">
-				<h1 class="tx-card-title">{event.name}</h1>
-				<div class="mt-2 flex items-center gap-2">
-					<Icon icon="icon-[material-symbols--calendar-today]" size="sm" />
-					<time class="tx-body" datetime={machineDate}>{formattedDate}</time>
-				</div>
-			</div>
+	<div class="min-w-0">
+		<h1 class="tx-header-3 text-xl font-semibold">{event.name}</h1>
+		<div class="row mt-2 gap-xs">
+			<span class="icon-[material-symbols--calendar-today] size-4 shrink-0" aria-hidden="true"
+			></span>
+			<TimeDisplay
+				date={event.date}
+				format={event.status === 'Planned' ? 'monthName' : event.allDay ? 'date' : 'dateTime'}
+				class="tx-base"
+			/>
 		</div>
-	</Inset>
-</Box>
+	</div>
+</div>

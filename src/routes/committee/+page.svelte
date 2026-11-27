@@ -22,7 +22,7 @@
 	<PageHeader image={headerImage} title="Committee" description={summary} />
 
 	<svelte:boundary>
-		<CommitteeMembers bind:year={year}/>
+		<CommitteeMembers bind:year />
 
 		{#snippet pending()}
 			<Spinner label="Loading committee members" class="w-full py-8" />
